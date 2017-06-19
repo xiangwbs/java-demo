@@ -1,0 +1,12 @@
+### IntelliJ IDEA ###
+.idea
+.mvn
+java-demo/target
+java-demo/*.iml
+mvnw
+mvnw.cmd
+
+### eclipse ###
+java-demo/.project
+java-demo/.classpath
+java-demo/.settings
