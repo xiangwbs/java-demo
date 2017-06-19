@@ -6,9 +6,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 说明:基础实体类  <br/>
- * 创建日期: 2016年12月9日 下午5:05:35 <br/>
- * 作者: xwb
+ * 项目名称: java-demo
+ * 创建时间: 2017/6/19 17:11
+ * 作者: xiangwb
+ * 说明: 基础实体类
  */
 public class BaseEntity  implements Serializable{
 	private static final long serialVersionUID = -1836425279862671853L;
