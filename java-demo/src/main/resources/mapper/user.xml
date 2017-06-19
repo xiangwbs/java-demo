@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--namespace:命名空间，用来区分同名的sql id:在同一个文件里面唯一 parameterType：参数类型 resultType：返回的结果类型 
+	#{ename}:ename是emp的属性（mybatis会利用反射机制读取emp对象的属性值） 注意：如果使用mapper映射器，namespace必须是mapper接口的完整的名称 -->
+
+<!-- #{}和${}取值的区别 用#{}取值时会默认加上"",如：order by 'name' desc 能很大程度防止sql注入 用${}取值 
+	order by name desc -->
+
+<!-- MyBatis 插入空值时，需要指定JdbcType，否则会出现1111错误 -->
+<mapper namespace="com.xwbing.dao.UserDao">
+	<!--映射返回值 -->
+	<resultMap id="ResultMap" type="com.xwbing.entity.SysUser">
+		<id column="id" property="id" jdbcType="VARCHAR" javaType="string" />
+		<result column="user_name" property="user_name" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="salt" property="salt" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="last_login_ip" property="lastLoginIp" jdbcType="VARCHAR" />
+		<result column="mail" property="mail" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="INTEGER" />
+		<result column="is_admin" property="isAdmin" jdbcType="VARCHAR" />
+		<result column="last_login_time" property="lastLoginTime" jdbcType="DATE" />
+		<result column="modifier" property="modifier" jdbcType="VARCHAR" />
+		<result column="creator" property="creator" jdbcType="VARCHAR" />
+
+	</resultMap>
+	<!-- 表 -->
+	<sql id="from_table">
+		<if test="tableName!=null">
+			${tableName}
+		</if>
+		<if test="tableName==null">
+			sys_user_info
+		</if>
+	</sql>
+	<!--基本列 -->
+	<sql id="Base_Column_List">
+		id,user_name,name,salt,password,last_login_ip,mail,sex,is_admin,last_login_time,modifier,creator
+	</sql>
+	<!--where 条件组装 -->
+	<sql id="Where_Clause">
+		<where>
+			<if test="id!=null">
+				a.id = #{id,jdbcType=VARCHAR}
+			</if>
+			<if test="userName!=null">
+				and a.user_name = #{userName,jdbcType=VARCHAR}
+			</if>
+			<if test="name!=null">
+				and a.name like #{name,jdbcType=VARCHAR}
+			</if>
+			<if test="sex!=null">
+				a.sex = #{sex,jdbcType=INTEGER}
+			</if>
+			<if test="isAdmin!=null">
+				a.is_admin = #{isAdmin,jdbcType=VARCHAR}
+			</if>
+			<if test="lastLoginTime">
+				a.last_login_time = #{lastLoginTime,jdbcType=VARCHAR}
+			</if>
+
+		</where>
+	</sql>
+	<!-- 排序 -->
+	<sql id="Order_By">
+		order by
+		<if test="sort!=null">
+			<if test="sort==&quot;id&quot;">
+				a.id ${order}
+			</if>
+			<if test="sort==&quot;name&quot;">
+				a.name ${order}
+			</if>
+		</if>
+		<if test="sort==null">
+			a.id
+		</if>
+	</sql>
+	<!-- 分页 -->
+	<sql id="Paging">
+		<if test="firstResult!=null"> limit #{firstResult,jdbcType=INTEGER} ,
+			#{offset,jdbcType=INTEGER}
+		</if>
+	</sql>
+
+
+	<!--条件查询，带分页 -->
+	<select id="select" resultMap="ResultMap" parameterType="map">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="from_table" />
+		a
+		<include refid="Where_Clause" />
+		<include refid="Order_By" />
+		<include refid="Paging" />
+	</select>
+
+
+	<select id="count" resultType="java.lang.Integer" parameterType="map">
+		select
+		count(*)
+		from
+		<include refid="from_table"></include>
+		a
+		<include refid="Where_Clause" />
+	</select>
+
+	<delete id="delete" parameterType="map">
+		delete a from
+		<include refid="from_table"></include>
+		a
+		<include refid="Where_Clause" />
+	</delete>
+
+	<insert id="save" parameterType="com.xwbing.entity.SysUser"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into sys_user_info
+		(id,user_name,name,salt,password,last_login_ip,mail,sex,is_admin,last_login_time,modifier,creator)
+		values
+		(#{id,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR},
+		#{name,jdbcType=VARCHAR},#{salt,jdbcType=VARCHAR},
+		#{password,jdbcType=DECIMAL},#{lastloginIp,jdbcType=VARCHAR},
+		#{mail,jdbcType=VARCHAR},#{sex,jdbcType=INTEGER},
+		#{isAdmin,jdbcType=VARCHAR},#{lastLoginTime,jdbcType=DATE},
+		#{modifier,jdbcType=VARCHAR},#{creator,jdbcType=VARCHAR})
+	</insert>
+
+	<update id="update" parameterType="com.xwbing.entity.SysUser">
+		update
+		<include refid="from_table"></include>
+		<set>
+			<if test="userName!=null">user_name = #{userName},</if>
+			<if test="name!=null">name = #{name},</if>
+			<if test="salt!=null">salt = #{salt},</if>
+			<if test="password!=null">password = #{password},</if>
+			<if test="lastLoginIp!=null">last_login_ip = #{lastLoginIp},</if>
+			<if test="mail!=null">mail = #{mail},</if>
+			<if test="sex!=null">sex = #{sex},</if>
+			<if test="isAdmin!=null">is_admin = #{isAdmin},</if>
+			<if test="lastLoginTime!=null">last_login_time = #{lastLoginTime}</if>
+			<if test="modifier!=null">modifier = #{modifier}</if>
+			<if test="creator!=null">creator = #{creator}</if>
+		</set>
+		where id= #{id}
+	</update>
+</mapper>

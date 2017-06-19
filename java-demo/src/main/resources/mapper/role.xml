@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--namespace:命名空间，用来区分同名的sql id:在同一个文件里面唯一 parameterType：参数类型 resultType：返回的结果类型 
+	#{ename}:ename是emp的属性（mybatis会利用反射机制读取emp对象的属性值） 注意：如果使用mapper映射器，namespace必须是mapper接口的完整的名称 -->
+
+<!-- #{}和${}取值的区别 用#{}取值时会默认加上"",如：order by 'name' desc 能很大程度防止sql注入 用${}取值 
+	order by name desc -->
+
+<!-- MyBatis 插入空值时，需要指定JdbcType，否则会出现1111错误 -->
+<mapper namespace="com.xwbing.dao.RoleDao">
+	<!--映射返回值 -->
+	<resultMap id="ResultMap" type="com.xwbing.entity.SysRole">
+		<id column="id" property="id" jdbcType="VARCHAR" javaType="string" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="is_enable" property="isEnable" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="modifier" property="modifier" jdbcType="VARCHAR" />
+		<result column="creator" property="creator" jdbcType="VARCHAR" />
+	</resultMap>
+	<!-- 表 -->
+	<sql id="from_table">
+		<if test="tableName!=null">
+			${tableName}
+		</if>
+		<if test="tableName==null">
+			sys_role
+		</if>
+	</sql>
+	<!--基本列 -->
+	<sql id="Base_Column_List">
+		id,name,code,is_enable,remark,modifier,creator
+	</sql>
+	<!--where 条件组装 -->
+	<sql id="Where_Clause">
+		<where>
+			<if test="id!=null">
+				a.id = #{id,jdbcType=VARCHAR}
+			</if>
+			<if test="name!=null">
+				and a.name = #{name,jdbcType=VARCHAR}
+			</if>
+			<if test="code!=null">
+				and a.code = #{code,jdbcType=VARCHAR}
+			</if>
+			<if test="isEnable!=null">
+				and a.is_enable = #{isEnable,jdbcType=VARCHAR}
+			</if>
+			<if test="remark!=null">
+				and a.remark = #{remark,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</sql>
+	<!-- 分页 -->
+	<sql id="Paging">
+		<if test="firstResult!=null"> limit #{firstResult,jdbcType=INTEGER} ,
+			#{offset,jdbcType=INTEGER}
+		</if>
+	</sql>
+
+	<!--条件查询，带分页 -->
+	<select id="select" resultMap="ResultMap" parameterType="map">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="from_table" />
+		a
+		<include refid="Where_Clause" />
+		<include refid="Paging" />
+	</select>
+
+	<select id="findById" parameterType="string" resultMap="ResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="from_table" />
+		where id=#{id,jdbcType=VARCHAR,javaType=string}
+	</select>
+	<select id="count" resultType="java.lang.Integer" parameterType="map">
+		select
+		count(*)
+		from
+		<include refid="from_table"></include>
+		a
+		<include refid="Where_Clause" />
+	</select>
+
+	<delete id="delete" parameterType="map">
+		delete a from
+		<include refid="from_table"></include>
+		a
+		<include refid="Where_Clause" />
+	</delete>
+
+	<!-- in条件(1,3,5) (list/array) -->
+	<select id="findByRoleIds"  resultMap="ResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="from_table" />
+		where id in
+		<foreach collection="list" item="id" separator="," open="("
+			close=")">
+			#{id}
+		</foreach>
+	</select>
+
+	<insert id="save" parameterType="com.xwbing.entity.SysRole"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into
+		sys_role(id,name,code,is_enable,remark,modifier,creator)
+		values
+		(#{id,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},
+		#{code,jdbcType=VARCHAR},#{is_enable,jdbcType=VARCHAR},
+		#{remark,jdbcType=VARCHAR},#{modifier,jdbcType=VARCHAR},
+		#{creator,jdbcType=VARCHAR})
+	</insert>
+
+	<update id="update" parameterType="com.xwbing.entity.SysRole">
+		update
+		<include refid="from_table"></include>
+		set
+		name = #{name,jdbcType=VARCHAR},
+		code =#{code,jdbcType=VARCHAR},
+		is_enable = #{isEnable,jdbcType=VARCHAR},
+		remark =
+		#{remark,jdbcType=VARCHAR},
+		modifier = #{modifier,jdbcType=VARCHAR},
+		creator = #{creator,jdbcType=VARCHAR},
+		where id=
+		#{id,jdbcType=VARCHAR,javaType=string}
+	</update>
+</mapper>

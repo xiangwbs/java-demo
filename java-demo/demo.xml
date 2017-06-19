@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 注释 -->
+<books> 
+  <book id="b3" lang="cn"> 
+    <name>轶名名</name>  
+    <author>的泛</author> 
+  </book>  
+  <book1 id="b2" lang="中文"> 
+    <name>蛮荒记</name>  
+    <author>树下野狐</author> 
+  </book1>  
+  <book2> 
+    <name>乡关何处</name>  
+    <author>土家野夫</author> 
+  </book2>  
+  <book3> 
+    <name>小于号&lt;的用法</name>  
+    <abstract> <![CDATA[里面被作为一段文本，啥都可以写，无需转义：一两个转义用实体，大量要转义用这个]]> </abstract> 
+  </book3> 
+</books>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--namespace:命名空间，用来区分同名的sql id:在同一个文件里面唯一 parameterType：参数类型 resultType：返回的结果类型 
+	#{ename}:ename是emp的属性（mybatis会利用反射机制读取emp对象的属性值） 注意：如果使用mapper映射器，namespace必须是mapper接口的完整的名称 -->
+
+<!-- #{}和${}取值的区别 用#{}取值时会默认加上"",如：order by 'name' desc 能很大程度防止sql注入 用${}取值 
+	order by name desc -->
+
+<!-- MyBatis 插入空值时，需要指定JdbcType，否则会出现1111错误 -->
+<mapper namespace="com.xwbing.dao.SysUserRoleDao">
+	<!--映射返回值 -->
+	<resultMap id="ResultMap" type="com.xwbing.entity.SysUserRole">
+		<id column="id" property="id" jdbcType="VARCHAR" javaType="string"/>
+		<result column="userId" property="user_id" jdbcType="VARCHAR" />
+		<result column="roleId" property="role_id" jdbcType="VARCHAR" />
+		<result column="creator" property="creator" jdbcType="VARCHAR" />
+		<result column="modifier" property="modifier" jdbcType="VARCHAR" />
+	</resultMap>
+	<!-- 表 -->
+	<sql id="from_table">
+		<if test="tableName!=null">
+			${tableName}
+		</if>
+		<if test="tableName==null">
+			sys_user_role
+		</if>
+	</sql>
+	<!--基本列 -->
+	<sql id="Base_Column_List">
+		id,user_id,role_id,creator,modifier
+	</sql>
+	<!--where 条件组装 -->
+	<sql id="Where_Clause">
+		<where>
+			<if test="id!=null">
+				a.id = #{id,jdbcType=VARCHAR}
+			</if>
+			<if test="code!=null">
+				a.user_id = #{userId,jdbcType=VARCHAR}
+			</if>
+			<if test="isEnable!=null">
+				a.role_id = #{roleId,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</sql>
+	<!-- 分页 -->
+	<sql id="Paging">
+		<if test="firstResult!=null"> limit #{firstResult,jdbcType=INTEGER} ,
+			#{offset,jdbcType=INTEGER}
+		</if>
+	</sql>
+
+
+	<!--条件查询，带分页 -->
+	<select id="select" resultMap="ResultMap" parameterType="map">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="from_table" />
+		a
+		<include refid="Where_Clause" />
+		<include refid="Paging" />
+	</select>
+	
+
+	<delete id="delete" parameterType="map">
+		delete a from
+		<include refid="from_table"></include>
+		a
+		<include refid="Where_Clause" />
+	</delete>
+
+	<insert id="save" parameterType="com.drore.scenic.entity.SysAuthority"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into sys_user_role
+		(id,user_id,role_id,creator,modifier) values
+		(#{id,jdbcType=VARCHAR},#{userId,jdbcType=VARCHAR},
+		#{roleId,jdbcType=VARCHAR},#{creator,jdbcType=VARCHAR},
+		#{modifier,jdbcType=VARCHAR})
+	</insert>
+
+	<update id="update" parameterType="com.xwbing.entity.SysAuthority">
+		update
+		<include refid="from_table"></include>
+		<set>
+			<if test="userId!=null">user_id = #{userId},</if>
+			<if test="roleId!=null">role_id = #{roleId},</if>
+			<if test="creator!=null">creator = #{isEnable},</if>
+			<if test="modifier!=null">modifier = #{url},</if>
+		</set>
+		where id= #{id}
+	</update>
+</mapper>

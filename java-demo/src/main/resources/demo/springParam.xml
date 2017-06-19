@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"  
+	xmlns:jee="http://www.springframework.org/schema/jee" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+	<!-- spring创建对象 -->
+	<!-- 1.通过构造器创建
+		class：要创建对象的类型 -->
+	<bean class="java.util.ArrayList" id="obj1"></bean>
+	
+	
+	<!-- 2.通过静态工厂方法创建对象 
+		调用某类的静态方法来创建对象
+		calss;要调用的类
+		factory-method；要调用的静态方法-->
+	<bean class="java.util.Calendar" factory-method="getInstance" id="obj2"></bean>
+	<!-- 3.通过实例工厂方法创建对象
+		调用某对象的非静态方法来创建对象
+		factory-bean:要调用的对象的名称（id）
+		此处必须引用容器中已经声明的对象 
+		actory-method；要调用的方法
+		-->
+	<bean factory-bean="obj2" factory-method="getTime" id="obj3"></bean>
+	<!-- bean的作用域：
+		singleton：spring创建某个类型的bean。在容器中只有一个实例，即单例
+		prototype：spring创建某个类型的bean。在容器中有多个实例-->
+	<bean class="java.util.HashMap" id="obj4" scope="prototype"></bean>
+	<!-- 管理bean的生命周期：
+		让spring自动调用该bean的初始化及销毁方法 
+		init-method:声明初始化方法，在容器创建bean后自动调用
+		destroy-method：声明销毁方法，在容器关闭后自动调用    只对单例的bean有效
+		lazy-init：延迟初始化，即在容器创建时并不创建bean，而是在获取bean时才创建，
+		          将bean创建的时机推迟了，只对单例的bean有效
+			-->
+	<bean class="bean.Example" id="exa" init-method="init" destroy-method="destroy" lazy-init="true"></bean>
+	<!-- Spring IOC是由依赖注入(DI)实现的，它包括2种注入方式：setter注入 构造器注入 -->
+	<!-- 1.setter注入:通过bean的set方法，给他注入参数 -->
+	<bean class="bean.Computer" id="computer">
+		<property name="mainboard" value="技嘉"></property>
+		<property name="hdd" value="希捷"></property>
+		<property name="ram" value="金士顿"></property>
+	</bean>
+	
+	<!-- 2.构造器注入：通过bean的构造器给他注入参数，这种注入方式比setter更严格，往往是为了强制注入参数 -->
+	<bean class="bean.MobilePhone" id="phone">
+		<constructor-arg index="0" value="ARM"></constructor-arg>
+		<constructor-arg index="1" value="2g"></constructor-arg>
+	</bean>
+	<!-- 自动装配：spring在创建bean时可以根据类型或名称。从容器中找到匹配的bean，设置给这个bean属性 -->
+	<bean class="bean.Student" id="student" autowire="byType"></bean>
+	
+	<!-- 参数值注入 -->
+	<bean class="bean.Message" id="msg">
+		<!-- 注入基本值：基本类型、封装类型、String类型  会自动类型转换 -->
+		<property name="id" value="1"></property>
+		<property name="name" value="xwbing"></property>
+		<property name="salary" value="7000"></property>
+		<!-- 注入bean:
+			name:要注入的属性名称
+			ref：注入的bean的id-->
+		<property name="phone" ref="phone"></property>
+		<!-- 注入集合：list set map properties -->
+		<property name="cities">
+			<list>
+				<value>北京</value>
+				<value>上海</value>
+				<value>广州</value>
+			</list>
+		</property>
+		<property name="score">
+			<map>
+			<entry  key="jsd1604" value="80"></entry>
+			<entry  key="jsd1605" value="30"></entry>
+			</map>
+		</property>
+		<property name="params">
+			<props>
+				<prop key="user">lhh</prop>
+				<prop key="password">123456</prop>
+			</props>
+		</property>
+	</bean>
+	
+	
+	<!-- 引用的方式注入集合类型值 -->
+	<util:list id="citiesBean">
+		<value>北京</value>
+		<value>上海</value>
+		<value>长沙</value>
+	</util:list>
+	<util:set id="interestBean">
+		<value>钓鱼</value>
+		<value>台球</value>
+		<value>游泳</value>
+	</util:set>
+	<util:map id="scoreBean">
+		<entry key="english" value="55"></entry>
+		<entry key="math" value="99"></entry>
+	</util:map>
+	<util:properties id="dbBean">
+		<prop key="username">tom</prop>
+		<prop key="password">123</prop>
+	</util:properties>
+	<bean class="ioc.MessageBean" id="msg">
+		<property name="interest" ref="interestBean"></property>
+		<property name="cities" ref="citiesBean"></property>
+		<property name="score" ref="scoreBean"></property>
+		<property name="db" ref="dbBean"></property>
+		<property name="name" value="xwbing"></property>
+	</bean>
+	<!-- 读取config.properties文件的内容
+		spring容器会读取指定位置的properties文件的内容，并存放到properties对象 -->
+	<util:properties id="config" location="classpath:config.properties"></util:properties>
+	<!-- 使用spring表达式来访问其他bean的的属性 -->
+	<bean class="ioc.ExampleBean" id="eb" >
+		<property name="ename" value="#{msg.name}"></property>
+		<property name="city" value="#{msg.cities[0]}"></property>
+		<property name="score" value="#{msg.score.english}"></property>
+		<property name="pagesize" value="#{config.pagesize}"></property>
+	</bean>
+</beans>
