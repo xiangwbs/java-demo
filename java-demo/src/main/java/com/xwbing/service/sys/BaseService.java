@@ -18,8 +18,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Author: xiangwb
- * Description: 基础服务层
+ * 项目名称: java-demo
+ * 创建时间: 2017/6/19 17:11
+ * 作者: xiangwb
+ * 说明: 基础服务层
  */
 public class BaseService {
     @Resource
