@@ -1,12 +1,9 @@
 package com.xwbing.entity;
 
-import java.io.Serializable;
-
 import com.alibaba.fastjson.annotation.JSONField;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 /**
  * 说明:基础实体类  <br/>
@@ -14,7 +11,7 @@ import java.util.List;
  * 作者: xwb
  */
 public class BaseEntity  implements Serializable{
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -1836425279862671853L;
 	private String id;
 	@JSONField(name="sort")
 	private int sort;
