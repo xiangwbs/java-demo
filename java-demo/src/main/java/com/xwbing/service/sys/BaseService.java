@@ -79,11 +79,7 @@ public class BaseService {
         List<Map<String, Object>> list = page.getData();
         if (list != null && !list.isEmpty()) {
             List<T> result = new ArrayList<>();
-            JSONObject jsonObject;
-            for (Map<String, Object> map : list) {
-                jsonObject = new JSONObject(map);
-                result.add(JSONObject.toJavaObject(jsonObject, classOfT));
-            }
+            list.forEach(map -> result.add(JSONObject.toJavaObject(new JSONObject(map), classOfT)));
             pageUtil.setRoot(result);
         }
         pageUtil.setCount(page.getCount());
@@ -110,12 +106,8 @@ public class BaseService {
         Pagination<Map<String, Object>> page = queryBuilder.findListByRName(tableName, example, displayFields);
         List<Map<String, Object>> list = page.getData();
         if (list != null && !list.isEmpty()) {
-            JSONObject jsonObject;
             List<T> result = new ArrayList<>();
-            for (Map<String, Object> map : list) {
-                jsonObject = new JSONObject(map);
-                result.add(JSONObject.toJavaObject(jsonObject, classOfT));
-            }
+            list.forEach(map -> result.add(JSONObject.toJavaObject(new JSONObject(map), classOfT)));
             return result;
         } else
             return null;
@@ -138,11 +130,7 @@ public class BaseService {
         List<Map<String, Object>> list = page.getData();
         if (list != null && !list.isEmpty()) {
             List<T> result = new ArrayList<>();
-            JSONObject jsonObject;
-            for (Map<String, Object> map : list) {
-                jsonObject = new JSONObject(map);
-                result.add(JSONObject.toJavaObject(jsonObject, classOfT));
-            }
+            list.forEach(map -> result.add(JSONObject.toJavaObject(new JSONObject(map), classOfT)));
             pageUtil.setRoot(result);
         }
         pageUtil.setCount(page.getCount());
