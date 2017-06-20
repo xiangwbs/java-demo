@@ -8,7 +8,7 @@ public class PageUtil {
     private String message;
     private Integer currentPage = 1;
     private Integer pageSize = 20;
-    private List<?> root;
+    private List<?> data;
     private boolean success = true;
 
     public PageUtil() {
@@ -40,12 +40,12 @@ public class PageUtil {
         this.pageSize = pageSize;
     }
 
-    public List<?> getRoot() {
-        return root;
+    public List<?> getData() {
+        return data;
     }
 
-    public void setRoot(List<?> root) {
-        this.root = root;
+    public void setData(List<?> data) {
+        this.data = data;
     }
 
     public boolean isSuccess() {

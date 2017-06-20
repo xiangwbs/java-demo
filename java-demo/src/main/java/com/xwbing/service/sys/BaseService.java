@@ -80,7 +80,7 @@ public class BaseService {
         if (list != null && !list.isEmpty()) {
             List<T> result = new ArrayList<>();
             list.forEach(map -> result.add(JSONObject.toJavaObject(new JSONObject(map), classOfT)));
-            pageUtil.setRoot(result);
+            pageUtil.setData(result);
         }
         pageUtil.setCount(page.getCount());
         pageUtil.setTotalPage(page.getTotal_page());
@@ -131,7 +131,7 @@ public class BaseService {
         if (list != null && !list.isEmpty()) {
             List<T> result = new ArrayList<>();
             list.forEach(map -> result.add(JSONObject.toJavaObject(new JSONObject(map), classOfT)));
-            pageUtil.setRoot(result);
+            pageUtil.setData(result);
         }
         pageUtil.setCount(page.getCount());
         pageUtil.setTotalPage(page.getTotal_page());

@@ -55,9 +55,9 @@
 	<logger name="com.drore.cloud.center.service" level="INFO" additivity="true">  
     	<appender-ref ref="SERVICE" />  
 	</logger>  
-    <root level="INFO">   
+    <data level="INFO">
         <appender-ref ref="STDOUT" />  
-    </root> 
+    </data>
      
 
 </configuration>
