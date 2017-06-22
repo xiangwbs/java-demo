@@ -34,10 +34,7 @@ public class ATest {
         return between;
     }
     public static void main(String[] args) {
-        int a=-3;
-        System.out.println(a);
-        
-        
-        
+        String[] array = { "a", "b", "c", "d" ,"c"};
+        System.out.println(array.toString());
     }
 }
