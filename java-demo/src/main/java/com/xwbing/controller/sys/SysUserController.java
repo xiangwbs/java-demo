@@ -12,7 +12,7 @@ import com.xwbing.util.CommonEnum.YesOrNo;
 import com.xwbing.util.IpUtil;
 import com.xwbing.util.JSONObjResult;
 import com.xwbing.util.LoginSysUserUtil;
-import com.xwbing.util.ResultMessage;
+import com.xwbing.util.restMessage;
 import com.xwbing.util.captcah.CaptchaException;
 import com.xwbing.validate.FormMap;
 import com.xwbing.validate.ValidateResult;
@@ -83,7 +83,7 @@ public class SysUserController {
                 // 修改用户的最后登录时间和登录ip
                 String userId = sysUser.getId();
                 Date now = new Date();
-                ResultMessage result = sysUserService.updateLoginInfo(userId,
+                restMessage result = sysUserService.updateLoginInfo(userId,
                         ip, now);// 修改最后登录信息
                 if (result.isSuccess()) {
                     SysUserLoginInOut inOut = new SysUserLoginInOut();
@@ -140,7 +140,7 @@ public class SysUserController {
             String loginUserId = LoginSysUserUtil.getUserId();
             if (StringUtils.isEmpty(loginUserId))
                 return JSONObjResult.toJSONObj("未能获取到登录信息，请重新登录");
-            ResultMessage result = sysUserService.updatePassWord(newPassWord,
+            restMessage result = sysUserService.updatePassWord(newPassWord,
                     oldPassWord, loginUserId);
             return JSONObjResult.toJSONObj(result);
         } catch (BusinessException e) {
@@ -185,7 +185,7 @@ public class SysUserController {
                 re.setUserId(userId);
                 list.add(re);
             }
-            ResultMessage result = sysUserRoleService.saveBatch(list, userId);
+            restMessage result = sysUserRoleService.saveBatch(list, userId);
             return JSONObjResult.toJSONObj(result);
         } catch (BusinessException e) {
             log.error(logMsg + "===" + e.getMessage());
@@ -347,7 +347,7 @@ public class SysUserController {
     public JSONObject delelteUser(@RequestParam String id) {
         String logMsg = "删除用户信息";
         log.info(logMsg);
-        ResultMessage result = null;
+        restMessage result = null;
         try {
             if (StringUtils.isEmpty(id)) {
                 return JSONObjResult.toJSONObj("主键不能为空");
@@ -382,7 +382,7 @@ public class SysUserController {
         String logMsg = "保存信息";
         log.info(logMsg);
         try {
-            ResultMessage result;
+            restMessage result;
             ValidateResult validate = ValidateUtil.validate(sysUser,
                     FormMap.getSysUserAddMap());
             if (!validate.isSuccess()) {
@@ -416,7 +416,7 @@ public class SysUserController {
         String logMsg = "修改信息";
         log.info(logMsg);
         try {
-            ResultMessage result;
+            restMessage result;
 
             ValidateResult validate = ValidateUtil.validate(sysUser,
                     FormMap.getSysUserUpdateMap());
@@ -497,7 +497,7 @@ public class SysUserController {
                 inOut.setIp(ip);
                 inOut.setRecordDate(now);
                 inOut.setUserId(sysUser.getId());
-                ResultMessage result = sysUserLoginInOutService.save(inOut);// 保存登录日志信息
+                restMessage result = sysUserLoginInOutService.save(inOut);// 保存登录日志信息
                 if (result.isSuccess()) {
                     return JSONObjResult.toJSONObj(result);
                 } else {

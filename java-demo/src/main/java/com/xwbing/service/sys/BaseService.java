@@ -7,7 +7,7 @@ import com.drore.cloud.sdk.common.resp.RestMessage;
 import com.drore.cloud.sdk.domain.Pagination;
 import com.drore.cloud.sdk.domain.util.RequestExample;
 import com.xwbing.Exception.BusinessException;
-import com.xwbing.util.PageUtil;
+import com.xwbing.util.PagerUtil;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -67,24 +67,24 @@ public class BaseService {
      *
      * @param tableName
      * @param term
-     * @param pageUtil
+     * @param pagerUtil
      * @param classOfT
      * @return
      */
-    public <T> PageUtil queryPage(String tableName, Map<String, Object> term, PageUtil pageUtil, Class<T> classOfT, String... displayFields) {
-        Pagination<Map<String, Object>> page = queryBuilder.findListByExample(tableName, term, pageUtil.getCurrentPage(), pageUtil.getPageSize(), displayFields);
+    public <T> PagerUtil queryPage(String tableName, Map<String, Object> term, PagerUtil pagerUtil, Class<T> classOfT, String... displayFields) {
+        Pagination<Map<String, Object>> page = queryBuilder.findListByExample(tableName, term, pagerUtil.getCurrentPage(), pagerUtil.getPageSize(), displayFields);
         if (page == null)
-            return pageUtil;
+            return pagerUtil;
         List<Map<String, Object>> list = page.getData();
         if (list != null && !list.isEmpty()) {
             List<T> result = new ArrayList<>();
             list.forEach(map -> result.add(JSONObject.toJavaObject(new JSONObject(map), classOfT)));
-            pageUtil.setData(result);
+            pagerUtil.setData(result);
         }
-        pageUtil.setCount(page.getCount());
-        pageUtil.setTotalPage(page.getTotal_page());
-        pageUtil.setSuccess(page.getSuccess());
-        return pageUtil;
+        pagerUtil.setCount(page.getCount());
+        pagerUtil.setTotalPage(page.getTotal_page());
+        pagerUtil.setSuccess(page.getSuccess());
+        return pagerUtil;
     }
 
     /**
@@ -116,26 +116,26 @@ public class BaseService {
      * SQL分页查询
      *
      * @param sql
-     * @param pageUtil
+     * @param pagerUtil
      * @param classOfT
      * @param <T>
      * @return
      */
-    public <T> PageUtil querySql(String sql, PageUtil pageUtil, Class<T> classOfT) {
-        Pagination<Map<String, Object>> page = queryBuilder.execute(sql, pageUtil.getPageSize(), pageUtil.getCurrentPage());
+    public <T> PagerUtil querySql(String sql, PagerUtil pagerUtil, Class<T> classOfT) {
+        Pagination<Map<String, Object>> page = queryBuilder.execute(sql, pagerUtil.getPageSize(), pagerUtil.getCurrentPage());
         if (page == null) {
-            return pageUtil;
+            return pagerUtil;
         }
         List<Map<String, Object>> list = page.getData();
         if (list != null && !list.isEmpty()) {
             List<T> result = new ArrayList<>();
             list.forEach(map -> result.add(JSONObject.toJavaObject(new JSONObject(map), classOfT)));
-            pageUtil.setData(result);
+            pagerUtil.setData(result);
         }
-        pageUtil.setCount(page.getCount());
-        pageUtil.setTotalPage(page.getTotal_page());
-        pageUtil.setSuccess(page.getSuccess());
-        return pageUtil;
+        pagerUtil.setCount(page.getCount());
+        pagerUtil.setTotalPage(page.getTotal_page());
+        pagerUtil.setSuccess(page.getSuccess());
+        return pagerUtil;
     }
 
     /**

@@ -9,7 +9,7 @@ import com.xwbing.Exception.BusinessException;
 import com.xwbing.dao.SysUserRoleDao;
 import com.xwbing.entity.SysUserRole;
 import com.xwbing.util.LoginSysUserUtil;
-import com.xwbing.util.ResultMessage;
+import com.xwbing.util.restMessage;
 
 /**
  * 浙江卓锐科技股份有限公司 版权所有 ? Copyright 2016<br/>
@@ -23,8 +23,8 @@ public class SysUserRoleService {
 	@Autowired
 	private SysUserRoleDao sysUserRoleDao;
 	
-	public ResultMessage deleteById(String id){
-		ResultMessage result=new ResultMessage();
+	public restMessage deleteById(String id){
+		restMessage result=new restMessage();
 		Map<String, Object> params=new HashMap<String, Object>();
 		params.put("id", id);
 		int row=sysUserRoleDao.delete(params);
@@ -49,8 +49,8 @@ public class SysUserRoleService {
 	 * @param userId
 	 * @return
 	 */
-	public ResultMessage saveBatch(List<SysUserRole> list, String userId) {
-		ResultMessage result=new ResultMessage();
+	public restMessage saveBatch(List<SysUserRole> list, String userId) {
+		restMessage result=new restMessage();
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("user_id", userId);
 		List<SysUserRole> exits=sysUserRoleDao.select(params);

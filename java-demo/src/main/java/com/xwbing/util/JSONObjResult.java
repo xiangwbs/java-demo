@@ -5,8 +5,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 
 /**
- * 说明: 封装对象结果的json结果<br/>
- * 创建日期: 2016年12月14日 下午3:20:05 <br/>
+ * 说明: 封装对象结果的json结果
+ * 创建日期: 2016年12月14日 下午3:20:05
  * 作者: xwb
  */
 public class JSONObjResult {
@@ -39,7 +39,7 @@ public class JSONObjResult {
                 SerializerFeature.WriteMapNullValue));
     }
 
-    public static JSONObject toJSONObj(ResultMessage rest) {
+    public static JSONObject toJSONObj(restMessage rest) {
         JSONObjResult jsonObjResult = new JSONObjResult();
         jsonObjResult.setSuccess(rest.isSuccess());
         jsonObjResult.setErrorMessage(rest.getMsg());

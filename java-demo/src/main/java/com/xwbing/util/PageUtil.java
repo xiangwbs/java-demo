@@ -3,33 +3,45 @@ package com.xwbing.util;
 import java.util.List;
 
 public class PageUtil {
-    private Integer count;
-    private Integer totalPage;
-    private String message;
-    private Integer currentPage = 1;
+    private Integer pageNo = 1;
     private Integer pageSize = 20;
-    private List<?> data;
-    private boolean success = true;
+    private List<?> root;
+    private boolean isSuccess = true;
+
+    /**
+     * 总页数
+     */
+    private Integer total;
+
+    /**
+     * 总数
+     */
+    private Integer count;
+    /**
+     * 错误提示
+     */
+    private String message;
+
 
     public PageUtil() {
     }
 
-    public PageUtil(int pageSize, int currentPage) {
-        this.currentPage = currentPage;
+    public PageUtil(int pageSize, int pageNo) {
+        this.pageNo = pageNo;
         this.pageSize = pageSize;
     }
 
     public PageUtil(int pageSize) {
-        this.currentPage = 1;
+        this.pageNo = 1;
         this.pageSize = pageSize;
     }
 
-    public Integer getCurrentPage() {
-        return currentPage;
+    public Integer getPageNo() {
+        return pageNo;
     }
 
-    public void setCurrentPage(Integer currentPage) {
-        this.currentPage = currentPage;
+    public void setPageNo(Integer pageNo) {
+        this.pageNo = pageNo;
     }
 
     public Integer getPageSize() {
@@ -40,36 +52,28 @@ public class PageUtil {
         this.pageSize = pageSize;
     }
 
-    public List<?> getData() {
-        return data;
+    public Integer getTotal() {
+        return total;
     }
 
-    public void setData(List<?> data) {
-        this.data = data;
+    public void setTotal(Integer total) {
+        this.total = total;
+    }
+
+    public List<?> getRoot() {
+        return root;
+    }
+
+    public void setRoot(List<?> root) {
+        this.root = root;
     }
 
     public boolean isSuccess() {
-        return success;
+        return isSuccess;
     }
 
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
-
-    public Integer getTotalPage() {
-        return totalPage;
-    }
-
-    public void setTotalPage(Integer totalPage) {
-        this.totalPage = totalPage;
-    }
-
-    public Integer getCount() {
-        return count;
-    }
-
-    public void setCount(Integer count) {
-        this.count = count;
+    public void setSuccess(boolean isSuccess) {
+        this.isSuccess = isSuccess;
     }
 
     public String getMessage() {
@@ -78,5 +82,13 @@ public class PageUtil {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
     }
 }

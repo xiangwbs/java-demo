@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.xwbing.entity.SysUser;
 import com.xwbing.entity.SysUserLoginInOut;
 import com.xwbing.util.CommonEnum;
-import com.xwbing.util.ResultMessage;
+import com.xwbing.util.restMessage;
 
 /**
  * 浙江卓锐科技股份有限公司 版权所有 ? Copyright 2016<br/>
@@ -23,7 +23,7 @@ public class SysUserLoginInOutService {
     @Autowired
     private SysUserService sysUserService;
 
-    public ResultMessage save(SysUserLoginInOut resortsUserLoginInOut) {
+    public restMessage save(SysUserLoginInOut resortsUserLoginInOut) {
         return null;
     }
 

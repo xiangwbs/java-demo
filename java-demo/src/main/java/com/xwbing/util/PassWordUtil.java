@@ -1,10 +1,11 @@
 package com.xwbing.util;
-import java.util.UUID;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.UUID;
 /**
  * 
- * 说明:密码工具类 <br/>
- * 创建日期: 2016年11月29日 上午10:28:36 <br/>
+ * 说明:密码工具类
+ * 创建日期: 2016年11月29日 上午10:28:36
  * 作者: xwb
  */
 public class PassWordUtil {

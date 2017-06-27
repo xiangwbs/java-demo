@@ -9,17 +9,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 说明: ping<br/>
- * 创建日期: 2016年12月2日 上午10:56:33 <br/>
+ * 说明: ping
+ * 创建日期: 2016年12月2日 上午10:56:33
  * 作者: xwb
  */
 public class Ping {
     /**
-     * 
-     * 功能描述： Jdk1.5的InetAddresss,代码简单。 <br/>
-     * 作 者：xwb <br/>
-     * 创建时间：2016年12月2日 上午11:03:11 <br/>
-     * 
+     * Jdk1.5的InetAddresss,代码简单
+     *
      * @param ipAddress
      * @return
      * @throws UnknownHostException
@@ -33,11 +30,8 @@ public class Ping {
     }
 
     /**
-     * 
-     * 功能描述： 使用java调用cmd命令,这种方式最简单，可以把ping的过程显示在本地。 <br/>
-     * 作 者：xwb <br/>
-     * 创建时间：2016年12月2日 上午11:03:25 <br/>
-     * 
+     * 使用java调用cmd命令,这种方式最简单，可以把ping的过程显示在本地。
+     *
      * @param ipAddress
      * @throws Exception
      */
@@ -55,12 +49,8 @@ public class Ping {
     }
 
     /**
-     * 
-     * 功能描述： 也是使用java调用控制台的ping命令，这个比较可靠，还通用，使用起来方便：传入个ip，设置ping的次数和超时，
-     * 就可以根据返回值来判断是否ping通。 <br/>
-     * 作 者：xwb <br/>
-     * 创建时间：2016年12月2日 上午11:03:41 <br/>
-     * 
+     * 也是使用java调用控制台的ping命令，这个比较可靠，还通用，使用起来方便：传入个ip，设置ping的次数和超时，就可以根据返回值来判断是否ping通。
+     *
      * @param ipAddress
      * @param pingTimes
      * @param timeOut
@@ -78,7 +68,7 @@ public class Ping {
                 return false;
             }
             in = new BufferedReader(new InputStreamReader(p.getInputStream())); // 逐行检查输出,计算类似出现=23ms
-                                                                                // TTL=62字样的次数
+            // TTL=62字样的次数
             int connectedCount = 0;
             String line = null;
             while ((line = in.readLine()) != null) {
@@ -115,5 +105,4 @@ public class Ping {
          * ping02(ipAddress); System.out.println(ping(ipAddress, 5, 5000));
          */
     }
-
 }

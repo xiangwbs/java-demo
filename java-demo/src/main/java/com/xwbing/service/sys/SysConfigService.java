@@ -13,7 +13,7 @@ import com.xwbing.dao.SysConfigDao;
 import com.xwbing.entity.SysConfig;
 import com.xwbing.util.CommonEnum;
 import com.xwbing.util.LoginSysUserUtil;
-import com.xwbing.util.ResultMessage;
+import com.xwbing.util.restMessage;
 
 /**
  * 说明: 系统配置服务<br/>
@@ -32,8 +32,8 @@ public class SysConfigService {
      * @param value
      * @return
      */
-    public ResultMessage addConfig(SysConfig data) {
-        ResultMessage result = new ResultMessage();
+    public restMessage addConfig(SysConfig data) {
+        restMessage result = new restMessage();
         if (null == data) {
             throw new BusinessException("配置数据不能为空");
         }
@@ -63,8 +63,8 @@ public class SysConfigService {
      * @param value
      * @return
      */
-    public ResultMessage removeConfigByCode(String code) {
-        ResultMessage result = new ResultMessage();
+    public restMessage removeConfigByCode(String code) {
+        restMessage result = new restMessage();
         if (StringUtils.isEmpty(code)) {
             throw new BusinessException(" code不能为空");
         }
@@ -91,8 +91,8 @@ public class SysConfigService {
      * @param value
      * @return
      */
-    public ResultMessage update(String code, String value) {
-        ResultMessage result = new ResultMessage();
+    public restMessage update(String code, String value) {
+        restMessage result = new restMessage();
         SysConfig systemConfig = findByCode(code);
         if (systemConfig == null) {
             throw new BusinessException(" 查找不到对象");
@@ -115,8 +115,8 @@ public class SysConfigService {
      * @param systemConfig
      * @return
      */
-    public ResultMessage update(SysConfig systemConfig) {
-        ResultMessage result = new ResultMessage();
+    public restMessage update(SysConfig systemConfig) {
+        restMessage result = new restMessage();
         if (systemConfig == null) {
             throw new BusinessException(" 查找不到对象");
         }

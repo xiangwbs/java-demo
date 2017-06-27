@@ -11,7 +11,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.xwbing.entity.BaseEntity;
 import com.xwbing.entity.SysUser;
-import com.xwbing.util.ResultMessage;
+import com.xwbing.util.restMessage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -78,8 +78,8 @@ public class JsonDemo {
          * 获取jsonObject属性
          */
         String id = jsonObject.getString("id");
-        ResultMessage result = JSONObject.toJavaObject(
-                jsonObject.getJSONObject("resultMessage"), ResultMessage.class);
+        restMessage result = JSONObject.toJavaObject(
+                jsonObject.getJSONObject("resultMessage"), restMessage.class);
 
         /**
          * gson

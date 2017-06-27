@@ -1,8 +1,8 @@
 package com.xwbing.util;
 
 /**
- * 说明:公共常量 <br/>
- * 创建日期: 2016年12月9日 上午9:51:16 <br/>
+ * 说明:公共常量
+ * 创建日期: 2016年12月9日 上午9:51:16
  * 作者: xwb
  */
 public class CommonConstant {
@@ -64,6 +64,4 @@ public class CommonConstant {
      * 导出报表列名称
      */
     public static String[] USERREPORTCOLUMNS = new String[]{"线路名称","发团人数","成人","儿童","幼儿"};
-	
-
 }

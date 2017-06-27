@@ -3,11 +3,11 @@ package com.xwbing.util;
 import java.io.Serializable;
 
 /**
- * 说明:返回消息封装类 <br/>
- * 创建日期: 2017年3月3日 上午11:43:13 <br/>
+ * 说明:返回消息封装类
+ * 创建日期: 2017年3月3日 上午11:43:13
  * 作者: xwb
  */
-public class ResultMessage implements Serializable {
+public class restMessage implements Serializable {
     private static final long serialVersionUID = -4167591341943919542L;
     private boolean isSuccess = false;// 默认false
     private String msg;//  成功、错误返回提示信息
@@ -45,16 +45,16 @@ public class ResultMessage implements Serializable {
     public void setSuccess(boolean isSuccess) {
         this.isSuccess = isSuccess;
     }
-    public ResultMessage() {
+    public restMessage() {
         super();
     }
 
-    public ResultMessage(Object data) {
+    public restMessage(Object data) {
         super();
         this.data = data;
     }
 
-    public ResultMessage(boolean isSuccess, Object data) {
+    public restMessage(boolean isSuccess, Object data) {
         super();
         this.isSuccess = isSuccess;
         this.data = data;

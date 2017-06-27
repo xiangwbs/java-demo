@@ -11,7 +11,7 @@ import com.xwbing.Exception.BusinessException;
 import com.xwbing.dao.SysRoleAuthorityDao;
 import com.xwbing.entity.SysRoleAuthority;
 import com.xwbing.util.LoginSysUserUtil;
-import com.xwbing.util.ResultMessage;
+import com.xwbing.util.restMessage;
 
 /**
  * 浙江卓锐科技股份有限公司 版权所有 ? Copyright 2016<br/>
@@ -33,8 +33,8 @@ public class SysRoleAuthorityService {
 	 * @param roleId
 	 * @return
 	 */
-	public ResultMessage saveBatch(List<SysRoleAuthority> list,String roleId) {
-		ResultMessage result=new ResultMessage();
+	public restMessage saveBatch(List<SysRoleAuthority> list, String roleId) {
+		restMessage result=new restMessage();
 		Map<String, Object> params=new HashMap<String, Object>();
 		params.put("role_id", roleId);
 		List<SysRoleAuthority> exits=sysRoleAuthorityDao.select(params);

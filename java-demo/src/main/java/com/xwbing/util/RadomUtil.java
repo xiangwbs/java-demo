@@ -27,6 +27,4 @@ public class RadomUtil {
         while (true)
             System.out.println(buildRandom(8));
     }
-
-    
 }

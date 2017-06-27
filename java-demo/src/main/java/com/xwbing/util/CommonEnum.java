@@ -1,9 +1,11 @@
 package com.xwbing.util;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 /**
- * 说明: 公共枚举<br/>
- * 项目名称: zdemo <br/>
- * 创建日期: 2016年12月9日 上午9:50:30 <br/>
+ * 说明: 公共枚举
+ * 创建日期: 2016年12月9日 上午9:50:30
  * 作者: xwb
  */
 public class CommonEnum {
@@ -181,4 +183,15 @@ public class CommonEnum {
         }
     }
 
+    public static void main(String[] args) {
+        String code = "Y";
+        for (YesOrNo yesOrNo : YesOrNo.values()) {
+            if (yesOrNo.getCode().equals(code)) {
+                System.out.println(yesOrNo.getName());
+                break;
+            }
+        }
+        YesOrNo yesOrNo = Arrays.stream(YesOrNo.values()).filter(obj -> obj.getCode().equals(code)).collect(Collectors.toList()).get(0);
+        System.out.println(yesOrNo.getName());
+    }
 }

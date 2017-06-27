@@ -8,7 +8,7 @@ import com.xwbing.service.sys.SysAuthorityService;
 import com.xwbing.service.sys.SysRoleAuthorityService;
 import com.xwbing.service.sys.SysRoleService;
 import com.xwbing.util.JSONObjResult;
-import com.xwbing.util.ResultMessage;
+import com.xwbing.util.restMessage;
 import com.xwbing.validate.FormMap;
 import com.xwbing.validate.ValidateResult;
 import com.xwbing.validate.ValidateUtil;
@@ -65,7 +65,7 @@ public class SysRoleController {
         if (role == null) {
             return JSONObjResult.toJSONObj("角色不存在");
         }
-        ResultMessage result = sysRoleService.deleteById(id);
+        restMessage result = sysRoleService.deleteById(id);
         return JSONObjResult.toJSONObj(result);
 
     }
@@ -116,7 +116,7 @@ public class SysRoleController {
         if (!validate.isSuccess()) {
             return JSONObjResult.toJSONObj(validate.getErrorMsg());
         }
-        ResultMessage result = sysRoleService.save(sysRole);
+        restMessage result = sysRoleService.save(sysRole);
         return JSONObjResult.toJSONObj(result);
     }
 
@@ -144,7 +144,7 @@ public class SysRoleController {
         if (!validate.isSuccess()) {
             return JSONObjResult.toJSONObj(validate.getErrorMsg());
         }
-        ResultMessage result = sysRoleService.update(sysRole);
+        restMessage result = sysRoleService.update(sysRole);
         return JSONObjResult.toJSONObj(result);
     }
 
@@ -224,7 +224,7 @@ public class SysRoleController {
             re.setAuthorityId(id);
             list.add(re);
         }
-        ResultMessage result = sysRoleAuthorityService.saveBatch(list, roleId);
+        restMessage result = sysRoleAuthorityService.saveBatch(list, roleId);
         return JSONObjResult.toJSONObj(result);
     }
 

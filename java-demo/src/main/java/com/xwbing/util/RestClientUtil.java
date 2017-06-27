@@ -31,16 +31,17 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 说明: HttpClientUtil <br/>
- * 创建日期: 2017年2月23日 下午12:44:52 <br/>
+ * 说明: HttpClientUtil
+ * 创建日期: 2017年2月23日 下午12:44:52
  * 作者: xwb
  */
 public class RestClientUtil {
-    public static Logger logger = LoggerFactory.getLogger(RestClientUtil.class);
+    private static Logger logger = LoggerFactory.getLogger(RestClientUtil.class);
     private static PoolingHttpClientConnectionManager poolingHttpClientConnectionManager;
-    static final String APPLICATION_JSON = "application/json";
-    static final String URL_ERROR = "Request Url can not be empty";
-    static final String PARAM_ERROR = "Request Params is null";
+    private static final String APPLICATION_JSON = "application/json";
+    private static final String URL_ERROR = "Request Url can not be empty";
+    private static final String PARAM_ERROR = "Request Params is null";
+
     /***
      * 默认连接配置参数
      */
@@ -79,6 +80,7 @@ public class RestClientUtil {
                 // Retry if the request is considered idempotent
                 return true;
             }
+
             return false;
         }
     };
@@ -91,7 +93,7 @@ public class RestClientUtil {
         poolingHttpClientConnectionManager.setDefaultMaxPerRoute(20);
     }
 
-    public static CloseableHttpClient getHttpClient() {
+    private static CloseableHttpClient getHttpClient() {
         return HttpClients.custom()
                 .setConnectionManager(poolingHttpClientConnectionManager)
                 .setDefaultRequestConfig(defaultRequestConfig)
@@ -100,9 +102,7 @@ public class RestClientUtil {
     }
 
     /**
-     * 功能描述： put请求 <br/>
-     * 作 者：xwb <br/>
-     * 创建时间：2017年3月21日 下午5:10:32 <br/>
+     * put请求
      *
      * @param url
      * @param param
@@ -144,9 +144,7 @@ public class RestClientUtil {
     }
 
     /**
-     * 功能描述： post请求 json <br/>
-     * 作 者：xwb <br/>
-     * 创建时间：2017年3月3日 下午5:15:32 <br/>
+     * post请求 json
      *
      * @param url
      * @param param
@@ -188,9 +186,7 @@ public class RestClientUtil {
     }
 
     /**
-     * 功能描述： post请求 form <br/>
-     * 作 者：xwb <br/>
-     * 创建时间：2017年3月3日 下午5:15:46 <br/>
+     * post请求 form
      *
      * @param url
      * @param param
@@ -238,9 +234,7 @@ public class RestClientUtil {
     }
 
     /**
-     * 功能描述： get请求 <br/>
-     * 作 者：xwb <br/>
-     * 创建时间：2017年3月3日 下午5:15:18 <br/>
+     * get请求
      *
      * @param url
      * @return
@@ -277,9 +271,7 @@ public class RestClientUtil {
     }
 
     /**
-     * 功能描述： delete请求 <br/>
-     * 作 者：xwb <br/>
-     * 创建时间：2017年3月21日 下午5:10:56 <br/>
+     * delete请求
      *
      * @param url
      * @return
@@ -315,28 +307,14 @@ public class RestClientUtil {
     }
 
     public static void main(String[] args) {
-//         String url = "http://label.drore.com//gis/mapMain/find.json";
-//         JSONObject j = new JSONObject();
-//         JSONObject jr = new JSONObject();
-//         j.put("pageNo", 1);
-//         j.put("pageSize", 10);
-//         jr.put("name", "千岛湖");
-//         j.put("fields", jr);
-//         String ret = postByJson(url, j).toString();
-//         System.out.println(ret);
-
-        // String id = "11111";
-        // String deleteUrl = "http://www.xxx.com/delete/{0}.json";
-        // deleteUrl = MessageFormat.format(deleteUrl, id);
-        // JSONObject deleteResult = delete(deleteUrl);
-        // System.out.println(deleteResult.toJSONString());
-        String url = "http://label.drore.com/gis/postgre/deck/TOUR_GUIDE/isContain.json";
+        String url = "http://label.drore.com//gis/mapMain/find.json";
         JSONObject j = new JSONObject();
-        j.put("id", "60");
-        j.put("x", "120.0666093784");
-        j.put("y", "30.2758921426");
-        JSONObject o = put(url, j);
-        System.out.println(o.toJSONString());
-
+        JSONObject jr = new JSONObject();
+        j.put("pageNo", 1);
+        j.put("pageSize", 10);
+        jr.put("name", "千岛湖");
+        j.put("fields", jr);
+        String ret = postByJson(url, j).toString();
+        System.out.println(ret);
     }
 }

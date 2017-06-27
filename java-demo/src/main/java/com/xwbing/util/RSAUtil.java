@@ -1,10 +1,15 @@
 package com.xwbing.util;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import org.bouncycastle.asn1.ASN1Sequence;
+import org.bouncycastle.asn1.pkcs.RSAPrivateKeyStructure;
+import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.io.*;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
@@ -14,30 +19,17 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.RSAPrivateKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-
-import org.bouncycastle.asn1.ASN1Sequence;
-import org.bouncycastle.asn1.pkcs.RSAPrivateKeyStructure;
-
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
-
 /**
- * 
  * RSA的算法中有两个钥匙，一个公钥一个私钥。 用公钥加密的数据(明文)，只有私钥能解开(密文)
  * 私钥密钥字符串使用支付宝PSA密钥生成器SHAwithRSA生成
- * 
- * 创建日期: 2016年10月28日 上午9:47:02 <br/>
+ * 创建日期: 2016年10月28日 上午9:47:02
  * 作者: xwb
  */
 public class RSAUtil {
 
     /**
      * 从文件中加载公钥 测试的时候使用
-     * 
+     *
      * @return 是否成功
      * @throws Exception
      */
@@ -68,11 +60,9 @@ public class RSAUtil {
 
     /**
      * 从字符串中加载公钥
-     * 
-     * @param publicKeyStr
-     *            公钥数据字符串
-     * @throws Exception
-     *             加载公钥时产生的异常
+     *
+     * @param publicKeyStr 公钥数据字符串
+     * @throws Exception 加载公钥时产生的异常
      */
     public static RSAPublicKey loadPublicKey(String publicKeyStr)
             throws Exception {
@@ -95,7 +85,7 @@ public class RSAUtil {
 
     /**
      * 从文件中加载私钥 测试的时候使用 私钥文件名
-     * 
+     *
      * @return 是否成功
      * @throws Exception
      */
@@ -125,11 +115,10 @@ public class RSAUtil {
     }
 
     /**
-     * 
      * 功能描述： 从字符串中加载私钥 <br/>
      * 作 者：xwb <br/>
      * 创建时间：2017年3月2日 下午2:44:15 <br/>
-     * 
+     *
      * @param privateKeyStr
      * @return
      * @throws Exception
@@ -161,12 +150,10 @@ public class RSAUtil {
 
     /**
      * 加密过程
-     * 
-     * @param publicKey
-     *            公钥 明文数据
+     *
+     * @param publicKey 公钥 明文数据
      * @return
-     * @throws Exception
-     *             加密过程中的异常信息
+     * @throws Exception 加密过程中的异常信息
      */
     public static String encrypt(RSAPublicKey publicKey, String data)
             throws Exception {
@@ -197,7 +184,7 @@ public class RSAUtil {
 
     /***
      * 默认加密方式
-     * 
+     *
      * @param data
      * @return
      * @throws Exception
@@ -208,12 +195,10 @@ public class RSAUtil {
 
     /**
      * 解密过程
-     * 
-     * @param privateKey
-     *            私钥 密文数据
+     *
+     * @param privateKey 私钥 密文数据
      * @return 明文
-     * @throws Exception
-     *             解密过程中的异常信息
+     * @throws Exception 解密过程中的异常信息
      */
     public static String decrypt(RSAPrivateKey privateKey, String data)
             throws Exception {
@@ -243,11 +228,10 @@ public class RSAUtil {
     }
 
     /**
-     * 
      * 功能描述： 默认解密方式 <br/>
      * 作 者：xwb <br/>
      * 创建时间：2017年3月2日 下午2:48:56 <br/>
-     * 
+     *
      * @param data
      * @return
      * @throws Exception

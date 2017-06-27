@@ -1,13 +1,12 @@
 package com.xwbing.util;
 
+import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
- * 说明:获取登录ip工具类 <br/>
- * 创建日期: 2016年11月29日 上午10:30:20 <br/>
+ * 说明:获取登录ip工具类
+ * 创建日期: 2016年11月29日 上午10:30:20
  * 作者: xwb
  */
 
