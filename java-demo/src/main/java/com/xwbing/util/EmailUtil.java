@@ -9,9 +9,9 @@ import javax.mail.internet.*;
 import java.util.Properties;
 
 /**
- * 说明:邮箱工具类
- * 创建日期: 2016年12月7日 下午12:30:15
- * 作者: xwb
+ * 创建时间: 2016/11/7 10:11
+ * 作者: xiangwb
+ * 说明: 邮箱工具类
  */
 public class EmailUtil {
     /**

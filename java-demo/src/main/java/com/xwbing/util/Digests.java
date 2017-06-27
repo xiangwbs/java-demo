@@ -8,9 +8,9 @@ import java.security.MessageDigest;
 import java.security.SecureRandom;
 
 /**
- * 说明:散列算法(哈希算法)
- * 创建日期: 2016年11月29日 上午10:31:20
- * 作者: xwb
+ * 创建时间: 2016/11/29 10:11
+ * 作者: xiangwb
+ * 说明: 散列算法
  */
 public class Digests {
 

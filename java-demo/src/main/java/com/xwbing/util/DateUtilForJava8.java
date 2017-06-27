@@ -12,9 +12,9 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 
 /**
- * 说明:日期处理类
- * 创建日期: 2016年12月8日 下午6:18:46
- * 作者: xwb
+ * 创建时间: 2016/12/8 17:11
+ * 作者: xiangwb
+ * 说明: 日期处理类
  */
 public class DateUtilForJava8 {
     public static DecimalFormat df = new DecimalFormat("######0.00");
@@ -22,16 +22,16 @@ public class DateUtilForJava8 {
     public static final long MINUTE = SECOND * 60;
     public static final long HOUR = MINUTE * 60;
     public static final long DAY = HOUR * 24;
-    public static final String YYYY_MM_DD_HH_MM_SS = "YYYY-MM-dd HH:mm:ss";
-    public static final String YYYY_MM_DD_HH_MM = "YYYY-MM-dd HH:mm";
-    public static final String YYYY_MM_DD = "YYYY-MM-dd";
-    public static final String YYYY_MM = "YYYY-MM";
-    public static final String YYYY = "YYYY";
+    public static final String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
+    public static final String YYYY_MM_DD_HH_MM = "yyyy-MM-dd HH:mm";
+    public static final String YYYY_MM_DD = "yyyy-MM-dd";
+    public static final String YYYY_MM = "yyyy-MM";
+    public static final String YYYY = "yyyy";
     public static final String HH_MM_SS = "HH:mm:ss";
     public static final String HH_MM = "HH:mm";
     /*
-     * ChronoUnit 各种时间单位 很好用 TemporalAdjusters 时态对象 第一天 ，最后一天。。。。。
-     * 获取时间分量:Duration要求是localdatetime/localtime类型 Period要求是local达特类型 Instant类似于date
+     * ChronoUnit:各种时间单位 很好用 | TemporalAdjusters:时态对象 可以获取第一天,最后一天.....|
+     * 获取时间分量:Duration要求是localdatetime/localtime类型 | Period要求是localdate类型 | Instant类似于date
      */
 
     /**
@@ -40,9 +40,8 @@ public class DateUtilForJava8 {
      * @param pattern
      * @return
      */
-    public static DateTimeFormatter getDateFormat(String pattern) {
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(pattern);
-        return dateFormat;
+    private static DateTimeFormatter getDateFormat(String pattern) {
+        return DateTimeFormatter.ofPattern(pattern);
     }
 
     // //////////////////////基本转换///////////////////////////////基本转换/////////////////////////////////////////
@@ -56,8 +55,7 @@ public class DateUtilForJava8 {
      */
     public static String date2Str(Date date, String pattern) {
         Instant instant = date.toInstant();
-        LocalDateTime dateTime = LocalDateTime.ofInstant(instant,
-                ZoneId.systemDefault());
+        LocalDateTime dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
         return dateTime.format(getDateFormat(pattern));
     }
 
@@ -71,11 +69,10 @@ public class DateUtilForJava8 {
     public static Date str2Date(String dateStr, String pattern) {//待优化
         SimpleDateFormat sdf = new SimpleDateFormat(pattern);
         try {
-            Date date = sdf.parse(dateStr);
-            return date;
+            return sdf.parse(dateStr);
         } catch (ParseException e) {
             e.printStackTrace();
-            throw new BusinessException("时间格式转换错误!" + dateStr);
+            throw new BusinessException("时间格式转换错误:" + dateStr);
         }
     }
 
@@ -88,8 +85,7 @@ public class DateUtilForJava8 {
      */
     public static String msToDateStr(String ms, String pattern) {
         Instant instant = Instant.ofEpochMilli(Long.valueOf(ms));
-        LocalDateTime dateTime = LocalDateTime.ofInstant(instant,
-                ZoneId.systemDefault());
+        LocalDateTime dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
         return dateTime.format(getDateFormat(pattern));
     }
 
@@ -131,72 +127,85 @@ public class DateUtilForJava8 {
     // ///////////////////////////获取数据////////////获取数据/////////////////////////////////////////////////////////////
 
     /**
-     * 获取前几天是周几
+     * 获取周几
      *
-     * @param day 0代表当天
+     * @param day 0代表当天 负数代表前几天 正数代表后几天
      * @return
      */
-    public static String getBeforWeek(long day) {
+    public static String getWeek(int day) {
         LocalDate localDate = LocalDate.now();
-        int week = localDate.getDayOfWeek().getValue();
+        LocalDate date;
+        if (day >= 0) {
+            date = localDate.plusDays(day);
+        } else {
+            date = localDate.minusDays(Math.abs(day));
+        }
+        int week = date.getDayOfWeek().getValue();
         String[] data = {"一", "二", "三", "四", "五", "六", "日"};
         return "周" + data[week - 1];
     }
+
+
     /**
-     * 获取n分钟后时间字符串
+     * 获取n分钟前/后时间字符串
+     * 返回值為HH_MM_SS
      *
      * @param minute 分钟
      * @return
      */
-    public static String nowAddMinutes(long minute) {
+    public static String nowTimeAddMinusMinutes(int minute) {
         LocalDateTime local = LocalDateTime.now();
-        LocalDateTime newDateTime = local.plusMinutes(minute);
+        LocalDateTime newDateTime;
+        if (minute >= 0) {
+            newDateTime = local.plusMinutes(minute);
+        } else {
+            newDateTime = local.minusMinutes(Math.abs(minute));
+        }
         return newDateTime.format(getDateFormat(HH_MM_SS));
     }
 
     /**
-     * 获取n小时后的时间字符串
+     * 获取n小时前/后的时间字符串
+     * 返回格式:hh:mm
      *
      * @param time 格式 hh:mm
      * @param h
      * @return
      */
-    public static String nowAddHours(String time, long h) {
+    public static String timeAddMinusHours(String time, int h) {
         LocalTime localTime = LocalTime.parse(time);
-        LocalTime newTime = localTime.plusHours(h);
+        LocalTime newTime;
+        if (h >= 0) {
+            newTime = localTime.plusHours(h);
+        } else {
+            newTime = localTime.minusHours(Math.abs(h));
+        }
         return newTime.toString();
     }
 
     /**
-     * 获取n天前日期
+     * 获取n天前/后日期
+     * 返回格式：YYYY_MM_DD
      *
      * @param date
      * @param day
      * @return
      */
-    public static String dateMinusDays(String date, int day) {
+    public static String dateAddMinusDays(String date, int day) {
         LocalDate localDate = LocalDate.parse(date, getDateFormat(YYYY_MM_DD));
-        LocalDate newDate = localDate.minusDays(day);
+        LocalDate newDate;
+        if (day >= 0) {
+            newDate = localDate.plusDays(day);
+        } else {
+            newDate = localDate.minusDays(Math.abs(day));
+        }
         return newDate.toString();
     }
 
-    /**
-     * 获取n天后日期
-     *
-     * @param date
-     * @param day
-     * @return
-     */
-    public static String dateAddDays(String date, int day) {
-        LocalDate localDate = LocalDate.parse(date, getDateFormat(YYYY_MM_DD));
-        LocalDate newDate = localDate.plusDays(day);
-        return newDate.toString();
-    }
 
     /**
      * 获取当月的第一天
      *
-     * @param
      * @return
      */
     public static String firstDayOfMonth() {
@@ -244,7 +253,6 @@ public class DateUtilForJava8 {
     /**
      * 获取当年的第一天
      *
-     * @param
      * @return
      */
     public static String firstDayOfYear() {
@@ -299,7 +307,7 @@ public class DateUtilForJava8 {
      * @throws Exception
      */
     public static List<String> listDate(String startDate, String endDate) {
-        List<String> dateList = new ArrayList<String>();
+        List<String> dateList = new ArrayList<>();
         LocalDate start = LocalDate.parse(startDate);
         LocalDate end = LocalDate.parse(endDate);
         long d = ChronoUnit.DAYS.between(start, end);
@@ -339,8 +347,7 @@ public class DateUtilForJava8 {
         LocalTime eTime = LocalTime.parse(endTime);
         Duration duration = Duration.between(sTime, eTime);
         long m = duration.toMinutes();
-        String between = df.format(m / 60.0);
-        return between;
+        return df.format(m / 60.0);
     }
 
     /**
@@ -355,8 +362,7 @@ public class DateUtilForJava8 {
         LocalDateTime eDateTime = LocalDateTime.parse(endDateTime);
         Duration duration = Duration.between(sDateTime, eDateTime);
         long m = duration.toMinutes();
-        String between = df.format(m / 60.0);
-        return between;
+        return df.format(m / 60.0);
     }
 
     /**
@@ -413,10 +419,10 @@ public class DateUtilForJava8 {
                 getDateFormat(YYYY_MM_DD_HH_MM_SS));
         Duration duration = Duration.between(sDateTime, eDateTime);
         long diff = duration.toMillis();
-        long diffSeconds = diff / 1000 % 60;
-        long diffMinutes = diff / (60 * 1000) % 60;
-        long diffHours = diff / (60 * 60 * 1000) % 24;
-        long diffDays = diff / (24 * 60 * 60 * 1000);
+        long diffSeconds = diff / SECOND % 60;
+        long diffMinutes = diff / MINUTE % 60;
+        long diffHours = diff / HOUR % 24;
+        long diffDays = diff / DAY;
         Map<String, Integer> map = new HashMap<>();
         map.put("days", (int) diffDays);
         map.put("hours", (int) diffHours);
@@ -437,10 +443,14 @@ public class DateUtilForJava8 {
         LocalDate eDate = LocalDate.parse(endDate);
         Period period = Period.between(sDate, eDate);
         Map<String, Integer> map = new HashMap<>();
-        map.put("years", (int) period.getYears());
-        map.put("months", (int) period.getMonths());
-        map.put("days", (int) period.getDays());
+        map.put("years", period.getYears());
+        map.put("months", period.getMonths());
+        map.put("days", period.getDays());
         return map;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(getDatePool("2017-06-27", "2018-06-29"));
     }
 
     /**

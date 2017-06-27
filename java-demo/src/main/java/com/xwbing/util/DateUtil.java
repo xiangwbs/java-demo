@@ -10,9 +10,9 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * 说明:日期处理类
- * 创建日期: 2016年12月8日 下午6:18:46
- * 作者: xwb
+ * 创建时间: 2016/12/8 17:11
+ * 作者: xiangwb
+ * 说明: 日期处理类
  */
 public class DateUtil {
     private static DecimalFormat df = new DecimalFormat("######0.00");
@@ -20,13 +20,13 @@ public class DateUtil {
     public static final long MINUTE = SECOND * 60;
     public static final long HOUR = MINUTE * 60;
     public static final long DAY = 24 * HOUR;
-    public static final String YYYY_MM_DD_HH_MM_SS = "YYYY-MM-dd HH:mm:ss";
-    public static final String YYYY_MM_DD = "YYYY-MM-dd";
-    public static final String YYYY_MM = "YYYY-MM";
-    public static final String YYYY = "YYYY";
+    public static final String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
+    public static final String YYYY_MM_DD = "yyyy-MM-dd";
+    public static final String YYYY_MM = "yyyy-MM";
+    public static final String YYYY = "yyyy";
     public static final String HHMMSS = "HH:mm:ss";
     public static final String HHMM = "HH:mm";
-    public static final String YYYY_MM_DD_HH_MM = "YYYY-MM-dd HH:mm";
+    public static final String YYYY_MM_DD_HH_MM = "yyyy-MM-dd HH:mm";
     /**
      * SimpleDateFormat是线程不安全， 创建SimpleDateFormat实例需要耗费很大的代价
      * 使用ThreadLocal
