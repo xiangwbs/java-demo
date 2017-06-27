@@ -8,7 +8,6 @@ import com.drore.cloud.sdk.domain.Pagination;
 import com.drore.cloud.sdk.domain.util.RequestExample;
 import com.xwbing.Exception.BusinessException;
 import com.xwbing.util.PageUtil;
-import org.apache.commons.collections.MapUtils;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -25,9 +24,9 @@ import java.util.Map;
  */
 public class BaseService {
     @Resource
-    private QueryBuilder queryBuilder;
+    public QueryBuilder queryBuilder;
     @Resource
-    private RecordBuilder recordBuilder;
+    public RecordBuilder recordBuilder;
 
     /**
      * 直接转换成对象
@@ -151,7 +150,7 @@ public class BaseService {
         if (null == example) {
             example = new RequestExample(Integer.MAX_VALUE, 1);
         }
-        if (MapUtils.isEmpty(example.getSort())) {
+        if (example.getSort() == null || example.getSort().isEmpty()) {
             HashMap<String, Object> sort = new HashMap<>();
             sort.put("sort", "ASC");
             example.setSort(sort);

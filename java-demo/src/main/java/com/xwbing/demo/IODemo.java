@@ -106,7 +106,5 @@ public class IODemo {
          */
         String filePath=IODemo.class.getResource("/conf/jdbc.properties").getPath();
         InputStream in= IODemo.class.getResourceAsStream("/conf/jdbc.properties");
-        
-        
     }
 }

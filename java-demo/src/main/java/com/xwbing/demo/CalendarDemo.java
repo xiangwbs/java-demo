@@ -82,7 +82,5 @@ public class CalendarDemo {
 		 * 4：使用Calendar根据需求计算时间
 		 * 5：将Calendar转换为一个Date 6：使用SimpleDateFormal将Date转换为字符串后显示给用户
 		 */
-
 	}
-
 }

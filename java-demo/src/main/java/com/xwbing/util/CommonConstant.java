@@ -49,9 +49,9 @@ public class CommonConstant {
 	 */
 	public static final String RESOURCE_XML="resource.xml";
 	/**
-	 * 资源文件 sql
+	 * 资源文件 oracle
 	 */
-	public static final String RESOURCE_SQL="resource.sql";
+	public static final String RESOURCE_SQL="resource.oracle";
 	/**
 	 * 资源详情xml文件
 	 */

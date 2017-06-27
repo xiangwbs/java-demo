@@ -1,23 +1,17 @@
 package com.xwbing.util;
 
+
+import com.xwbing.Exception.BusinessException;
+
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.xwbing.Exception.BusinessException;
+import java.util.*;
 
 /**
- * 说明:日期处理类<br/>
- * 创建日期: 2016年12月8日 下午6:18:46 <br/>
+ * 说明:日期处理类
+ * 创建日期: 2016年12月8日 下午6:18:46
  * 作者: xwb
  */
 public class DateUtil {
@@ -33,156 +27,134 @@ public class DateUtil {
     public static final String HHMMSS = "HH:mm:ss";
     public static final String HHMM = "HH:mm";
     public static final String YYYY_MM_DD_HH_MM = "YYYY-MM-dd HH:mm";
-
     /**
      * SimpleDateFormat是线程不安全， 创建SimpleDateFormat实例需要耗费很大的代价
-     * 
-     * 使用ThreadLocal,
+     * 使用ThreadLocal
      * 也是将共享变量变为独享，线程独享肯定能比方法独享在并发环境中能减少不少创建对象的开销。如果对性能要求比较高的情况下，一般推荐使用这种方法。
+     * 存放不同的日期模板格式的sdf的Map
      */
-
-    /** 存放不同的日期模板格式的sdf的Map */
     private static Map<String, ThreadLocal<DateFormat>> sdfMap = new HashMap<String, ThreadLocal<DateFormat>>();
 
-    public static DateFormat getDateFormat(String pattern) {
-        ThreadLocal<DateFormat> t = sdfMap.get(pattern);
-        if (t == null) {
-            t = new ThreadLocal<DateFormat>() {
+    private static DateFormat getDateFormat(String pattern) {
+        ThreadLocal<DateFormat> threadLocal = sdfMap.get(pattern);
+        if (threadLocal == null) {
+            threadLocal = new ThreadLocal<DateFormat>() {
                 // 创建一个ThreadLocal类变量，这里创建时用了一个匿名类，覆盖了initialValue方法，主要作用是创建时初始化实例。
                 @Override
                 protected DateFormat initialValue() {
                     return new SimpleDateFormat(pattern);
                 }
             };
-            sdfMap.put(pattern, t);
+            sdfMap.put(pattern, threadLocal);
         }
-        return t.get();
+        return threadLocal.get();
     }
 
-    public static Date parse(String pattern, String dateStr) {
+    private static Date parse(String pattern, String dateStr) {
         try {
             return getDateFormat(pattern).parse(dateStr);
         } catch (ParseException e) {
             throw new BusinessException("时间格式转换错误!" + dateStr);
         }
     }
-    public static String format(String pattern, Date date) {
+
+    private static String format(String pattern, Date date) {
         return getDateFormat(pattern).format(date);
     }
     // //////////////////////基本转换////////////////////////////////////////////////////////////////////////
+
     /**
-     * 
-     * 功能描述： data转string <br/>
-     * 作 者：xwb <br/>
-     * 创建时间：2016年12月9日 上午9:20:48 <br/>
-     * 
+     * data转string
+     *
      * @param d
+     * @param pattern
      * @return
      */
     public static String date2Str(Date d, String pattern) {
-        String dStr = format(pattern, d);
-        return dStr;
+        return format(pattern, d);
     }
+
     /**
-     * 
-     * 功能描述： 日期string转date <br/>
-     * 作 者：xwb <br/>
-     * 创建时间：2016年12月8日 下午6:19:17 <br/>
-     * 
+     * 日期string转date
+     *
      * @param dateStr
+     * @param pattern
      * @return
-     * @throws ParseException
      */
     public static Date str2Date(String dateStr, String pattern) {
-        Date d = parse(pattern, dateStr);
-        return d;
-    }
-
-    /*
-     * 将毫秒转换为时间字符串
-     */
-    public static String msToDateStr(String ms, String pattern) {
-        String res;
-        long lt = new Long(ms);
-        Date date = new Date(lt);
-        res = date2Str(date, pattern);
-        return res;
+        return parse(pattern, dateStr);
     }
 
     /**
-     * 
-     * 功能描述： 将时间戳转换为时间字符串 <br/>
-     * 作 者：xwb <br/>
-     * 创建时间：2016年12月8日 下午5:51:07 <br/>
-     * 
+     * 将毫秒转换为时间字符串
+     *
      * @param ms
+     * @param pattern
+     * @return
+     */
+    public static String msToDateStr(String ms, String pattern) {
+        long lt = new Long(ms);
+        Date date = new Date(lt);
+        return date2Str(date, pattern);
+    }
+
+    /**
+     * 将时间戳转换为时间字符串
+     *
+     * @param str
+     * @param pattern
      * @return
      */
     public static String stampToDateStr(String str, String pattern) {
-        String res;
         long lt = new Long(str);
         Date date = new Date(lt * 1000);
-        res = date2Str(date, pattern);
-        return res;
+        return date2Str(date, pattern);
     }
 
     /**
-     * 
-     * 功能描述： 将时间字符串转为毫秒字符串 <br/>
-     * 作 者：xwb <br/>
-     * 创建时间：2016年12月8日 下午4:13:23 <br/>
-     * 
+     * 将时间字符串转为毫秒字符串
+     *
      * @param str
+     * @param pattern
      * @return
-     * @throws ParseException
      */
     public static String dateStrToMs(String str, String pattern) {
-        return String.valueOf(parse(pattern,str).getTime());
+        return String.valueOf(parse(pattern, str).getTime());
     }
+
     /**
-     * 
-     * 功能描述： 将时间字符串转为时间戳 <br/>
-     * 作 者：xwb <br/>
-     * 创建时间：2016年12月8日 下午4:13:23 <br/>
-     * 
-     * @param s
+     * 将时间字符串转为时间戳
+     *
+     * @param str
+     * @param pattern
      * @return
-     * @throws ParseException
      */
     public static String dateStrToStamp(String str, String pattern) {
-        return String.valueOf(parse(pattern,str).getTime() / 1000);
+        return String.valueOf(parse(pattern, str).getTime() / 1000);
 
     }
+
     public static void main(String[] args) {
-        System.out.println(dateStrToMs("2015-11-12 10:00:00",YYYY_MM_DD_HH_MM_SS));
+        System.out.println(dateStrToMs("2015-11-12 10:00:00", YYYY_MM_DD_HH_MM_SS));
     }
     // ///////////////////////////获取数据////////////获取数据/////////////////////////////////////////////////////////////
 
     /**
-     * 
-     * 功能描述： 获取当前时间之后的多少分钟时间 <br/>
-     * 作 者：xwb <br/>
-     * 创建时间：2017年3月14日 下午2:54:35 <br/>
-     * 
+     * 获取当前时间之后的多少分钟时间
+     *
      * @param minute
-     *            分钟
      * @return
      */
     public static Date nowTimeAfterMinute(int minute) {
         long curren = System.currentTimeMillis();
         curren += minute * 60 * 1000;
-        Date da = new Date(curren);
-        return da;
+        return new Date(curren);
     }
 
     /**
-     * 
-     * 功能描述： 获取n小时后的时间字符串 无跨天情况 time:09:00 h:1.5 小时 <br/>
-     * 作 者：xwb <br/>
-     * 创建时间：2017年3月8日 下午1:46:46 <br/>
-     * 
-     * @param time
-     *            格式 hh:mm
+     * 获取n小时后的时间字符串 无跨天情况 time:09:00 h:1.5 小时
+     *
+     * @param time 格式 hh:mm
      * @param h
      * @return
      */
@@ -206,13 +178,9 @@ public class DateUtil {
     }
 
     /**
-     * 
-     * 功能描述：获取前几天是周几 <br/>
-     * 作 者：xwb <br/>
-     * 创建时间：2017年3月14日 下午2:53:31 <br/>
-     * 
-     * @param day
-     *            0代表当天
+     * 获取前几天是周几
+     *
+     * @param day 0代表当天
      * @return
      */
     public static String getBeforWeek(int day) {
@@ -221,7 +189,7 @@ public class DateUtil {
         date.setTime(date.getTime() - 1000 * 60 * 60 * 24 * day);
         calendar.setTime(date);
         int week = calendar.get(Calendar.DAY_OF_WEEK);
-        String[] data = { "日", "一", "二", "三", "四", "五", "六" };
+        String[] data = {"日", "一", "二", "三", "四", "五", "六"};
         return "周" + data[week - 1];
 
     }
@@ -229,10 +197,8 @@ public class DateUtil {
     /**
      * 计算两个时间段相差几小时（09:00-13:00）
      *
-     * @param startTime
-     *            09:00
-     * @param endTime
-     *            13:00
+     * @param startTime 09:00
+     * @param endTime   13:00
      */
     public static String calculationTime(String startTime, String endTime) {
         String startH = startTime.substring(0, startTime.indexOf(':'));
@@ -251,29 +217,28 @@ public class DateUtil {
 
     /**
      * 获取n小时后的时间
-     * 
+     *
      * @param date
      * @param h
      * @return
      */
     public static String backTimeHour(Date date, int h) {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new java.util.Date());
+        calendar.setTime(new Date());
         calendar.add(Calendar.HOUR, h);
         SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS);
-        String dateStr = sdf.format(calendar.getTimeInMillis());
-        return dateStr;
+        return sdf.format(calendar.getTimeInMillis());
     }
 
     /**
      * 获取两个时间差
-     * 
+     *
      * @param startDate
      * @param endDate
      * @return
      */
     public static Map<String, Integer> getDatePoorHour(Date startDate,
-            Date endDate) {
+                                                       Date endDate) {
         long diff = startDate.getTime() - endDate.getTime();
         long diffSeconds = diff / 1000 % 60;
         long diffMinutes = diff / (60 * 1000) % 60;
@@ -289,15 +254,11 @@ public class DateUtil {
     }
 
     /**
-     * 
-     * 功能描述： 查询几天前的字符串日期 <br/>
-     * 作 者：xwb <br/>
-     * 创建时间：2016年12月9日 上午9:23:16 <br/>
-     * 
+     * 查询几天前的字符串日期
+     *
      * @param d
      * @param day
      * @return
-     * @throws ParseException
      */
     public static String dateStrBefore(String d, int day) {
         Date formatDay = parse(d, YYYY_MM_DD);
@@ -307,7 +268,7 @@ public class DateUtil {
 
     /**
      * 当前时间加n天
-     * 
+     *
      * @param date
      * @param day
      * @return
@@ -317,56 +278,50 @@ public class DateUtil {
         calendar.setTime(new Date());
         calendar.add(Calendar.DAY_OF_MONTH, day);
         SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS);
-        String dateStr = sdf.format(calendar.getTimeInMillis());
-        return dateStr;
+        return sdf.format(calendar.getTimeInMillis());
     }
 
     // /////////////////////////////////////////////
+
     /**
      * 获取当月的第一天
-     * 
-     * @param
+     *
      * @return
      */
     public static String firstDayOfMonth() {
         Calendar c = Calendar.getInstance();
         c.add(Calendar.MONTH, 0);
         c.set(Calendar.DAY_OF_MONTH, 1);// 设置为1号,当前日期既为本月第一天
-        String first = date2Str(c.getTime(), YYYY_MM_DD);
-        return first;
+        return date2Str(c.getTime(), YYYY_MM_DD);
     }
 
     /**
      * 获取当年的第一天
-     * 
-     * @param
+     *
      * @return
      */
     public static String firstDayOfYear() {
         Calendar currCal = Calendar.getInstance();
         int currentYear = currCal.get(Calendar.YEAR);
-        String first = date2Str(getYearFirst(currentYear), YYYY_MM_DD);
-        return first;
+        return date2Str(getYearFirst(currentYear), YYYY_MM_DD);
     }
 
     /**
      * 获取某年第一天日期
-     * 
-     * @param year
-     *            年份
+     *
+     * @param year 年份
      * @return Date
      */
     public static Date getYearFirst(int year) {
         Calendar calendar = Calendar.getInstance();
         calendar.clear();
         calendar.set(Calendar.YEAR, year);
-        Date currYearFirst = calendar.getTime();
-        return currYearFirst;
+        return calendar.getTime();
     }
 
     /**
      * 获取上个月第一天 YYYY-MM-dd
-     * 
+     *
      * @return
      */
     public static String getLastMonthFirst() {
@@ -378,7 +333,7 @@ public class DateUtil {
 
     /**
      * 获取上个月最后一天
-     * 
+     *
      * @return
      */
     public static String getLastMonthEnd() {
@@ -393,11 +348,9 @@ public class DateUtil {
 
     /**
      * 获取指定月份最后一天
-     * 
-     * @param monthStr
-     *            YYYY-MM
+     *
+     * @param monthStr YYYY-MM
      * @return
-     * @throws ParseException
      */
     public static String getMonthEnd(String monthStr) {
         Date date = str2Date(monthStr, YYYY_MM);
@@ -406,19 +359,15 @@ public class DateUtil {
         calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
                 1);
         calendar.roll(Calendar.DATE, -1);
-        String res = date2Str(calendar.getTime(), YYYY_MM_DD);
-        return res;
+        return date2Str(calendar.getTime(), YYYY_MM_DD);
     }
 
     /**
      * 获取对应年份每一个月份
-     * 
-     * @param startMoth
-     *            YYYY-MM
-     * @param endMonth
-     *            YYYY-MM
+     *
+     * @param startMoth YYYY-MM
+     * @param endMonth  YYYY-MM
      * @return
-     * @throws ParseException
      */
     public static List<String> getYearMonth(String startMoth, String endMonth)
             throws ParseException {
@@ -442,7 +391,7 @@ public class DateUtil {
 
     /**
      * 获取n年度
-     * 
+     *
      * @return
      */
     public static String getYear(int coun) {
@@ -450,21 +399,18 @@ public class DateUtil {
         c.setTime(new Date());
         c.add(Calendar.YEAR, coun);
         Date y = c.getTime();
-        String year = date2Str(y, YYYY);
-        return year;
+        return date2Str(y, YYYY);
     }
 
     // /////////////////
     // //////////////////////////////比较 排序///////////////比较
     // 排序/////////////////////////////////////////////
+
     /**
-     * 
-     * 功能描述： 时间字符串大小比较 <br/>
-     * 作 者：xwb <br/>
-     * 创建时间：2017年3月7日 下午5:23:56 <br/>
-     * 
-     * @param s1
-     * @param s2
+     * 时间字符串大小比较
+     *
+     * @param str1
+     * @param str2
      * @return
      */
     public static boolean compareDate(String str1, String str2) {
@@ -478,19 +424,15 @@ public class DateUtil {
 
     /**
      * 判断两者时间是否重合 重合返回true
-     * 
-     * @param startTime
-     *            占用的时间段 09:00
-     * @param endTime
-     *            占用的时间段 13:00
-     * @param needSTime
-     *            需要的时间段 09:00
-     * @param needETime
-     *            需要的时间段 13:00
+     *
+     * @param startTime 占用的时间段 09:00
+     * @param endTime   占用的时间段 13:00
+     * @param needSTime 需要的时间段 09:00
+     * @param needETime 需要的时间段 13:00
      * @return
      */
     public static boolean compare(String startTime, String endTime,
-            String needSTime, String needETime) {
+                                  String needSTime, String needETime) {
         if (needSTime.compareTo(endTime) == 0
                 || needETime.compareTo(startTime) == 0) {// 这个表示开始时间等于结束时间,或者结束时间等于开始时间
             return false;
@@ -511,15 +453,11 @@ public class DateUtil {
     }
 
     /**
-     * 
-     * 功能描述： 比较两个日期相差的天数 <br/>
-     * 作 者：xwb <br/>
-     * 创建时间：2016年12月8日 下午6:18:22 <br/>
-     * 
+     * 比较两个日期相差的天数
+     *
      * @param date1
      * @param date2
      * @return
-     * @throws ParseException
      */
     public static int daysBetween(String date1, String date2) {
         Calendar calendar = Calendar.getInstance();
@@ -548,11 +486,8 @@ public class DateUtil {
     }
 
     /**
-     * 
-     * 功能描述： 计算两个日期相差年数 <br/>
-     * 作 者：xwb <br/>
-     * 创建时间：2017年3月28日 上午10:46:40 <br/>
-     * 
+     * 计算两个日期相差年数
+     *
      * @param startDate
      * @param endDate
      * @return
@@ -566,11 +501,8 @@ public class DateUtil {
     }
 
     /**
-     * 
-     * 功能描述： 字符串类型日期集合排序 <br/>
-     * 作 者：xwb <br/>
-     * 创建时间：2016年12月8日 下午6:18:31 <br/>
-     * 
+     * 字符串类型日期集合排序
+     *
      * @param list
      * @return
      * @throws ParseException
@@ -601,11 +533,10 @@ public class DateUtil {
 
     /**
      * 遍历获取两个日期之间天数
-     * 
+     *
      * @param startDate
      * @param endDate
      * @return
-     * @throws Exception
      */
     public static List<Date> listDateSplit(Date startDate, Date endDate) {
         if (!startDate.before(endDate))
@@ -624,11 +555,10 @@ public class DateUtil {
 
     /**
      * listDateToStr转换成
-     * 
+     *
      * @param list
      * @param pattern
      * @return
-     * @throws ParseException
      */
     public static List<String> listDateToStr(List<Date> list, String pattern) {
         List<String> reList = new ArrayList<>();
@@ -637,5 +567,4 @@ public class DateUtil {
         }
         return reList;
     }
-
 }

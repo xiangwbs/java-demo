@@ -22,6 +22,30 @@ import java.util.Set;
 public class CollectionDemo {
     public static void main(String[] args) {
         /**
+         * 数组
+         */
+        int[] arr1=new int[4];
+        int[] arr2=new int[]{1,3,5,7};
+        int[] arr3={12,3,5,6,2,8,9,4};
+        for(int i=0;i<arr3.length-1;i++){//选择排序
+            for(int j=i+1;j<arr3.length;j++){
+                if(arr3[i]>arr3[j]){
+                    int temp=arr3[i];
+                    arr3[i]=arr3[j];
+                    arr3[j]=temp;
+                }
+            }
+        }
+        for(int i=0;i<arr3.length-1;i++){//冒泡排序
+            for(int j=0;j<arr3.length-1-i;j++){
+                if(arr3[j]>arr3[j+1]){
+                    int t=arr3[j];
+                    arr3[j]=arr3[j+1];
+                    arr3[j+1]=t;
+                }
+            }
+        }
+        /**
          * 数组转集合 该集合表示原来的数组 对集合的操作就是对数组的操作，那么添加元素会导致原数组扩容，
          * 那么就不能表示原来的数组了,会抛出UnsupportedOperationException异常
          */
@@ -176,6 +200,5 @@ public class CollectionDemo {
         str = stack.peek();// 引用队首元素，但是不做出队操作
         System.out.println(str);
         System.out.println(stack);
-
     }
 }
