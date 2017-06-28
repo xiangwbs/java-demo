@@ -12,7 +12,7 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 
 /**
- * 创建时间: 2016/12/8 17:11
+ * 创建时间: 2017/1/9 17:11
  * 作者: xiangwb
  * 说明: 日期处理类
  */
@@ -30,8 +30,9 @@ public class DateUtilForJava8 {
     public static final String HH_MM_SS = "HH:mm:ss";
     public static final String HH_MM = "HH:mm";
     /*
-     * ChronoUnit:各种时间单位 很好用 | TemporalAdjusters:时态对象 可以获取第一天,最后一天.....|
-     * 获取时间分量:Duration要求是localdatetime/localtime类型 | Period要求是localdate类型 | Instant类似于date
+     * ChronoUnit:各种时间单位 | TemporalAdjusters:时态对象 可以获取第一天,最后一天等
+     * 获取时间分量:Duration要求是localdatetime/localtime类型 | Period要求是localdate类型
+     * Instant类似于date
      */
 
     /**
@@ -44,7 +45,7 @@ public class DateUtilForJava8 {
         return DateTimeFormatter.ofPattern(pattern);
     }
 
-    // //////////////////////基本转换///////////////////////////////基本转换/////////////////////////////////////////
+    ////////////////////////基本转换///////////////////////////////基本转换/////////////////////////////////////////
 
     /**
      * data转string
@@ -60,7 +61,7 @@ public class DateUtilForJava8 {
     }
 
     /**
-     * 日期string转date
+     * string转date
      *
      * @param dateStr
      * @param pattern
@@ -109,22 +110,29 @@ public class DateUtilForJava8 {
      * @return
      */
     public static String dateStrToMs(String dateStr) {
-        // TODO: 2017/1/10
-        return null;
+        LocalDateTime localDateTime = LocalDateTime.parse(dateStr, getDateFormat(YYYY_MM_DD_HH_MM_SS));
+        long milli = localDateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        return String.valueOf(milli);
+    }
+
+    public static void main(String[] args) {
+        String s = "2012-11-11 11:11:11";
+        System.out.println(dateStrToMs(s));
     }
 
     /**
      * 将时间字符串转为时间戳
      *
-     * @param s
+     * @param dateStr
      * @return
      */
-    public static String dateStrToStamp(String s) {
-        // TODO: 2017/1/10
-        return null;
+    public static String dateStrToStamp(String dateStr) {
+        LocalDateTime localDateTime = LocalDateTime.parse(dateStr, getDateFormat(YYYY_MM_DD_HH_MM_SS));
+        long epochSecond = localDateTime.atZone(ZoneId.systemDefault()).toInstant().getEpochSecond();
+        return String.valueOf(epochSecond);
     }
 
-    // ///////////////////////////获取数据////////////获取数据/////////////////////////////////////////////////////////////
+    /////////////////////////////获取数据////////////获取数据/////////////////////////////////////////////////////////////
 
     /**
      * 获取周几
@@ -134,17 +142,11 @@ public class DateUtilForJava8 {
      */
     public static String getWeek(int day) {
         LocalDate localDate = LocalDate.now();
-        LocalDate date;
-        if (day >= 0) {
-            date = localDate.plusDays(day);
-        } else {
-            date = localDate.minusDays(Math.abs(day));
-        }
+        LocalDate date = day >= 0 ? localDate.plusDays(day) : localDate.minusDays(Math.abs(day));
         int week = date.getDayOfWeek().getValue();
         String[] data = {"一", "二", "三", "四", "五", "六", "日"};
         return "周" + data[week - 1];
     }
-
 
     /**
      * 获取n分钟前/后时间字符串
@@ -155,12 +157,7 @@ public class DateUtilForJava8 {
      */
     public static String nowTimeAddMinusMinutes(int minute) {
         LocalDateTime local = LocalDateTime.now();
-        LocalDateTime newDateTime;
-        if (minute >= 0) {
-            newDateTime = local.plusMinutes(minute);
-        } else {
-            newDateTime = local.minusMinutes(Math.abs(minute));
-        }
+        LocalDateTime newDateTime = minute >= 0 ? local.plusMinutes(minute) : local.minusMinutes(Math.abs(minute));
         return newDateTime.format(getDateFormat(HH_MM_SS));
     }
 
@@ -174,12 +171,7 @@ public class DateUtilForJava8 {
      */
     public static String timeAddMinusHours(String time, int h) {
         LocalTime localTime = LocalTime.parse(time);
-        LocalTime newTime;
-        if (h >= 0) {
-            newTime = localTime.plusHours(h);
-        } else {
-            newTime = localTime.minusHours(Math.abs(h));
-        }
+        LocalTime newTime = h >= 0 ? localTime.plusHours(h) : localTime.minusHours(Math.abs(h));
         return newTime.toString();
     }
 
@@ -193,12 +185,7 @@ public class DateUtilForJava8 {
      */
     public static String dateAddMinusDays(String date, int day) {
         LocalDate localDate = LocalDate.parse(date, getDateFormat(YYYY_MM_DD));
-        LocalDate newDate;
-        if (day >= 0) {
-            newDate = localDate.plusDays(day);
-        } else {
-            newDate = localDate.minusDays(Math.abs(day));
-        }
+        LocalDate newDate = day >= 0 ? localDate.plusDays(day) : localDate.minusDays(Math.abs(day));
         return newDate.toString();
     }
 
@@ -221,8 +208,7 @@ public class DateUtilForJava8 {
      */
     public static String firstDayOfLastMonth() {
         LocalDate localDate = LocalDate.now();
-        LocalDate date = localDate.minusMonths(1).with(
-                TemporalAdjusters.firstDayOfMonth());
+        LocalDate date = localDate.minusMonths(1).with(TemporalAdjusters.firstDayOfMonth());
         return date.format(getDateFormat(YYYY_MM_DD));
     }
 
@@ -233,8 +219,7 @@ public class DateUtilForJava8 {
      */
     public static String firstDayOfNextMonth() {
         LocalDate localDate = LocalDate.now();
-        LocalDate date = localDate.minusMonths(1).with(
-                TemporalAdjusters.firstDayOfMonth());
+        LocalDate date = localDate.minusMonths(1).with(TemporalAdjusters.firstDayOfMonth());
         return date.format(getDateFormat(YYYY_MM_DD));
     }
 
@@ -245,8 +230,7 @@ public class DateUtilForJava8 {
      * @return
      */
     public static String getMonthFirstDay(int month) {
-        LocalDate localDate = LocalDate.now().withMonth(month)
-                .with(TemporalAdjusters.firstDayOfMonth());
+        LocalDate localDate = LocalDate.now().withMonth(month).with(TemporalAdjusters.firstDayOfMonth());
         return localDate.format(getDateFormat(YYYY_MM_DD));
     }
 
@@ -269,8 +253,7 @@ public class DateUtilForJava8 {
      */
     public static String getYearFirstDay(int year) {
         LocalDate localDate = LocalDate.now();
-        LocalDate date = localDate.withYear(year).with(
-                TemporalAdjusters.firstDayOfYear());
+        LocalDate date = localDate.withYear(year).with(TemporalAdjusters.firstDayOfYear());
         return date.format(getDateFormat(YYYY_MM_DD));
     }
 
@@ -330,10 +313,7 @@ public class DateUtilForJava8 {
     public static boolean compareDate(String str1, String str2) {
         long longstr1 = Long.valueOf(str1.replaceAll("[-\\s:]", ""));
         long longstr2 = Long.valueOf(str2.replaceAll("[-\\s:]", ""));
-        if (longstr1 >= longstr2) {
-            return true;
-        }
-        return false;
+        return longstr1 >= longstr2;
     }
 
     /**
@@ -447,10 +427,6 @@ public class DateUtilForJava8 {
         map.put("months", period.getMonths());
         map.put("days", period.getDays());
         return map;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(getDatePool("2017-06-27", "2018-06-29"));
     }
 
     /**
