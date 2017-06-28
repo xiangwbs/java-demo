@@ -151,15 +151,16 @@ public class DateUtilForJava8 {
 
     /**
      * 获取n分钟前/后时间字符串
-     * 返回格式：HH_MM_SS
+     * 返回格式：HH_MM_SS/HH_MM
      *
+     * @param time   格式:hh:mm/hh:mm:ss
      * @param minute 分钟
      * @return
      */
-    public static String nowTimeAddMinusMinutes(int minute) {
-        LocalDateTime local = LocalDateTime.now();
-        LocalDateTime newDateTime = minute >= 0 ? local.plusMinutes(minute) : local.minusMinutes(Math.abs(minute));
-        return newDateTime.format(getDateFormat(HH_MM_SS));
+    public static String timeAddMinusMinutes(String time, int minute) {
+        LocalTime localTime = LocalTime.parse(time);
+        LocalTime nowLocalTime = minute >= 0 ? localTime.plusMinutes(minute) : localTime.minusMinutes(Math.abs(minute));
+        return nowLocalTime.toString();
     }
 
     /**
