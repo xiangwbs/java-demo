@@ -30,7 +30,7 @@ public class DateUtilForJava8 {
     public static final String HH_MM = "HH:mm";
     /*
      * ChronoUnit:各种时间单位 | TemporalAdjusters:时态对象 可以获取第一天,最后一天等
-     * 获取时间分量:Duration要求是localdatetime/localtime类型 | Period要求是localdate类型
+     * 获取时间分量:Duration要求是localDateTime/localTime类型 | Period要求是localDate类型
      * Instant类似于date,可以互转
      */
 
@@ -53,7 +53,7 @@ public class DateUtilForJava8 {
      * @param pattern
      * @return
      */
-    public static String date2Str(Date date, String pattern) {
+    public static String dateToStr(Date date, String pattern) {
         Instant instant = date.toInstant();
         LocalDateTime dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
         return dateTime.format(getDateFormat(pattern));
@@ -66,7 +66,7 @@ public class DateUtilForJava8 {
      * @param pattern
      * @return
      */
-    public static Date str2Date(String dateStr, String pattern) {
+    public static Date strToDate(String dateStr, String pattern) {
         LocalDateTime localDateTime;
         Instant instant;
         if (dateStr.length() < 10) {
@@ -151,7 +151,7 @@ public class DateUtilForJava8 {
 
     /**
      * 获取n分钟前/后时间字符串
-     * 返回值為HH_MM_SS
+     * 返回格式：HH_MM_SS
      *
      * @param minute 分钟
      * @return
