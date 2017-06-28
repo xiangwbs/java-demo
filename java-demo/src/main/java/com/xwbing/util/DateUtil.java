@@ -85,6 +85,10 @@ public class DateUtil {
         return parse(pattern, dateStr);
     }
 
+    public static void main(String[] args) {
+        Date date=str2Date("2016-10",YYYY_MM);
+    }
+
     /**
      * 将毫秒转换为时间字符串
      *
@@ -134,9 +138,6 @@ public class DateUtil {
 
     }
 
-    public static void main(String[] args) {
-        System.out.println(dateStrToMs("2015-11-12 10:00:00", YYYY_MM_DD_HH_MM_SS));
-    }
     // ///////////////////////////获取数据////////////获取数据/////////////////////////////////////////////////////////////
 
     /**

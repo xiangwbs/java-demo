@@ -4,7 +4,6 @@ import com.xwbing.Exception.BusinessException;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -32,7 +31,7 @@ public class DateUtilForJava8 {
     /*
      * ChronoUnit:各种时间单位 | TemporalAdjusters:时态对象 可以获取第一天,最后一天等
      * 获取时间分量:Duration要求是localdatetime/localtime类型 | Period要求是localdate类型
-     * Instant类似于date
+     * Instant类似于date,可以互转
      */
 
     /**
@@ -67,14 +66,21 @@ public class DateUtilForJava8 {
      * @param pattern
      * @return
      */
-    public static Date str2Date(String dateStr, String pattern) {//待优化
-        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
-        try {
-            return sdf.parse(dateStr);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            throw new BusinessException("时间格式转换错误:" + dateStr);
+    public static Date str2Date(String dateStr, String pattern) {
+        LocalDateTime localDateTime;
+        Instant instant;
+        if (dateStr.length() < 10) {
+            throw new BusinessException("时间格式错误:" + dateStr);
         }
+        if (dateStr.length() == 10) {
+            dateStr += " 00:00:00";
+            localDateTime = LocalDateTime.parse(dateStr, getDateFormat(YYYY_MM_DD_HH_MM_SS));
+            instant = localDateTime.atZone(ZoneId.systemDefault()).toInstant();
+        } else {
+            localDateTime = LocalDateTime.parse(dateStr, getDateFormat(pattern));
+            instant = localDateTime.atZone(ZoneId.systemDefault()).toInstant();
+        }
+        return Date.from(instant);
     }
 
     /**
@@ -111,13 +117,8 @@ public class DateUtilForJava8 {
      */
     public static String dateStrToMs(String dateStr) {
         LocalDateTime localDateTime = LocalDateTime.parse(dateStr, getDateFormat(YYYY_MM_DD_HH_MM_SS));
-        long milli = localDateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-        return String.valueOf(milli);
-    }
-
-    public static void main(String[] args) {
-        String s = "2012-11-11 11:11:11";
-        System.out.println(dateStrToMs(s));
+        long epochMilli = localDateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        return String.valueOf(epochMilli);
     }
 
     /**
