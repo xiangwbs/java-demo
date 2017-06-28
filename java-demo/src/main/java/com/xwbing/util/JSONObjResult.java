@@ -29,23 +29,20 @@ public class JSONObjResult {
      */
     private Object data;
 
-    public static JSONObject toJSONObj(Object o, boolean isSuccess,
-            String errorMessage) {
+    public static JSONObject toJSONObj(Object o, boolean isSuccess, String errorMessage) {
         JSONObjResult jsonObjResult = new JSONObjResult();
         jsonObjResult.setSuccess(isSuccess);
         jsonObjResult.setErrorMessage(errorMessage);
         jsonObjResult.setData(JSONUtil.beanToMap(o));
-        return JSON.parseObject(JSON.toJSONString(jsonObjResult,
-                SerializerFeature.WriteMapNullValue));
+        return JSON.parseObject(JSON.toJSONString(jsonObjResult, SerializerFeature.WriteMapNullValue));
     }
 
     public static JSONObject toJSONObj(restMessage rest) {
         JSONObjResult jsonObjResult = new JSONObjResult();
         jsonObjResult.setSuccess(rest.isSuccess());
         jsonObjResult.setErrorMessage(rest.getMsg());
-        jsonObjResult.setData(rest.getData());
-        return JSON.parseObject(JSON.toJSONString(jsonObjResult,
-                SerializerFeature.WriteMapNullValue));
+        jsonObjResult.setData(JSONUtil.beanToMap(rest.getData()));
+        return JSON.parseObject(JSON.toJSONString(jsonObjResult, SerializerFeature.WriteMapNullValue));
     }
 
     /**
@@ -58,8 +55,7 @@ public class JSONObjResult {
         JSONObjResult jsonObjResult = new JSONObjResult();
         jsonObjResult.setSuccess(false);
         jsonObjResult.setErrorMessage(error);
-        return JSON.parseObject(JSONObject.toJSONString(jsonObjResult,
-                SerializerFeature.WriteMapNullValue));
+        return JSON.parseObject(JSONObject.toJSONString(jsonObjResult, SerializerFeature.WriteMapNullValue));
     }
 
 
