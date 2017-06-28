@@ -15,7 +15,7 @@ import java.util.*;
  * 作者: xiangwb
  * 说明: 日期处理类
  */
-public class DateUtilForJava8 {
+public class DateUtil2 {
     public static DecimalFormat df = new DecimalFormat("######0.00");
     public static final long SECOND = 1000;
     public static final long MINUTE = SECOND * 60;
