@@ -4,6 +4,10 @@ import java.text.DecimalFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 浙江卓锐科技股份有限公司 版权所有 ? Copyright 2016<br/>
@@ -36,5 +40,19 @@ public class ATest {
     public static void main(String[] args) {
         String[] array = { "a", "b", "c", "d" ,"c"};
         System.out.println(array.toString());
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("1",1);
+        map.put("2",2);
+        List<Map<String,Object>> maps = new ArrayList<>();
+        maps.add(map);
+        maps.forEach(m->{
+            m.put("3",3);
+        });
+        System.out.println();
+        String s="11";
+        String[] split = s.split(",");
+        System.out.println();
+
     }
 }

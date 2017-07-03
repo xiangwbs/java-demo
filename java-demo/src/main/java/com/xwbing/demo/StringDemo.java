@@ -24,6 +24,7 @@ public class StringDemo {
         str.trim();// 去除当前字符两边的空格
         str.toUpperCase();// 转换为全大写
         str.toLowerCase();// 转换为全小写
+        boolean contains = str.contains("ss");//判断是否包含某字符
         int index = str.indexOf("in");// 查找in在str字符串中的位置，若没有返回-1
         index = str.indexOf("in", 3);// 从指定位置处开始查找
         index = str.lastIndexOf("in");// 最后一次出现位置
@@ -80,11 +81,11 @@ public class StringDemo {
          */
         int n = "2018-08-08 08:08:08".compareTo("2018-08-08 08:08:09");
         System.out.println(n >= 0);
-        
+
         /**
          * 格式化字符串
          */
-        System.out.println(String.format("xwbing %s","项伟兵"));
+        System.out.println(String.format("xwbing %s", "项伟兵"));
         System.out.println(MessageFormat.format("xwbing {0}", "项伟兵"));
 
     }
