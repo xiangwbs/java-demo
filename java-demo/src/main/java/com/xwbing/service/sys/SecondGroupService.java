@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,7 +22,7 @@ import java.util.Map;
  * 作者: xiangwb
  */
 @Service
-public class SecondGroupService {
+public class SecondGroupService extends BaseService {
     @Autowired
     private CloudQueryRunner run;
     @Autowired
@@ -70,5 +71,20 @@ public class SecondGroupService {
         }
         pagination = queryBuilder.findListByExample(SysUser.table, term, pagination.getCurrent_page(), pagination.getPage_size());
         return pagination;
+    }
+
+    public boolean checkName(String id, String name) {
+        RequestExample example = new RequestExample(Integer.MAX_VALUE, 1);
+        RequestExample.Criteria cri = example.create();
+        if (StringUtils.isNotEmpty(id)) {
+            RequestExample.Param param = example.createParam();
+            param.addTerm("id", id);
+            cri.getMustNot().add(param);
+        }
+        RequestExample.Param param = example.createParam();
+        param.addTerm("name", name);
+        cri.getMust().add(param);
+        List<SysUser> list = super.queryList(SysUser.table, example, SysUser.class);
+        return list == null || list.isEmpty();
     }
 }
