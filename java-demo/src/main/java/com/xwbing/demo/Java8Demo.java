@@ -1,8 +1,13 @@
 package com.xwbing.demo;
 
+import com.xwbing.entity.SysUser;
+import com.xwbing.service.sys.SysUserService;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -38,5 +43,8 @@ public class Java8Demo {
         System.out.println("id in:" + s.substring(0, s.lastIndexOf(",")));//list(a,b,c)-->'a','b','c',-->'a','b','c'
         //all
         System.out.println("all:" + lists.stream().filter(num -> num != null).distinct().mapToInt(num -> num * 2).skip(2).limit(4).sum());
+        //遍历list存入map里
+        SysUserService userService = new SysUserService();
+        Map<String, SysUser> collect = userService.findList().stream().collect(Collectors.toMap(SysUser::getId, Function.identity()));
     }
 }
