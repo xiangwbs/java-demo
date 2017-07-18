@@ -445,30 +445,27 @@ public class DateUtil2 {
     /**
      * 判断两者时间是否重合 重合返回true
      *
-     * @param startTime 比较的时间段 09:00
-     * @param endTime   比较的时间段 13:00
-     * @param needSTime 需要的时间段 09:00
-     * @param needETime 需要的时间段 13:00
+     * @param compareSTime 比较的时间段 09:00
+     * @param compareETime 比较的时间段 13:00
+     * @param needSTime    需要的时间段 09:00
+     * @param needETime    需要的时间段 13:00
      * @return
      */
-    public static boolean compare(String startTime, String endTime,
+    public static boolean compare(String compareSTime, String compareETime,
                                   String needSTime, String needETime) {
-        if (needSTime.compareTo(endTime) == 0
-                || needETime.compareTo(startTime) == 0) {// 这个表示开始时间等于结束时间,或者结束时间等于开始时间
+        if (needSTime.compareTo(compareETime) == 0
+                || needETime.compareTo(compareSTime) == 0)// 表示开始时间等于结束时间,或者结束时间等于开始时间
             return false;
-        }
-        if (needSTime.compareTo(startTime) >= 0
-                && needSTime.compareTo(endTime) < 0) {// 需要时间开始时间在比较时间之间，表示已经重复了
+        if (needSTime.compareTo(compareSTime) >= 0
+                && needSTime.compareTo(compareETime) < 0)// 需要时间开始时间在比较时间之间，表示已经重复了
+            return true;
+        if (needETime.compareTo(compareSTime) > 0
+                && needETime.compareTo(compareETime) <= 0) {// 需要时间结束时间在比较时间之间，表示已经重复了
             return true;
         }
-        if (needETime.compareTo(startTime) > 0
-                && needETime.compareTo(endTime) <= 0) {// 需要时间结束时间在比较时间之间，表示已经重复了
+        if (needSTime.compareTo(compareSTime) < 0
+                && needETime.compareTo(compareETime) > 0)// 需要时间在比较时间前后，表示已经重复了
             return true;
-        }
-        if (needSTime.compareTo(startTime) < 0
-                && needETime.compareTo(endTime) > 0) {// 需要时间在比较时间前后，表示已经重复了
-            return true;
-        }
         return false;
     }
 }
