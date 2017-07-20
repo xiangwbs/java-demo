@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -30,7 +31,11 @@ public class Java8Demo {
 //        lists.forEach(System.out::println);//遍历
         System.out.println("sort:" + lists.stream().sorted((o1, o2) -> o2 - o1).collect(Collectors.toList()));//排序
         System.out.println("conver:" + lists.stream().map(o1 -> o1 * 2).collect(Collectors.toList()));//转换
-        System.out.println("filter:" + lists.stream().filter(o1 -> o1 > 4).collect(Collectors.toList()));//过滤
+        //过滤
+        Predicate<Integer> boolValue = x -> x > 4;
+        System.out.println("filter:" + lists.stream().filter(o1 -> o1 > 4).collect(Collectors.toList()));
+        System.out.println("filter:" + lists.stream().filter(boolValue).collect(Collectors.toList()));
+
         System.out.println("distinct:" + lists.stream().distinct().collect(Collectors.toList()));//去重
         System.out.println("limit:" + lists.stream().limit(4).collect(Collectors.toList()));//截取
         System.out.println("skip:" + lists.stream().skip(4).collect(Collectors.toList()));//丢弃
