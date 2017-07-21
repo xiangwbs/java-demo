@@ -11,17 +11,19 @@ import java.io.Serializable;
  */
 @Data
 public class SysUserRole implements Serializable {
-	private static final long serialVersionUID = -6992258272354335712L;
-	public static String table="sys_user_role";
-	private String id;
+    private static final long serialVersionUID = -6992258272354335712L;
+    public static String table = "sys_user_role";
+    private String id;
     /**
      * 用户主键
      */
-	private String userId;
+    private String userId;
     /**
      * 角色主键
      */
-	private String roleId;
-	private String modifier;
-	private String creator;
+    private String roleId;
+    private String modifier;
+    private String creator;
 }
+
+
