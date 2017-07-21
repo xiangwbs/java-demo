@@ -1,14 +1,6 @@
 package com.xwbing.demo;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
+import java.io.*;
 
 /**
  * 说明: <br/>
@@ -41,9 +33,14 @@ public class IODemo {
         int len=fis.read(data);
         String str=new String(data,0,len,"gbk");
         fis.close();
-        
+        InputStream is = new ByteArrayInputStream(str.getBytes("gbk"));
+        byte[] da = new byte[is.available()];
+        is.read(da);
+        String s=new String(da,0,len,"gbk");
+        is.close();
         /**
          * 缓冲流
+         *
          */
         BufferedOutputStream bos=new BufferedOutputStream(fos);
         bos.write("你好".getBytes());

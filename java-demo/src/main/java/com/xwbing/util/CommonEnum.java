@@ -181,7 +181,6 @@ public class CommonEnum {
             return this.errorCode;
         }
     }
-
     public static void main(String[] args) {
         String code = "Y";
 //        for (YesOrNo yesOrNo : YesOrNo.values()) {
