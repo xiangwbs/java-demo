@@ -30,7 +30,7 @@ public class LambdaDemo {
         /**
          * stream api 高级版本的迭代器
          */
-        List<Integer> lists = Arrays.asList(1, 2, 4, 2, 3, 5, 5, 6, 7, 8, 9, 10);
+        List<Integer> lists = Arrays.asList(1, 2, 4, 2, 3, 5, 5, 6, 8, 9, 7, 10);
 //        //遍历
 //        Arrays.stream(arrays).forEach(System.out::println);
 //        list.forEach(System.out::println);
