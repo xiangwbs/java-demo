@@ -16,8 +16,8 @@ public class CalendarDemo {
 		Date date = calendar.getTime();
 		calendar.setTime(date);
 		        
-		 
-		
+
+
 		/*
 		 * 设置calendar，使其表示 2008-08-08 08：08：08
 		 */

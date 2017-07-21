@@ -39,7 +39,7 @@ public class Server {
 			 * 该端口不能与其他应用程序冲突，否则会抛出异常
 			 */
 			server=new ServerSocket(7851);
-			allOut=new ArrayList<PrintWriter>();
+			allOut=new ArrayList<>();
 		} catch (Exception e) {
 			throw e;
 		}
@@ -135,8 +135,6 @@ public class Server {
 				pw=new PrintWriter(osw,true);
 				//将该客户端的输出流存入共享集合
 				addOut(pw);
-				
-				
 				/*
 				 * inputstream getinputstream() 
 				 * socket提供的该方法用来获取一个输入流
@@ -159,7 +157,6 @@ public class Server {
 					sendMessage(host+"说:"+message);
 				}
 			} catch (Exception e) {
-				
 			}
 			finally{
 				/*

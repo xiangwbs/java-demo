@@ -80,11 +80,9 @@ public class Client {
 	class ServerHandler implements Runnable {
 		public void run() {
 			try {
-
 				BufferedReader br = new BufferedReader(new InputStreamReader(
 						socket.getInputStream(), "utf-8"));
 				String message = null;
-				;
 				while ((message = br.readLine()) != null) {
 					System.out.println(message);
 				}
