@@ -1,6 +1,7 @@
 package com.xwbing.demo;
 
 import com.xwbing.entity.SysUser;
+import com.xwbing.entity.SysUserRole;
 import com.xwbing.service.sys.SysUserRoleService;
 import com.xwbing.service.sys.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,27 +27,29 @@ public class Java8Demo {
         t.start();
         List<String> list = Arrays.asList("a", "b", "c");
         Collections.sort(list, (str1, str2) -> str1.compareTo(str2));
-        List<Integer> lists = Arrays.asList(1, 2, 4, 2, 3, 5, 5, 6, 7, 8, 9, 10);
-        //stream api 高级版本的迭代器
-//        Arrays.stream(arrays).forEach(System.out::println);//遍历
-//        lists.forEach(System.out::println);//遍历
-        System.out.println("sort:" + lists.stream().sorted((o1, o2) -> o2 - o1).collect(Collectors.toList()));//排序
-        System.out.println("conver:" + lists.stream().map(o1 -> o1 * 2).collect(Collectors.toList()));//转换
-        //过滤
-        Predicate<Integer> filters = integer -> integer > 4;//重用filters
-        System.out.println("filter:" + lists.stream().filter(o1 -> o1 > 4).collect(Collectors.toList()));
-        System.out.println("filter:" + lists.stream().filter(filters).collect(Collectors.toList()));
 
-        System.out.println("distinct:" + lists.stream().distinct().collect(Collectors.toList()));//去重
+        //stream api 高级版本的迭代器
+        List<Integer> lists = Arrays.asList(1, 2, 4, 2, 3, 5, 5, 6, 7, 8, 9, 10);
+//        Arrays.stream(arrays).forEach(System.out::println);//遍历
+//        list.forEach(System.out::println);//遍历
+        System.out.println("sort:" + lists.stream().sorted((o1, o2) -> o2 - o1).collect(Collectors.toList()));//排序
+        System.out.println("map:" + lists.stream().map(o1 -> o1 * 2).collect(Collectors.toList()));//转换
+        //过滤
+        System.out.println("filter:" + lists.stream().filter(o1 -> o1 > 3 && o1 < 8).collect(Collectors.toList()));
+        Predicate<Integer> gt = integer -> integer > 3;//重用filters
+        Predicate<Integer> lt = integer -> integer < 8;
+        System.out.println("重用filter:" + lists.stream().filter(gt.and(lt)).collect(Collectors.toList()));
+
+        System.out.println("distinct:" + lists.stream().distinct().collect(Collectors.toList()));//去重(去重逻辑依赖元素的equals方法)
         System.out.println("limit:" + lists.stream().limit(4).collect(Collectors.toList()));//截取
         System.out.println("skip:" + lists.stream().skip(4).collect(Collectors.toList()));//丢弃
-        //reduce
+        //聚合
         System.out.println("reduce:" + lists.stream().reduce((o1, o2) -> o1 + o2).get());//聚合
         System.out.println("reduce:" + lists.stream().reduce(0, (o1, o2) -> o1 + o2));//聚合(给定默认值)
         System.out.println("ids:" + list.stream().reduce((sum, item) -> sum + "," + item).get());//list(a,b,c)-->,a,b,c-->a,b,c
-        System.out.println("ids:" + list.stream().reduce("", (sum, item) -> sum + "," + item).substring(1));//list(a,b,c)-->,a,b,c-->a,b,c
-        String s = list.stream().reduce("", (sum, item) -> sum + "'" + item + "',");
-        System.out.println("id in:" + s.substring(0, s.lastIndexOf(",")));//list(a,b,c)-->'a','b','c',-->'a','b','c'
+        System.out.println("ids:" + list.stream().reduce("", (sum, item) -> sum + "," + item).substring(1));
+        String s = list.stream().reduce("", (sum, item) -> sum + "'" + item + "',");//list(a,b,c)-->'a','b','c',-->'a','b','c'
+        System.out.println("id in:" + s.substring(0, s.lastIndexOf(",")));
         //join
         System.out.println("join:" + list.stream().collect(Collectors.joining(",")));//list(a,b,c)-->a,b,c
         System.out.println("join:" + String.join(",", list));
@@ -58,16 +61,26 @@ public class Java8Demo {
         //all
         System.out.println("all:" + lists.stream().filter(num -> num != null).distinct().mapToInt(num -> num * 2).skip(2).limit(4).sum());
         //遍历list存入map里
-        SysUserService userService = new SysUserService();
-        Map<String, SysUser> collect = userService.findList().stream().collect(Collectors.toMap(SysUser::getId, Function.identity()));
+        Map<String, SysUser> collect = new SysUserService().findList().stream().collect(Collectors.toMap(SysUser::getId, Function.identity()));
     }
 
-    private Predicate<SysUser> isHasRole() {
-        return null;
-    }
-
-    List<SysUser> filter(List<SysUser> sysUsers) {
-        List<SysUser> collect = sysUsers.stream().filter(isHasRole()).collect(Collectors.toList());
-        return collect;
+    /**
+     * filter
+     *
+     * @return
+     */
+    public List<SysUser> getRoleUsers(int f) {
+        if (f == 0) {
+            Predicate<SysUser> roles = sysUser -> {
+                List<SysUserRole> sysUserRoles = sysUserRoleService.queryByUserId(sysUser.getId());
+                return sysUserRoles.size() > 0;
+            };
+            return new ArrayList<SysUser>().stream().filter(roles).collect(Collectors.toList());
+        } else {
+            return new ArrayList<SysUser>().stream().filter(sysUser -> {
+                List<SysUserRole> sysUserRoles = sysUserRoleService.queryByUserId(sysUser.getId());
+                return sysUserRoles.size() > 0;
+            }).collect(Collectors.toList());
+        }
     }
 }
