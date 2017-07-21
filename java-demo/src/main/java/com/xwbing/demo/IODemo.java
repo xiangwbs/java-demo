@@ -33,10 +33,10 @@ public class IODemo {
         int len=fis.read(data);
         String str=new String(data,0,len,"gbk");
         fis.close();
+
         InputStream is = new ByteArrayInputStream(str.getBytes("gbk"));
         byte[] da = new byte[is.available()];
         is.read(da);
-        String s=new String(da,0,len,"gbk");
         is.close();
         /**
          * 缓冲流
