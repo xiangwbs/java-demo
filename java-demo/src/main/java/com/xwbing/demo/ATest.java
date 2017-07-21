@@ -1,9 +1,15 @@
 package com.xwbing.demo;
 
+import com.xwbing.entity.SysUser;
+
 import java.text.DecimalFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 浙江卓锐科技股份有限公司 版权所有 ? Copyright 2016<br/>
@@ -38,5 +44,20 @@ public class ATest {
     }
 
     public static void main(String[] args) {
+        List<SysUser> list=new ArrayList<>();
+        SysUser s1=new SysUser();
+        s1.setSex(0);
+        SysUser s2=new SysUser();
+        s2.setSex(0);
+        SysUser s3=new SysUser();
+        s3.setSex(1);
+        SysUser s4=new SysUser();
+        s4.setSex(0);
+        list.add(s1);
+        list.add(s2);
+        list.add(s3);
+        list.add(s4);
+        Map<Integer, List<SysUser>> collect = list.stream().collect(Collectors.groupingBy(SysUser::getSex));
+        System.out.println("");
     }
 }
