@@ -41,7 +41,7 @@ public class LambdaDemo {
         System.out.println("skip:" + lists.stream().skip(4).collect(Collectors.toList()));//丢弃
         //过滤
         System.out.println("filter:" + lists.stream().filter(o1 -> o1 > 3 && o1 < 8).collect(Collectors.toList()));
-        Predicate<Integer> gt = integer -> integer > 3;//重用filters
+        Predicate<Integer> gt = integer -> integer > 3;//函数式接口Predicate
         Predicate<Integer> lt = integer -> integer < 8;
         System.out.println("重用filter:" + lists.stream().filter(gt.and(lt)).collect(Collectors.toList()));
         //聚合
@@ -59,6 +59,8 @@ public class LambdaDemo {
         System.out.println("List中最大的数字 : " + statistics.getMax());
         System.out.println("List中最小的数字 : " + statistics.getMin());
         System.out.println("所有数字的总和   : " + statistics.getSum());
+        System.out.println("所有数字的平均值 : " + statistics.getAverage());
+        System.out.println("List成员个数     : " + statistics.getCount());
         //all example
         System.out.println("all:" + lists.stream().filter(num -> num != null).distinct().mapToInt(num -> num * 2).skip(2).limit(4).sum());
         //遍历list存入map里
