@@ -1,6 +1,7 @@
 package com.xwbing.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -16,6 +17,7 @@ import java.util.List;
  * 创建日期: 2016年12月9日 下午4:10:47 <br/>
  * 作者: xwb
  */
+@Data
 public class SysUser implements Serializable {
     private static final long serialVersionUID = -3343404252507060640L;
     public static String table = "sys_user_info";
@@ -31,7 +33,6 @@ public class SysUser implements Serializable {
      * hash
      */
     public static int HASH_INTERATIONS = 1024;
-
     private String id;
     /**
      * 用户名
@@ -89,124 +90,4 @@ public class SysUser implements Serializable {
      */
     @JSONField(serialize = false)
     private String condition;
-
-    public List<SysAuthority> getMenuArray() {
-        return menuArray;
-    }
-
-    public void setMenuArray(List<SysAuthority> menuArray) {
-        this.menuArray = menuArray;
-    }
-
-    public List<SysAuthority> getOtherArray() {
-        return otherArray;
-    }
-
-    public void setOtherArray(List<SysAuthority> otherArray) {
-        this.otherArray = otherArray;
-    }
-
-    public String getCreator() {
-        return creator;
-    }
-
-    public void setCreator(String creator) {
-        this.creator = creator;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getLastLoginIp() {
-        return lastLoginIp;
-    }
-
-    public void setLastLoginIp(String lastLoginIp) {
-        this.lastLoginIp = lastLoginIp;
-    }
-
-    public String getMail() {
-        return mail;
-    }
-
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
-
-    public int getSex() {
-        return sex;
-    }
-
-    public void setSex(int sex) {
-        this.sex = sex;
-    }
-
-    public String getIsAdmin() {
-        return isAdmin;
-    }
-
-    public void setIsAdmin(String isAdmin) {
-        this.isAdmin = isAdmin;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Date getLastLoginTime() {
-        return lastLoginTime;
-    }
-
-    public void setLastLoginTime(Date lastLoginTime) {
-        this.lastLoginTime = lastLoginTime;
-    }
-
-    public String getModifier() {
-        return modifier;
-    }
-
-    public void setModifier(String modifier) {
-        this.modifier = modifier;
-    }
-
-    public String getCondition() {
-        return condition;
-    }
-
-    public void setCondition(String condition) {
-        this.condition = condition;
-    }
 }
