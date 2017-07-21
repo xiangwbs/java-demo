@@ -35,7 +35,7 @@ public class StringDemo {
         sub = str.substring(1);// 指定位置到末尾
         System.out.println(sub);
 
-        /*
+        /**
          * 正则表达式：匹配
          */
         String regex = "[a-zA-Z0-9_]+@[a-zA-Z0-9_]+(\\.[a-z]+)+";
