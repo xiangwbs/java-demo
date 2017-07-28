@@ -67,6 +67,12 @@ public class LambdaDemo {
         Map<String, SysUser> collect = new SysUserService().findList().stream().collect(Collectors.toMap(SysUser::getId, Function.identity()));
         //分组
         Map<Integer, List<SysUser>> groupMap = new SysUserService().findList().stream().collect(Collectors.groupingBy(SysUser::getSex));//(分组条件为key，分组成员为value)
+        //非空判断
+        Optional<String> optional = list.stream().reduce((sum, item) -> sum + "," + item);
+        String reduce;
+        if (optional.isPresent()) {
+            reduce = optional.get();
+        }
     }
 
     /**
@@ -75,13 +81,13 @@ public class LambdaDemo {
      * @return
      */
     public List<SysUser> getRoleUsers(int flag) {
-        if (flag == 0) {
+        if (flag == 0) {//例一
             Predicate<SysUser> roles = sysUser -> {
                 List<SysUserRole> sysUserRoles = sysUserRoleService.queryByUserId(sysUser.getId());
                 return sysUserRoles.size() > 0;
             };
             return new ArrayList<SysUser>().stream().filter(roles).collect(Collectors.toList());
-        } else {
+        } else {//例二
             return new ArrayList<SysUser>().stream().filter(sysUser -> {
                 List<SysUserRole> sysUserRoles = sysUserRoleService.queryByUserId(sysUser.getId());
                 return sysUserRoles.size() > 0;
