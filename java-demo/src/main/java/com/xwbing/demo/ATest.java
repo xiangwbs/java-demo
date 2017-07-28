@@ -1,63 +1,12 @@
 package com.xwbing.demo;
 
-import com.xwbing.entity.SysUser;
-
-import java.text.DecimalFormat;
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 /**
- * 浙江卓锐科技股份有限公司 版权所有 ? Copyright 2016<br/>
- * 说明: <br/>
- * 项目名称: zxwbing <br/>
- * 创建日期: 2017年3月29日 上午9:19:20 <br/>
+ * 说明: 测试
+ * 创建日期: 2017年3月29日 上午9:19:20
  * 作者: xwb
  */
 
 public class ATest {
-    private static DecimalFormat df = new DecimalFormat("######0.00");
-
-    public static DateTimeFormatter getDateFormat(String pattern) {
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(pattern);
-        return dateFormat;
-    }
-
-    public static LocalDateTime nowTimeAfterMinute(long minute) {
-        LocalDateTime local = LocalDateTime.now();
-        LocalDateTime newDateTime = local.plusMinutes(minute);
-        return newDateTime;
-    }
-
-    public static String calculationTime(String startTime, String endTime) {
-        LocalDateTime sTime = LocalDateTime.parse(startTime, getDateFormat("YYYY-MM-dd HH:mm:ss"));
-        LocalDateTime eTime = LocalDateTime.parse(endTime, getDateFormat("YYYY-MM-dd HH:mm:ss"));
-        Duration duration = Duration.between(sTime, eTime);
-        long h = duration.toHours();
-        long m = duration.toMinutes();
-        String between = df.format(h + m / 60.0);
-        return between;
-    }
-
     public static void main(String[] args) {
-        List<SysUser> list=new ArrayList<>();
-        SysUser s1=new SysUser();
-        s1.setSex(0);
-        SysUser s2=new SysUser();
-        s2.setSex(0);
-        SysUser s3=new SysUser();
-        s3.setSex(1);
-        SysUser s4=new SysUser();
-        s4.setSex(0);
-        list.add(s1);
-        list.add(s2);
-        list.add(s3);
-        list.add(s4);
-        Map<Integer, List<SysUser>> collect = list.stream().collect(Collectors.groupingBy(SysUser::getSex));
-        System.out.println("");
     }
 }
