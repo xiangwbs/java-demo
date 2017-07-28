@@ -1,16 +1,9 @@
 package com.xwbing.demo;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Deque;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-import java.util.Set;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+
+import java.util.*;
 
 /**
  * 说明: <br/>
@@ -24,33 +17,43 @@ public class CollectionDemo {
         /**
          * 数组
          */
-        int[] arr1=new int[4];
-        int[] arr2=new int[]{1,3,5,7};
-        int[] arr3={12,3,5,6,2,8,9,4};
-        for(int i=0;i<arr3.length-1;i++){//选择排序
-            for(int j=i+1;j<arr3.length;j++){
-                if(arr3[i]>arr3[j]){
-                    int temp=arr3[i];
-                    arr3[i]=arr3[j];
-                    arr3[j]=temp;
+        int[] arr1 = new int[4];
+        int[] arr2 = new int[]{1, 3, 5, 7};
+        int[] arr3 = {12, 3, 5, 6, 2, 8, 9, 4};
+        for (int i = 0; i < arr3.length - 1; i++) {//选择排序
+            for (int j = i + 1; j < arr3.length; j++) {
+                if (arr3[i] > arr3[j]) {
+                    int temp = arr3[i];
+                    arr3[i] = arr3[j];
+                    arr3[j] = temp;
                 }
             }
         }
-        for(int i=0;i<arr3.length-1;i++){//冒泡排序
-            for(int j=0;j<arr3.length-1-i;j++){
-                if(arr3[j]>arr3[j+1]){
-                    int t=arr3[j];
-                    arr3[j]=arr3[j+1];
-                    arr3[j+1]=t;
+        for (int i = 0; i < arr3.length - 1; i++) {//冒泡排序
+            for (int j = 0; j < arr3.length - 1 - i; j++) {
+                if (arr3[j] > arr3[j + 1]) {
+                    int t = arr3[j];
+                    arr3[j] = arr3[j + 1];
+                    arr3[j + 1] = t;
                 }
             }
         }
         /**
+         * 数组字符串操作
+         */
+        String[] arrays = {"1", "2", "3", "4"};
+        List<String> strings = Arrays.asList(arrays);
+        String arrayStr = JSONArray.toJSONString(strings);//数组字符串
+        JSONArray jsonArray = JSON.parseArray(arrayStr);//转为JSONArray
+        jsonArray.add("5");//相应操作
+        String jsonString = JSON.toJSONString(jsonArray);//转为数组字符串
+
+
+        /**
          * 数组转集合 该集合表示原来的数组 对集合的操作就是对数组的操作，那么添加元素会导致原数组扩容，
          * 那么就不能表示原来的数组了,会抛出UnsupportedOperationException异常
          */
-        String[] array = { "one", "two", "three", "four" };
-
+        String[] array = {"one", "two", "three", "four"};
         List<String> l = Arrays.asList(array);
         /*
          * 所有的集合提供了一个带有collection类型参数的构造方法 该构造方法称为：复制构造器
