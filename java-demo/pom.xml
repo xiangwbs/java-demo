@@ -28,7 +28,13 @@
             <url>http://maven.aliyun.com/nexus/content/groups/public</url>
         </pluginRepository>
     </pluginRepositories>
-
+    <!-- maven 打包自动上传 -->
+    <distributionManagement>
+        <repository>
+            <id>nexus-drore-team-3rd</id>
+            <url>http://192.168.11.110:8081/nexus/content/repositories/thirdparty/</url>
+        </repository>
+    </distributionManagement>
     <!-- 常量 -->
     <properties>
         <java.version>1.8</java.version>
@@ -302,10 +308,10 @@
                     <uriEncoding>${project.build.sourceEncoding}</uriEncoding>
                 </configuration>
             </plugin>
+            <!--maven 指定jdk版本 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.3</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
