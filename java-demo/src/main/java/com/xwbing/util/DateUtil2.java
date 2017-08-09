@@ -136,12 +136,23 @@ public class DateUtil2 {
     /////////////////////////////获取数据////////////获取数据/////////////////////////////////////////////////////////////
 
     /**
+     *获取周几
+     * @param day 0代表当天 负数代表前几天 正数代表后几天
+     * @return
+     */
+    public static int getWeek(int day) {
+        LocalDate localDate = LocalDate.now();
+        LocalDate date = day >= 0 ? localDate.plusDays(day) : localDate.minusDays(Math.abs(day));
+        return date.getDayOfWeek().getValue();
+    }
+
+    /**
      * 获取周几
      *
      * @param day 0代表当天 负数代表前几天 正数代表后几天
      * @return
      */
-    public static String getWeek(int day) {
+    public static String getWeek2(int day) {
         LocalDate localDate = LocalDate.now();
         LocalDate date = day >= 0 ? localDate.plusDays(day) : localDate.minusDays(Math.abs(day));
         int week = date.getDayOfWeek().getValue();
@@ -221,7 +232,7 @@ public class DateUtil2 {
      */
     public static String firstDayOfNextMonth() {
         LocalDate localDate = LocalDate.now();
-        LocalDate date = localDate.minusMonths(1).with(TemporalAdjusters.firstDayOfMonth());
+        LocalDate date = localDate.plusMonths(1).with(TemporalAdjusters.firstDayOfMonth());
         return date.format(getDateFormat(YYYY_MM_DD));
     }
 
