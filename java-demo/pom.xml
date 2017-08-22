@@ -292,6 +292,12 @@
             <artifactId>lombok</artifactId>
             <version>1.16.16</version>
         </dependency>
+        <!-- 二维码 -->
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+            <version>3.2.1</version>
+        </dependency>
     </dependencies>
     <!--构建项目需要的信息 -->
     <build>

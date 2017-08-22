@@ -48,7 +48,6 @@ public class CollectionDemo {
         jsonArray.add("5");//相应操作
         String jsonString = JSON.toJSONString(jsonArray);//转为数组字符串
 
-
         /**
          * 数组转集合 该集合表示原来的数组 对集合的操作就是对数组的操作，那么添加元素会导致原数组扩容，
          * 那么就不能表示原来的数组了,会抛出UnsupportedOperationException异常
