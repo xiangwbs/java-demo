@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class GetImageUtil {
+public class GetUrlImageUtil {
     /**
      * 测试
      * @param args

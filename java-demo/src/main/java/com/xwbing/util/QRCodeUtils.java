@@ -18,33 +18,33 @@ import java.io.InputStream;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 
-/***
- * 二维码生成工具类
- * @since:cloud-sdk 1.0
- * @author <a href="mailto:xiaoymin@foxmail.com">xiaoymin@foxmail.com</a> 
- * 2016/8/25 17:37
+/**
+ * 说明: 二维码生成工具类
+ * 创建日期: 2016年12月2日 上午10:56:33
+ * 作者: xiangwb
  */
 public class QRCodeUtils {
     private static QRCodeUtils.Internal internal = new QRCodeUtils.Internal();
 
     /***
-     * 生产二维码
-     * @param text
-     * @param output
+     * 默认尺寸不带logo的二维码
+     * @param text 二维码内容
+     * @param output 图片文件
      */
     public static void createCode(String text, File output) {
         createCode(text, 200, 200, output);
     }
 
     /**
-     * 不带logo的二维码
+     * 自定义尺寸不带logo的二维码
      *
-     * @param text
-     * @param width
-     * @param height
-     * @param output
+     * @param text 二维码内容
+     * @param width 宽
+     * @param height 高
+     * @param output 图片文件
      */
     public static void createCode(String text, int width, int height, File output) {
         try {
@@ -59,17 +59,17 @@ public class QRCodeUtils {
     }
 
     /**
-     * 带logo的二维码
-     *
-     * @param text
+     * 默认尺寸带logo的二维码
+     * @param url 二维码
      * @param logoImg
+     * @param text
      */
     public static void createCodeLogo(String url, InputStream logoImg, String text) {
         createCodeLogo(url, 200, 200, logoImg, text, 14);
     }
 
     /**
-     * 带logo的二维码
+     * 自定义尺寸带logo的二维码
      *
      * @param text
      * @param width
@@ -250,33 +250,27 @@ public class QRCodeUtils {
             return result;
         }
     }
-
-    public static void main(String[] args) {
-        File output = new File("C:/Users/10232/Desktop/aa.png");
-//        File logo = new File("f:/02.png");
-        System.out.println(output.getPath());
-        createCode("xwbing",500,500,output);
-//        createCodeLogo("http://www.baidu.com", output, logo, "我是 汪梓文");
-        //createCodeLogo("http://www.baidu.com", 1000, 1000, output, logo, "我是 汪梓文", 50);
-        System.out.println(output.getAbsolutePath());
-        try {
-            MultiFormatReader formatReader = new MultiFormatReader();
-            // File file = new File(filePath);
-            if (!output.exists()) {
-                return;
-            }
-            BufferedImage image = ImageIO.read(output);
-            LuminanceSource source = new BufferedImageLuminanceSource(image);
-            Binarizer binarizer = new HybridBinarizer(source);
-            BinaryBitmap binaryBitmap = new BinaryBitmap(binarizer);
-            Map hints = new HashMap();
-            hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
-            Result result = formatReader.decode(binaryBitmap, hints);
-            System.out.println("result = " + result.toString());
-            System.out.println("resultFormat = " + result.getBarcodeFormat());
-            System.out.println("resultText = " + result.getText());
-        } catch (Exception e) {
-            e.printStackTrace();
+    public static String decode(File file) throws Exception{
+        if(file==null){
+           return null;
         }
+        MultiFormatReader formatReader = new MultiFormatReader();
+        BufferedImage image = ImageIO.read(file);
+        BufferedImageLuminanceSource source = new BufferedImageLuminanceSource(image);
+        BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(source));
+        Hashtable<DecodeHintType, Object> hints = new Hashtable<>();
+        hints.put(DecodeHintType.CHARACTER_SET, "utf-8");
+        Result result = formatReader.decode(binaryBitmap, hints);
+        return result.getText();
+
+    }
+
+    public static void main(String[] args) throws Exception {
+//        String tomcatHome = System.getProperty("catalina.home");
+//        String name="QRcode";
+//        File output=new File(tomcatHome+File.separator+"pic"+File.separator+name+".png");
+        File output=new File("C:/Users/10232/Desktop/xwbing.png");
+        createCode("xwbing",500,500,output);//text即QRcode
+        String decode = decode(output);
     }
 }
