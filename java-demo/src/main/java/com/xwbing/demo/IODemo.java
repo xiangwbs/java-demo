@@ -51,7 +51,7 @@ public class IODemo {
          */
         BufferedInputStream bis1 = new BufferedInputStream(fis);
         BufferedOutputStream bos1 = new BufferedOutputStream(fos);
-        int d = -1;
+        int d ;
         while ((d = bis1.read()) != -1) {
             bos1.write(d);
         }

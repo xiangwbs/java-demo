@@ -23,24 +23,22 @@ public class FileUtils {
      */
     public static byte[] toByte(File file) {
         {
-            byte[] buffer = null;
+            byte[] bytes = null;
             try {
                 FileInputStream fis = new FileInputStream(file);
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                byte[] b = new byte[1024 * 1024];
+                byte[] data = new byte[1024 * 10];
                 int len;
-                while ((len = fis.read(b)) != -1) {
-                    bos.write(b, 0, len);
+                while ((len = fis.read(data)) != -1) {
+                    bos.write(data, 0, len);
                 }
+                bytes = bos.toByteArray();
                 fis.close();
                 bos.close();
-                buffer = bos.toByteArray();
-            } catch (FileNotFoundException e) {
-//                logger.error("" + e);
             } catch (IOException e) {
 //                logger.error("" + e);
             }
-            return buffer;
+            return bytes;
         }
     }
 
