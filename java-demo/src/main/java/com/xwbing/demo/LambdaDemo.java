@@ -5,8 +5,11 @@ import com.xwbing.entity.SysUserRole;
 import com.xwbing.service.sys.SysUserRoleService;
 import com.xwbing.service.sys.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -73,6 +76,19 @@ public class LambdaDemo {
         if (optional.isPresent()) {
             reduce = optional.get();
         }
+        //异步回调
+        ThreadPoolTaskExecutor poolTaskExecutor = new ThreadPoolTaskExecutor();//任务线程池，在spring配置文件中配置
+        poolTaskExecutor.setCorePoolSize(5);
+        poolTaskExecutor.setKeepAliveSeconds(30000);
+        poolTaskExecutor.setMaxPoolSize(1000);
+        poolTaskExecutor.setQueueCapacity(200);
+
+        CompletableFuture<List<SysUser>> future = CompletableFuture.supplyAsync(() -> getList(),poolTaskExecutor);
+        try {
+            List<SysUser> sysUsers = future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -94,4 +110,8 @@ public class LambdaDemo {
             }).collect(Collectors.toList());
         }
     }
+    public static  List<SysUser> getList(){
+        return  null;
+    }
+
 }
