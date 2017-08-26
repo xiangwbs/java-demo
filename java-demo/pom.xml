@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <!-- 基础设置 -->
     <groupId>com.xwbing</groupId>
-    <artifactId>zdemo</artifactId>
+    <artifactId>java.demo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
 
@@ -286,6 +286,7 @@
             <version>2.2.2</version>
         </dependency>
         <!--swagger2 -->
+
         <!-- 实体类自动生成getting和setting方法,以及equals,hashCode,toString等-->
         <dependency>
             <groupId>org.projectlombok</groupId>
