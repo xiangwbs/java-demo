@@ -7,7 +7,7 @@ import java.io.Serializable;
  * 创建日期: 2017年3月3日 上午11:43:13
  * 作者: xwb
  */
-public class restMessage implements Serializable {
+public class RestMessage implements Serializable {
     private static final long serialVersionUID = -4167591341943919542L;
     private boolean isSuccess = false;// 默认false
     private String msg;//  成功、错误返回提示信息
@@ -45,16 +45,16 @@ public class restMessage implements Serializable {
     public void setSuccess(boolean isSuccess) {
         this.isSuccess = isSuccess;
     }
-    public restMessage() {
+    public RestMessage() {
         super();
     }
 
-    public restMessage(Object data) {
+    public RestMessage(Object data) {
         super();
         this.data = data;
     }
 
-    public restMessage(boolean isSuccess, Object data) {
+    public RestMessage(boolean isSuccess, Object data) {
         super();
         this.isSuccess = isSuccess;
         this.data = data;

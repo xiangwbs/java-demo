@@ -18,7 +18,7 @@ import com.xwbing.entity.SysRoleAuthority;
 import com.xwbing.entity.vo.AuthVo;
 import com.xwbing.util.CommonConstant;
 import com.xwbing.util.LoginSysUserUtil;
-import com.xwbing.util.restMessage;
+import com.xwbing.util.RestMessage;
 
 /**
  * 浙江卓锐科技股份有限公司 版权所有 ? Copyright 2016<br/>
@@ -59,8 +59,8 @@ public class SysAuthorityService {
 		return sysAuthorityDao.findById(id);
 	}
 
-	public restMessage save(SysAuthority authority) {
-		restMessage result = new restMessage();
+	public RestMessage save(SysAuthority authority) {
+		RestMessage result = new RestMessage();
 		if (!uniqueCode(authority.getCode(), null)) {
 			throw new BusinessException("编号不能使用");
 		}
@@ -83,8 +83,8 @@ public class SysAuthorityService {
      * @param sysAuthority
      * @return
      */
-    public restMessage update(SysAuthority sysAuthority) {
-        restMessage result = new restMessage();
+    public RestMessage update(SysAuthority sysAuthority) {
+        RestMessage result = new RestMessage();
         if (!uniqueCode(sysAuthority.getCode(), sysAuthority.getId())) {
             result.setMsg("编号不能使用");
             return result;
@@ -183,14 +183,14 @@ public class SysAuthorityService {
 			for (JSONObject jsonObject : queryAllChildren) {
 				jsonObject.put("creator", LoginSysUserUtil.getUserId());
 			}
-			restMessage updateBatch = updateBatchObject(SysAuthority.table,
+			RestMessage updateBatch = updateBatchObject(SysAuthority.table,
 					queryAllChildren);
 			return updateBatch.isSuccess();
 		}
 		return false;
 	}
 
-	private restMessage updateBatchObject(String table,
+	private RestMessage updateBatchObject(String table,
                                           List<JSONObject> queryAllChildren) {
         // TODO Auto-generated method stub
         return null;
@@ -246,7 +246,7 @@ public class SysAuthorityService {
 		}
 		return datas;
 	}
-	public restMessage deleteById(String id){
+	public RestMessage deleteById(String id){
         return null;
     }
 }

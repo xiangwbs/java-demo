@@ -14,7 +14,7 @@ import com.xwbing.dao.SysRoleDao;
 import com.xwbing.entity.SysRole;
 import com.xwbing.entity.SysUserRole;
 import com.xwbing.util.LoginSysUserUtil;
-import com.xwbing.util.restMessage;
+import com.xwbing.util.RestMessage;
 
 /**
  * 浙江卓锐科技股份有限公司 版权所有 ? Copyright 2016<br/>
@@ -53,8 +53,8 @@ public class SysRoleService {
 	 * @param role
 	 * @return
 	 */
-	public restMessage save(SysRole role) {
-		restMessage result = new restMessage();
+	public RestMessage save(SysRole role) {
+		RestMessage result = new RestMessage();
 		int row = sysRoleDao.save(role);
 		if (row == 1) {
 			result.setMsg("保存角色成功");
@@ -74,8 +74,8 @@ public class SysRoleService {
 	 * @param role
 	 * @return
 	 */
-	public restMessage update(SysRole role) {
-		restMessage result = new restMessage();
+	public RestMessage update(SysRole role) {
+		RestMessage result = new RestMessage();
 		SysRole old = sysRoleDao.findById(role.getId());
 		if (old == null) {
 			throw new BusinessException("该角色不存在");
@@ -151,7 +151,7 @@ public class SysRoleService {
 		else
 			return true;
 	}
-	public restMessage deleteById(String id){
+	public RestMessage deleteById(String id){
 	    return null;
 	}
 	

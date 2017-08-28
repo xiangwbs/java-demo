@@ -24,7 +24,7 @@ import com.xwbing.util.EmailUtil;
 import com.xwbing.util.EncodeUtils;
 import com.xwbing.util.LoginSysUserUtil;
 import com.xwbing.util.PassWordUtil;
-import com.xwbing.util.restMessage;
+import com.xwbing.util.RestMessage;
 
 /**
  * 浙江卓锐科技股份有限公司 版权所有 ? Copyright 2016<br/>
@@ -52,8 +52,8 @@ public class SysUserService {
 	 * @param user
 	 * @return
 	 */
-	public restMessage save(SysUser user) {
-		restMessage result = new restMessage();
+	public RestMessage save(SysUser user) {
+		RestMessage result = new RestMessage();
 		SysUser tem = queryUserName(user.getUserName());
 		if (tem != null) {
 			throw new BusinessException("已经存在此用户名");
@@ -101,8 +101,8 @@ public class SysUserService {
 	 * @param loginUserId
 	 * @return
 	 */
-	public restMessage deleteUsr(String id, String loginUserId) {
-		restMessage result = new restMessage();
+	public RestMessage deleteUsr(String id, String loginUserId) {
+		RestMessage result = new RestMessage();
 		SysUser old = findById(id);
 		if (old == null) {
 			throw new BusinessException("没有查询到对象");
@@ -142,7 +142,7 @@ public class SysUserService {
 	 * @param date
 	 * @return
 	 */
-	public restMessage updateLoginInfo(String id, String ip, Date date) {
+	public RestMessage updateLoginInfo(String id, String ip, Date date) {
 		SysUser user = sysUserDao.findById(id);
 		if (user == null) {
 			throw new BusinessException("未查找到用户信息");
@@ -150,7 +150,7 @@ public class SysUserService {
 		user.setLastLoginIp(ip);
 		user.setLastLoginTime(date);
 		user.setModifier(LoginSysUserUtil.getUserId());
-		restMessage result = new restMessage();
+		RestMessage result = new RestMessage();
 		int row = sysUserDao.update(user);
 		if (row == 1) {
 			result.setMsg("修改用户最后登录信息成功");
@@ -171,7 +171,7 @@ public class SysUserService {
 	 * @param loginUserId
 	 * @return
 	 */
-	public restMessage updatePassWord(String newPassWord, String oldPassWord,
+	public RestMessage updatePassWord(String newPassWord, String oldPassWord,
                                       String loginUserId) {
 		SysUser user = sysUserDao.findById(loginUserId);
 		// 根据密码盐值， 解码
@@ -189,7 +189,7 @@ public class SysUserService {
 		user.setPassword(str[2]);
 		user.setModifier(LoginSysUserUtil.getUserId());
 		int row = sysUserDao.update(user);
-		restMessage result = new restMessage();
+		RestMessage result = new RestMessage();
 		if (row == 1) {
 			result.setMsg("修改密码成功");
 			result.setSuccess(true);
@@ -246,8 +246,8 @@ public class SysUserService {
 	 * @param loginUserId
 	 * @return
 	 */
-	public restMessage update(SysUser user, String loginUserId) {
-		restMessage result = new restMessage();
+	public RestMessage update(SysUser user, String loginUserId) {
+		RestMessage result = new RestMessage();
 		SysUser old = findById(user.getId());
 		if (old == null) {
 			throw new BusinessException("没有查询到对象");

@@ -7,7 +7,7 @@ import com.xwbing.service.sys.SysAuthorityService;
 import com.xwbing.util.CommonConstant;
 import com.xwbing.util.CommonEnum;
 import com.xwbing.util.JSONObjResult;
-import com.xwbing.util.restMessage;
+import com.xwbing.util.RestMessage;
 import com.xwbing.validate.FormMap;
 import com.xwbing.validate.ValidateResult;
 import com.xwbing.validate.ValidateUtil;
@@ -50,7 +50,7 @@ public class SysAuthorityController {
         if (sysAuthorityService.findById(id) == null) {
             return JSONObjResult.toJSONObj("权限不存在");
         }
-        restMessage result = sysAuthorityService.deleteById(id);
+        RestMessage result = sysAuthorityService.deleteById(id);
         if (result.isSuccess()) {
             // 删除缓存
             // redisService.del(RedisName.authorityThree);
@@ -98,7 +98,7 @@ public class SysAuthorityController {
         if (!validate.isSuccess()) {
             return JSONObjResult.toJSONObj(validate.getErrorMsg());
         }
-        restMessage result = sysAuthorityService.save(sysAuthority);
+        RestMessage result = sysAuthorityService.save(sysAuthority);
         if (result.isSuccess()) {
             // 删除缓存
             // redisService.del(RedisName.authorityThree);
@@ -180,7 +180,7 @@ public class SysAuthorityController {
                 }
             }
         }
-        restMessage result = sysAuthorityService.update(sysAuthority);
+        RestMessage result = sysAuthorityService.update(sysAuthority);
         return JSONObjResult.toJSONObj(result);
     }
 

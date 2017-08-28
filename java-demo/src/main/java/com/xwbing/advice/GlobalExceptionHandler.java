@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import com.alibaba.fastjson.JSONObject;
 import com.xwbing.Exception.BusinessException;
 import com.xwbing.util.JSONObjResult;
-import com.xwbing.util.restMessage;
+import com.xwbing.util.RestMessage;
 
 /**
  * 
@@ -46,7 +46,7 @@ public class GlobalExceptionHandler {
     public JSONObject handlerGuideException(HttpServletRequest request,
             Exception ex) {
         log.error(ex.getMessage());
-        restMessage result = new restMessage();
+        RestMessage result = new RestMessage();
         result.setSuccess(false);
         result.setMsg(ex.getMessage());
         return JSONObjResult.toJSONObj(result);
@@ -66,7 +66,7 @@ public class GlobalExceptionHandler {
     public JSONObject handlerBindException(HttpServletRequest request,
             HttpServletResponse response, BindException ex) {
         log.error(ex.getMessage());
-        restMessage result = new restMessage();
+        RestMessage result = new RestMessage();
         List<ObjectError> list = ex.getAllErrors();
         StringBuffer stringBuffer = new StringBuffer();
         for (ObjectError objectError : list) {
@@ -93,7 +93,7 @@ public class GlobalExceptionHandler {
     public JSONObject handlerServerException(HttpServletRequest request,
             Exception ex) {
         log.error(ex.getMessage());
-        restMessage result = new restMessage();
+        RestMessage result = new RestMessage();
         result.setSuccess(false);
         result.setMsg(ex.getMessage());
         return JSONObjResult.toJSONObj(result);
