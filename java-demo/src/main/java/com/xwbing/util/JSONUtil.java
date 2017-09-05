@@ -26,7 +26,7 @@ public class JSONUtil {
             return null;
         if (obj instanceof ArrayList) {
             ArrayList<?> list = (ArrayList<?>) obj;
-            ArrayList<JSONObject> result = new ArrayList<JSONObject>();
+            ArrayList<JSONObject> result = new ArrayList<>();
             for (Object o : list) {
                 JSONObject javaObject = (JSONObject) beanToMap(o);
                 result.add(javaObject);
@@ -37,12 +37,12 @@ public class JSONUtil {
         } else if (obj instanceof Map) {
             return obj;
         } else {
-            Map<String, Object> params = new HashMap<String, Object>(0);
+            Map<String, Object> params = new HashMap<>(0);
             try {
                 PropertyUtilsBean propertyUtilsBean = new PropertyUtilsBean();
                 PropertyDescriptor[] descriptors = propertyUtilsBean.getPropertyDescriptors(obj);
-                for (int i = 0; i < descriptors.length; i++) {
-                    String name = descriptors[i].getName();
+                for (PropertyDescriptor descriptor : descriptors) {
+                    String name = descriptor.getName();
                     if (!"class".equals(name)) {
                         params.put(name, propertyUtilsBean.getNestedProperty(obj, name));
                     }

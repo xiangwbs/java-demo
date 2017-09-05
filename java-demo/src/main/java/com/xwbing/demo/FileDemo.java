@@ -1,5 +1,7 @@
 package com.xwbing.demo;
 
+import org.springframework.core.io.ClassPathResource;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -56,5 +58,12 @@ public class FileDemo {
              */
             dirs.mkdirs();
         }
+        /**
+         * 获取路径
+         * java resources 编译后在WEB-INF/classes下 同级
+         */
+        String tomcatHome = System.getProperty("catalina.home");//服务器tomcat路径
+        ClassPathResource pic = new ClassPathResource("conf");//获取classes下conf文件夹路径
+        String absolutePath = pic.getFile().getAbsolutePath();
     }
 }
