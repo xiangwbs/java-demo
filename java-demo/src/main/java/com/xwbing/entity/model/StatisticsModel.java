@@ -5,9 +5,9 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.xwbing.entity.BaseEntity;
 
 /**
- * 说明: 统计属性信息完善程度<br/>
- * 创建日期: 2017年3月23日 下午1:30:40 <br/>
- * 作者: xwb
+ * 说明: 统计属性信息完善程度
+ * 创建日期: 2017年3月23日 下午1:30:40
+ * 作者: xiangwb
  */
 
 public class StatisticsModel extends BaseEntity {

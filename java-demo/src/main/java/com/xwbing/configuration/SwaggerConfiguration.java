@@ -12,10 +12,10 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
- * 说明: <br/>
- * 项目名称: zxwbing <br/>
- * 创建日期: 2017年4月6日 下午2:04:53 <br/>
- * 作者: xwb
+ * 说明: swagger配置
+ * 项目名称: zxwbing
+ * 创建日期: 2017年4月6日 下午2:04:53
+ * 作者: xiangwb
  */
 
 @Configuration

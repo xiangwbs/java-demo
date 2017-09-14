@@ -1,11 +1,10 @@
 package com.xwbing.demo;
 
 /**
- * 浙江卓锐科技股份有限公司 版权所有 ? Copyright 2016<br/>
- * 说明: <br/>
- * 项目名称: zdemo <br/>
- * 创建日期: 2017年2月20日 下午4:03:56 <br/>
- * 作者: xwb
+ * 说明:
+ * 项目名称: zdemo
+ * 创建日期: 2017年2月20日 下午4:03:56
+ * 作者: xiangwb
  */
 
 public class ThreadProducerConsumer {

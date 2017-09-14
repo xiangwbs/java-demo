@@ -1,10 +1,9 @@
 package com.xwbing.advice;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.alibaba.fastjson.JSONObject;
+import com.xwbing.Exception.BusinessException;
+import com.xwbing.util.JSONObjResult;
+import com.xwbing.util.RestMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -15,16 +14,15 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.alibaba.fastjson.JSONObject;
-import com.xwbing.Exception.BusinessException;
-import com.xwbing.util.JSONObjResult;
-import com.xwbing.util.RestMessage;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * 
- * 说明: GlobalExceptionHandler<br/>
- * 创建日期: 2017年3月21日 下午2:53:35 <br/>
- * 作者: xwb
+ * 说明: GlobalExceptionHandler
+ * 创建日期: 2017年3月21日 下午2:53:35
+ * 作者: xiangwb
  */
 // 作用在所有注解了@RequestMapping的控制器的方法上
 @ControllerAdvice

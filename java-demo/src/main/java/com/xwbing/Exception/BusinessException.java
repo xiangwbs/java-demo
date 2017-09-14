@@ -1,8 +1,8 @@
 package com.xwbing.Exception;
 /**
- * 说明:自定义错误异常 <br/>
- * 创建日期: 2016年11月2日 下午8:43:45 <br/>
- * 作者: wdz
+ * 说明:自定义错误异常
+ * 创建日期: 2016年11月2日 下午8:43:45
+ * 作者: xiangwb
  */
 public class BusinessException extends RuntimeException {
 	/**

@@ -7,6 +7,11 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+/**
+ * 说明: ZipUtil
+ * 创建日期: 2017年08月10日
+ * 作者: xiangwb
+ */
 public class ZipUtil {
     public static void zipFile(HttpServletResponse response,List<File> files){
         try {

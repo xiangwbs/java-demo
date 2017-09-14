@@ -28,9 +28,9 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
- * 说明:excel工具类 <br/>
- * 创建日期: 2016年12月13日 下午5:59:44 <br/>
- * 作者: xwb
+ * 说明:excel工具类
+ * 创建日期: 2016年12月13日 下午5:59:44
+ * 作者: xiangwb
  */
 public class ExcelUtil
 {

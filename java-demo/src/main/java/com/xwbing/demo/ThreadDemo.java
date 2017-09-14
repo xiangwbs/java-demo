@@ -1,13 +1,13 @@
 package com.xwbing.demo;
 
-import java.util.Date;
-
 import com.xwbing.util.DateUtil;
 
+import java.util.Date;
+
 /**
- * 说明: <br/>
- * 项目名称: zdemo <br/>
- * 创建日期: 2017年2月20日 上午11:32:55 <br/>
+ * 说明:
+ * 项目名称: zdemo
+ * 创建日期: 2017年2月20日 上午11:32:55
  * 作者: xwb
  */
 

@@ -12,10 +12,10 @@ import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 
 /**
- * 说明: <br/>
- * 项目名称: zdemo <br/>
- * 创建日期: 2017年2月16日 下午1:23:16 <br/>
- * 作者: xwb
+ * 说明:
+ * 项目名称: zdemo
+ * 创建日期: 2017年2月16日 下午1:23:16
+ * 作者: xiangwb
  */
 
 public class XmlDemo {
@@ -95,7 +95,5 @@ public class XmlDemo {
 		newRoot.addElement("stu1");
 		newRoot.addElement("stu2");
 		write2xml(newDoc, "xmlDemoStu.xml");
-
 	}
-
 }

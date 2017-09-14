@@ -1,19 +1,18 @@
 package com.xwbing.validate;
 
+import com.xwbing.util.CommonEnum;
+import org.apache.commons.lang.StringUtils;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
-
-import com.xwbing.util.CommonEnum;
 /**
  * 
- * 说明: 校验工具类，用于校验保存入参<br/>
- * 项目名称: zdemo <br/>
- * 创建日期: 2016年12月19日 下午3:46:41 <br/>
- * 作者: xwb
+ * 说明: 校验工具类，用于校验保存入参
+ * 项目名称: zdemo
+ * 创建日期: 2016年12月19日 下午3:46:41
+ * 作者: xiangwb
  */
 public class ValidateUtil
 {

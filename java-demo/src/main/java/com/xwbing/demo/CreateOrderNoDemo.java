@@ -1,15 +1,16 @@
 package com.xwbing.demo;
 
+import org.apache.commons.collections.CollectionUtils;
+
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import org.apache.commons.collections.CollectionUtils;
 
 /**
- * 说明: 订单编号生成     201808080000000000<br/>
- * 创建日期: 2017年3月24日 下午5:06:37 <br/>
- * 作者: xwb
+ * 说明: 订单编号生成
+ * 创建日期: 2017年3月24日 下午5:06:37
+ * 作者: xiangwb
  */
 
 public class CreateOrderNoDemo {

@@ -6,7 +6,7 @@ import java.io.*;
  * 说明: <br/>
  * 项目名称: zdemo <br/>
  * 创建日期: 2017年2月20日 上午10:12:20 <br/>
- * 作者: xwb
+ * 作者: xiangwb
  */
 
 public class IODemo {

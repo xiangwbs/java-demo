@@ -16,8 +16,7 @@ import java.net.URLEncoder;
  * m为明文，c为密文,可以相互转换。
  * c=m.modPow(e1, n);m = c.modPow(e2, n)。
  * 
- * 项目名称: ttest <br/>
- * 创建日期: 2016年10月28日 上午9:47:02 <br/>
+ * 创建日期: 2016年10月28日 上午9:47:02
  * 作者: xwb
  */
 @Deprecated

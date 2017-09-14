@@ -4,10 +4,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * 说明: <br/>
- * 项目名称: zdemo <br/>
- * 创建日期: 2017年2月16日 下午3:32:04 <br/>
- * 作者: xwb
+ * 项目名称: zdemo
+ * 创建日期: 2017年2月16日 下午3:32:04
+ * 作者: xiangwb
  */
 
 public class CalendarDemo {

@@ -3,9 +3,9 @@ package com.xwbing.util.captcah;
 import org.apache.shiro.authc.AuthenticationException;
 
 /**
- * 说明:创建验证码异常类 <br/>
- * 创建日期: 2016年8月29日 上午11:02:42 <br/>
- * 作者: xwb
+ * 说明:创建验证码异常类
+ * 创建日期: 2016年8月29日 上午11:02:42
+ * 作者: xiangwb
  */
 public class CaptchaException extends AuthenticationException {
 

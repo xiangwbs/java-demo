@@ -1,23 +1,24 @@
 package com.xwbing.shiro;
 
-import java.io.IOException;
-import java.util.List;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import com.xwbing.entity.SysAuthority;
+import com.xwbing.service.sys.SysAuthorityService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authz.PermissionsAuthorizationFilter;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.stereotype.Component;
-import com.xwbing.entity.SysAuthority;
-import com.xwbing.service.sys.SysAuthorityService;
+
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
 
 /**
- * 说明: 自定义的URL认证 <br/>
- * 创建日期: 2016年7月13日 上午10:01:04 <br/>
- * 作者: xwb
+ * 说明: 自定义的URL认证
+ * 创建日期: 2016年7月13日 上午10:01:04
+ * 作者: xiangwb
  */
 @Component
 public class UrlPermissionsFilter extends PermissionsAuthorizationFilter {

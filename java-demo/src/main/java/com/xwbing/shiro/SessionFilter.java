@@ -1,24 +1,18 @@
 package com.xwbing.shiro;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 
 /**
- * 说明: session超时过滤 <br/>
- * 创建日期: 2016年12月8日 上午9:33:16 <br/>
- * 作者: xwb
+ * 说明: session超时过滤
+ * 创建日期: 2016年12月8日 上午9:33:16
+ * 作者: xiangwb
  */
 public class SessionFilter implements Filter {
 

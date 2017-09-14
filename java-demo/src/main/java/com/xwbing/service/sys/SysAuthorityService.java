@@ -21,11 +21,10 @@ import com.xwbing.util.LoginSysUserUtil;
 import com.xwbing.util.RestMessage;
 
 /**
- * 浙江卓锐科技股份有限公司 版权所有 ? Copyright 2016<br/>
- * 说明: <br/>
- * 项目名称: zdemo <br/>
- * 创建日期: 2017年1月18日 下午5:45:44 <br/>
- * 作者: xwb
+ * 说明:
+ * 项目名称: zdemo
+ * 创建日期: 2017年1月18日 下午5:45:44
+ * 作者: xiangwb
  */
 @Service
 public class SysAuthorityService {

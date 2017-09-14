@@ -6,10 +6,10 @@ import com.alibaba.fastjson.JSONArray;
 import java.util.*;
 
 /**
- * 说明: <br/>
- * 项目名称: zdemo <br/>
- * 创建日期: 2017年2月16日 下午4:06:56 <br/>
- * 作者: xwb
+ * 说明:
+ * 项目名称: zdemo
+ * 创建日期: 2017年2月16日 下午4:06:56
+ * 作者: xiangwb
  */
 
 public class CollectionDemo {

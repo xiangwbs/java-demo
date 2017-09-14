@@ -3,9 +3,9 @@ package com.xwbing.validate;
 import java.util.HashMap;
 /**
  * 
- * 说明: 前台提交表单校验配置 的map<br/>
- * 创建日期: 2016年12月19日 下午3:49:24 <br/>
- * 作者: xwb
+ * 说明: 前台提交表单校验配置 的map
+ * 创建日期: 2016年12月19日 下午3:49:24
+ * 作者: xiangwb
  */
 public class FormMap {
 

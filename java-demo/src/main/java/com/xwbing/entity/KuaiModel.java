@@ -5,7 +5,7 @@ import lombok.Data;
 
 /**
  * 快递信息
- * Created by ff on 2015/10/10.
+ * Created by xiangwb on 2015/10/10.
  */
 @Data
 public class KuaiModel extends BaseEntity {

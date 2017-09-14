@@ -29,9 +29,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 说明: 角色控制器 <br/>
- * 创建日期: 2017年1月18日 下午5:56:58 <br/>
- * 作者: xwb
+ * 说明: 角色控制器
+ * 创建日期: 2017年1月18日 下午5:56:58
+ * 作者: xiangwb
  */
 @Api("角色信息")
 @RestController

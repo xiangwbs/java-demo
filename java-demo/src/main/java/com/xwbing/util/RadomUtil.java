@@ -3,9 +3,9 @@ package com.xwbing.util;
 import java.util.Random;
 
 /**
- * 说明:生成随机码< <br/>
- * 创建日期: 2016年11月29日 上午10:28:21 <br/>
- * 作者: xwb
+ * 说明:生成随机码
+ * 创建日期: 2016年11月29日 上午10:28:21
+ * 作者: xiangwb
  */
 public class RadomUtil {
 

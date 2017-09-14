@@ -5,9 +5,9 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * 说明: 角色权限关系表<br/>
- * 创建日期: 2016年12月9日 下午4:11:02 <br/>
- * 作者: xwb
+ * 说明: 角色权限关系表
+ * 创建日期: 2016年12月9日 下午4:11:02
+ * 作者: xiangwb
  */
 @Data
 public class SysRoleAuthority implements Serializable {

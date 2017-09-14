@@ -4,10 +4,10 @@ import java.text.MessageFormat;
 import java.util.Scanner;
 
 /**
- * 说明: <br/>
- * 项目名称: zdemo <br/>
- * 创建日期: 2017年2月16日 下午5:27:23 <br/>
- * 作者: xwb
+ * 说明:
+ * 项目名称: zdemo
+ * 创建日期: 2017年2月16日 下午5:27:23
+ * 作者: xiangwb
  */
 
 public class StringDemo {

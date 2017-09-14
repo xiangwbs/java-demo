@@ -16,9 +16,9 @@ import com.xwbing.util.LoginSysUserUtil;
 import com.xwbing.util.RestMessage;
 
 /**
- * 说明: 系统配置服务<br/>
- * 创建日期: 2017年3月7日 下午2:04:31 <br/>
- * 作者: xwb
+ * 说明: 系统配置服务
+ * 创建日期: 2017年3月7日 下午2:04:31
+ * 作者: xiangwb
  */
 @Service
 public class SysConfigService {

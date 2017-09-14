@@ -19,11 +19,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 浙江卓锐科技股份有限公司 版权所有 ? Copyright 2016<br/>
- * 说明: <br/>
- * 项目名称: zxwbing <br/>
- * 创建日期: 2017年3月18日 下午1:34:05 <br/>
- * 作者: xwb
+ * 项目名称: zxwbing
+ * 创建日期: 2017年3月18日 下午1:34:05
+ * 作者: xiangwb
  */
 
 public class JsonDemo {

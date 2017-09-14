@@ -4,10 +4,9 @@ import java.util.Scanner;
 public class GussNumber {
 	/**
 	 * 
-	 * 功能描述：      数字才大小                  <br/>
-	 * 作    者：xwb <br/>
-	 * 创建时间：2016年12月9日  下午2:56:45 <br/>
-	 * @param args
+	 * 功能描述： 数字猜大小
+	 * 作    者：xwb
+	 * 创建时间：2016年12月9日  下午2:56:45
 	 */
 	public static void main(String[] args) {
 		Random ran=new Random();

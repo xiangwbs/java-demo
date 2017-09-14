@@ -1,27 +1,25 @@
 package com.xwbing.service.sys;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.xwbing.Exception.BusinessException;
 import com.xwbing.dao.SysRoleDao;
 import com.xwbing.entity.SysRole;
 import com.xwbing.entity.SysUserRole;
 import com.xwbing.util.LoginSysUserUtil;
 import com.xwbing.util.RestMessage;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
- * 浙江卓锐科技股份有限公司 版权所有 ? Copyright 2016<br/>
- * 说明: <br/>
- * 项目名称: zdemo <br/>
- * 创建日期: 2017年1月18日 下午5:46:46 <br/>
- * 作者: xwb
+ * 说明:
+ * 项目名称: zdemo
+ * 创建日期: 2017年1月18日 下午5:46:46
+ * 作者: xiangwb
  */
 @Service
 public class SysRoleService {

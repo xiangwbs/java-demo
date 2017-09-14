@@ -1,16 +1,16 @@
 package com.xwbing.shiro;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+
 /**
- * 说明: 基于表单认证的过滤器<br/>
- * 创建日期: 2016年8月29日 上午11:04:54 <br/>
- * 作者: xwb
+ * 说明: 基于表单认证的过滤器
+ * 创建日期: 2016年8月29日 上午11:04:54
+ * 作者: xiangwb
  */
 public class FormAuthenticationCaptchaFilter extends FormAuthenticationFilter {
 

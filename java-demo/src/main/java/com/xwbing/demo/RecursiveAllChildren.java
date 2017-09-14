@@ -8,10 +8,10 @@ import com.xwbing.entity.SysRole;
 import com.xwbing.entity.vo.RoleVo;
 
 /**
- * 说明: <br/>
- * 项目名称: zdemo <br/>
- * 创建日期: 2016年12月9日 下午3:27:47 <br/>
- * 作者: xwb
+ * 说明: 递归demo
+ * 项目名称: zdemo
+ * 创建日期: 2016年12月9日 下午3:27:47
+ * 作者: xiangwb
  */
 
 public class RecursiveAllChildren {

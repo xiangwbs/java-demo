@@ -5,7 +5,7 @@ import java.io.File;
 /**
  * 删除一个含有子项的目录
  * 
- * @author soft01
+ * @author xiangwb
  *
  */
 public class RecursiveFIle {

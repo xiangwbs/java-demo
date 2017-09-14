@@ -3,9 +3,9 @@ package com.xwbing.shiro;
 import org.apache.shiro.authc.UsernamePasswordToken;
 
 /**
- * 说明: 身份验证令牌 <br/>
- * 创建日期: 2017年3月2日 上午10:24:04 <br/>
- * 作者: xwb
+ * 说明: 身份验证令牌
+ * 创建日期: 2017年3月2日 上午10:24:04
+ * 作者: xiangwb
  */
 public class UsernamePasswordCaptchaToken extends UsernamePasswordToken {
 

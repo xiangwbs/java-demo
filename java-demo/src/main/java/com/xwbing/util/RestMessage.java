@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * 说明:返回消息封装类
  * 创建日期: 2017年3月3日 上午11:43:13
- * 作者: xwb
+ * 作者: xiangwb
  */
 public class RestMessage implements Serializable {
     private static final long serialVersionUID = -4167591341943919542L;

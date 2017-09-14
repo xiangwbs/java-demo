@@ -11,11 +11,11 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 说明:用户 <br/>
+ * 说明:用户
  * 表单验证validator  新增和修改时 cotroller层  参数bean前要加@Valid注解
  * 需要导入hibernate-validator.jar
- * 创建日期: 2016年12月9日 下午4:10:47 <br/>
- * 作者: xwb
+ * 创建日期: 2016年12月9日 下午4:10:47
+ * 作者: xiangwb
  */
 @Data
 public class SysUser implements Serializable {

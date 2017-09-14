@@ -22,9 +22,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 /**
- * 说明: 权限控制器 <br/>
- * 创建日期: 2017年1月18日 下午5:56:37 <br/>
- * 作者: xwb
+ * 说明: 权限控制器
+ * 创建日期: 2017年1月18日 下午5:56:37
+ * 作者: xiangwb
  */
 
 public class SysAuthorityController {

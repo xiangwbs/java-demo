@@ -4,9 +4,9 @@ import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
 /**
- * 说明: 系统配置<br/>
- * 创建日期: 2016年9月27日 下午1:15:47 <br/>
- * 作者: xwb
+ * 说明: 系统配置
+ * 创建日期: 2016年9月27日 下午1:15:47
+ * 作者: xiangwb
  */
 @Data
 public class SysConfig extends BaseEntity {

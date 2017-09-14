@@ -4,9 +4,9 @@ import lombok.Data;
 
 import java.io.Serializable;
 /**
- * 说明: 权限<br/>
- * 创建日期: 2016年12月9日 下午4:10:17 <br/>
- * 作者: xwb
+ * 说明: 权限
+ * 创建日期: 2016年12月9日 下午4:10:17
+ * 作者: xiangwb
  */
 @Data
 public class SysAuthority  implements Serializable

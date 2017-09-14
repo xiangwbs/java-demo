@@ -5,9 +5,9 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * 说明:角色 <br/>
- * 创建日期: 2016年12月9日 下午4:10:33 <br/>
- * 作者: xwb
+ * 说明:角色
+ * 创建日期: 2016年12月9日 下午4:10:33
+ * 作者: xiangwb
  */
 @Data
 public class SysRole  implements Serializable{

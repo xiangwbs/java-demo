@@ -5,11 +5,9 @@ import lombok.Data;
 
 /**
  * 
- * 浙江卓锐科技股份有限公司 版权所有  Copyright 2016<br/>
- * 说明:数据字典 <br/>
- * 项目名称: cloud-dataCenter-entity <br/>
- * 创建日期: 2016年11月2日 下午3:14:37 <br/>
- * 作者: xwb
+ * 说明:数据字典
+ * 创建日期: 2016年11月2日 下午3:14:37
+ * 作者: xiangwb
  */
 @Data
 class DataDictionary extends BaseEntity {

@@ -8,9 +8,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.xwbing.util.RestClientUtil;
 
 /**
- * 说明: 调用外部http接口示例<br/>
- * 创建日期: 2017年3月7日 下午4:29:04 <br/>
- * 作者: xwb
+ * 说明: 调用外部http接口示例
+ * 创建日期: 2017年3月7日 下午4:29:04
+ * 作者: xiangwb
  */
 @Controller
 public class HttpClientControl {

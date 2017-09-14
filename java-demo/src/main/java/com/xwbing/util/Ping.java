@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 /**
  * 说明: ping
  * 创建日期: 2016年12月2日 上午10:56:33
- * 作者: xwb
+ * 作者: xiangwb
  */
 public class Ping {
     /**

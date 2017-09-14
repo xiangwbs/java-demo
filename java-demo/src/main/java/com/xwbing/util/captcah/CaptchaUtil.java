@@ -1,19 +1,16 @@
 package com.xwbing.util.captcah;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Random;
 
-import javax.imageio.ImageIO;
-
 /**
- * 说明:验证码工具类 <br/>
- * 创建日期: 2016年8月29日 上午10:57:41 <br/>
- * 作者: xwb
+ * 说明:验证码工具类
+ * 创建日期: 2016年8月29日 上午10:57:41
+ * 作者: xiangwb
  */
 public class CaptchaUtil {
 

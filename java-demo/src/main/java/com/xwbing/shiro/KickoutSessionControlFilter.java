@@ -1,10 +1,6 @@
 package com.xwbing.shiro;
 
-import java.io.Serializable;
-import java.util.Deque;
-import java.util.LinkedList;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import com.xwbing.entity.SysUser;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.session.Session;
@@ -14,12 +10,17 @@ import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.stereotype.Repository;
-import com.xwbing.entity.SysUser;
+
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import java.io.Serializable;
+import java.util.Deque;
+import java.util.LinkedList;
 
 /**
- * 说明: 防止二次登陆的功能<br/>
- * 创建日期: 2016年8月12日 下午3:12:34 <br/>
- * 作者: xwb
+ * 说明: 防止二次登陆的功能
+ * 创建日期: 2016年8月12日 下午3:12:34
+ * 作者: xiangwb
  */
 @Repository
 public class KickoutSessionControlFilter extends AccessControlFilter {

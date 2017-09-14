@@ -4,9 +4,9 @@ import com.xwbing.util.CommonEnum;
 
 /**
  * 
- * 说明:表单校验结果 <br/>
- * 创建日期: 2016年12月19日 下午3:45:10 <br/>
- * 作者: xwb
+ * 说明:表单校验结果
+ * 创建日期: 2016年12月19日 下午3:45:10
+ * 作者: xiangwb
  */
 public class ValidateResult
 {

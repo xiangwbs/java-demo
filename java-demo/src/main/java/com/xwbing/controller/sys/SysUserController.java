@@ -37,9 +37,9 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 说明: 用户控制器 <br/>
- * 创建日期: 2017年1月18日 下午5:57:18 <br/>
- * 作者: xwb
+ * 说明: 用户控制器
+ * 创建日期: 2017年1月18日 下午5:57:18
+ * 作者: xiangwb
  */
 @Controller
 @RequestMapping("/user/")

@@ -8,9 +8,9 @@ import java.util.Date;
 
 /**
  * 
- * 说明: 用户登录登出表<br/>
- * 创建日期: 2016年11月2日 下午3:15:27 <br/>
- * 作者: xwb
+ * 说明: 用户登录登出表
+ * 创建日期: 2016年11月2日 下午3:15:27
+ * 作者: xiangwb
  */
 @Data
 public class SysUserLoginInOut implements Serializable{

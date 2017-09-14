@@ -5,7 +5,7 @@ import java.util.Arrays;
 /**
  * 说明: 公共枚举
  * 创建日期: 2016年12月9日 上午9:50:30
- * 作者: xwb
+ * 作者: xiangwb
  */
 public class CommonEnum {
     /**

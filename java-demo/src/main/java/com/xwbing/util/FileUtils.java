@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 说明: 文件操作工具类
  * 创建日期: 2017年3月3日 下午5:17:14
- * 作者: xwb
+ * 作者: xiangwb
  */
 public class FileUtils {
 //    private static Logger logger = LoggerFactory.getLogger(FileUtils.class);

@@ -3,7 +3,7 @@ package com.xwbing.util;
 /**
  * 说明: 容量单位换算
  * 创建日期: 2016年12月6日 下午3:20:58
- * 作者: xwb
+ * 作者: xiangwb
  */
 
 public class GMKBUtil {

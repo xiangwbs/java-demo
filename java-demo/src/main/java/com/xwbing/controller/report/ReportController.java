@@ -1,12 +1,10 @@
 package com.xwbing.controller.report;
 
-import java.io.BufferedOutputStream;
-import java.io.IOException;
-import java.util.List;
-
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-
+import com.xwbing.entity.dto.userDto;
+import com.xwbing.service.sys.SysUserService;
+import com.xwbing.util.CommonConstant;
+import com.xwbing.util.ExcelUtil;
+import com.xwbing.util.LoginSysUserUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -17,17 +15,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.xwbing.entity.dto.userDto;
-import com.xwbing.service.sys.SysUserService;
-import com.xwbing.util.CommonConstant;
-import com.xwbing.util.ExcelUtil;
-import com.xwbing.util.LoginSysUserUtil;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * 
- * 说明:  导出excel示例  <br/>
- * 创建日期: 2017年3月7日 下午4:38:44 <br/>
- * 作者: xwb
+ * 说明:  导出excel示例
+ * 创建日期: 2017年3月7日 下午4:38:44
+ * 作者: xiangwb
  */
 @Controller
 @RequestMapping("/report/")

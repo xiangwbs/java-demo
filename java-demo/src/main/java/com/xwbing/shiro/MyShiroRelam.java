@@ -1,24 +1,5 @@
 package com.xwbing.shiro;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authz.AuthorizationException;
-import org.apache.shiro.authz.AuthorizationInfo;
-import org.apache.shiro.authz.SimpleAuthorizationInfo;
-import org.apache.shiro.realm.AuthorizingRealm;
-import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.util.ByteSource;
-import org.springframework.stereotype.Component;
-
 import com.xwbing.entity.SysAuthority;
 import com.xwbing.entity.SysRole;
 import com.xwbing.entity.SysUser;
@@ -30,11 +11,25 @@ import com.xwbing.util.Digests;
 import com.xwbing.util.EncodeUtils;
 import com.xwbing.util.captcah.CaptchaException;
 import com.xwbing.util.captcah.CaptchaServlet;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.*;
+import org.apache.shiro.authz.AuthorizationException;
+import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
- * 说明:鉴权使用的 <br/>
- * 创建日期: 2016年7月13日 上午9:37:09 <br/>
- * 作者: xwb
+ * 说明:鉴权使用的
+ * 创建日期: 2016年7月13日 上午9:37:09
+ * 作者: xiangwb
  */
 @Component
 public class MyShiroRelam extends AuthorizingRealm {

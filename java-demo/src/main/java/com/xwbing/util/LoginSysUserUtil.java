@@ -6,9 +6,9 @@ import com.xwbing.entity.SysUser;
 
 /**
  * 
- * 说明:获取登录用戶信息 <br/>
- * 创建日期: 2016年11月29日 上午10:28:50 <br/>
- * 作者: xwb
+ * 说明:获取登录用戶信息
+ * 创建日期: 2016年11月29日 上午10:28:50
+ * 作者: xiangwb
  */
 public class LoginSysUserUtil {
 

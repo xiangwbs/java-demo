@@ -15,10 +15,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
- * 说明: <br/>
- * 项目名称: zxwbing <br/>
- * 创建日期: 2017年3月29日 下午4:37:09 <br/>
- * 作者: xwb
+ * 说明:
+ * 项目名称: zxwbing
+ * 创建日期: 2017年3月29日 下午4:37:09
+ * 作者: xiangwb
  */
 
 public class Java8DateDemo {
