@@ -17,15 +17,15 @@ public class HttpClientControl {
 
     /**
      * 
-     * 功能描述：     调用http接口   json参数    post方式传参          <br/>
+     * 功能描述：     调用http接口   json参数    post方式传参
      * 作    者：xwb <br/>
-     * 创建时间：2017年3月7日  下午4:36:01 <br/>
+     * 创建时间：2017年3月7日  下午4:36:01
      * @param url
      * @param param
      * @return
      */
     @RequestMapping("/post")
-    @ResponseBody
+    @ResponseBody//通过适当的HttpMessageConverter转换为指定格式后，写入到Response对象的body数据区
     public JSONObject doPost(String url,@RequestBody JSONObject param){
         return RestClientUtil.postByJson(url, param);
     }

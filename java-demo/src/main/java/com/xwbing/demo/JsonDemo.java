@@ -3,15 +3,13 @@ package com.xwbing.demo;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.xwbing.entity.BaseEntity;
 import com.xwbing.entity.SysUser;
 import com.xwbing.util.RestMessage;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,7 +21,7 @@ import java.util.Map;
  * 创建日期: 2017年3月18日 下午1:34:05
  * 作者: xiangwb
  */
-
+@Data
 public class JsonDemo {
     /*
      * fastJson注解
@@ -35,19 +33,22 @@ public class JsonDemo {
     /*
      * gson注解
      */
-    @SerializedName("is_deleted")
-    private String isDeleted;
+    @SerializedName("user_age")
+    //可以序列化和反序列化
+    @Expose
+    private String userAge;
+    //临时字段，可以反序列化
     @Expose(serialize = false)
-    private String value;
+    private String addr;
 
     public static void main(String[] args) {
         /**
          * fastJson
          */
         String jsonStr = "{'id':'888888','resultMessage':{'msg':'200','isSuccess':'true'}}";
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         map.put("id", "99999");
-        List<SysUser> list=new ArrayList<SysUser>();
+        List<SysUser> list = new ArrayList<>();
         /*
          * to jsonObject
          */
@@ -62,8 +63,8 @@ public class JsonDemo {
         /*
          * JSONArray <--> list
          */
-        String arrayStr=JSONArray.toJSONString(list);
-        list=JSONArray.parseArray(arrayStr, SysUser.class);
+        String arrayStr = JSONArray.toJSONString(list);
+        list = JSONArray.parseArray(arrayStr, SysUser.class);
         /*
          * to object
          */
@@ -82,6 +83,15 @@ public class JsonDemo {
         /**
          * gson
          */
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().serializeNulls().create();
+        JsonDemo jsonDemo = new JsonDemo();
+        jsonDemo.setUserAge("18");
+        jsonDemo.setAddr("西溪湿地");
+        String serialize = gson.toJson(jsonDemo);
+        String s = new Gson().toJson(jsonDemo);
+        JsonDemo deserialize = gson.fromJson(s, JsonDemo.class);
+
+
         String gsonStr = "{'name':'John', 'sex':1,'role':{'id':'33'}}";
         /*
          * jsonStr to JsonElement
@@ -102,7 +112,7 @@ public class JsonDemo {
         /*
          * 获取属性
          */
-        JsonObject gsonObject=jsonElement.getAsJsonObject();
+        JsonObject gsonObject = jsonElement.getAsJsonObject();
         JsonElement role = jsonElement.getAsJsonObject().get("role");
         String name = jsonElement.getAsJsonObject().get("name").getAsString();
     }
