@@ -34,12 +34,12 @@ public class JsonDemo {
      * gson注解
      */
     @SerializedName("user_age")
-    //可以序列化和反序列化
-    @Expose
+    @Expose //可以序列化和反序列化
     private String userAge;
-    //临时字段，可以反序列化
-    @Expose(serialize = false)
+    @Expose(serialize = false)//临时字段，可以反序列化
     private String addr;
+    @Expose
+    private String email;
 
     public static void main(String[] args) {
         /**
@@ -83,7 +83,7 @@ public class JsonDemo {
         /**
          * gson
          */
-        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().serializeNulls().create();
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().serializeNulls().create();//不导出实体中没有用@Expose注解的属性,并把null值也转换
         JsonDemo jsonDemo = new JsonDemo();
         jsonDemo.setUserAge("18");
         jsonDemo.setAddr("西溪湿地");
