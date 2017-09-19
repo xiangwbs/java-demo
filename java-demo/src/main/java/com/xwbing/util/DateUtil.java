@@ -86,7 +86,9 @@ public class DateUtil {
     }
 
     public static void main(String[] args) {
+
         Date date=str2Date("2016-10",YYYY_MM);
+        System.out.println(date);
     }
 
     /**
