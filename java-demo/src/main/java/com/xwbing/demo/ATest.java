@@ -1,7 +1,6 @@
 package com.xwbing.demo;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Random;
 
 /**
  * 说明: 测试
@@ -11,13 +10,9 @@ import java.util.Map;
 
 public class ATest {
     public static void main(String[] args) {
-        Map<String, String> map = new HashMap<>();
-        String dd = map.get("dd");
-        if(map.containsKey("qq")){
-            System.out.println("ww");
-        }else {
-            System.out.println("www");
-        }
-
+        Random ram=new Random();
+        int i = ram.nextInt(6);
+        int i1 = ram.nextInt(6);
+        System.out.println("");
     }
 }

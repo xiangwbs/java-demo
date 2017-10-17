@@ -1,6 +1,10 @@
 package com.xwbing.util;
 
+import com.alibaba.fastjson.JSONObject;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * 说明: 公共枚举
@@ -191,5 +195,16 @@ public class CommonEnum {
 //        }
         YesOrNo yesOrNo = Arrays.stream(YesOrNo.values()).filter(obj -> obj.getCode().equals(code)).findFirst().get();
         System.out.println(yesOrNo.getName());
+
+
+        List<JSONObject> resultVos = new ArrayList<>();
+        JSONObject jsonObject;
+        for (CommonEnum.YesOrNo status : CommonEnum.YesOrNo.values()) {
+            jsonObject = new JSONObject();
+            jsonObject.put("code", status.getCode());
+            jsonObject.put("name", status.getName());
+            resultVos.add(jsonObject);
+        }
+//        return resultVos;
     }
 }
