@@ -12,12 +12,12 @@ import java.util.Map;
  * 说明: 集合数据分页
  */
 public class ListPageUtil {
-    public static Map<String, Object> page(List<Object> list, int currentPage, int pageSize) {
+    public static Map<String, Object> page(List<Object> list, int pageNo, int pageSize) {
         Map<String, Object> pageMap = new HashMap<>();
         int size = list.size();
         pageMap.put("count", size);
-        int start = (currentPage - 1) * pageSize;
-        int end = pageSize * currentPage;
+        int start = (pageNo - 1) * pageSize;
+        int end = pageSize * pageNo;
         if (start >= end || start >= size) {
             pageMap.put("data", Collections.emptyList());
         } else {
