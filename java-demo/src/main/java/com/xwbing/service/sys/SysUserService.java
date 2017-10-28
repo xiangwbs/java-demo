@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.xwbing.util.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,13 +19,7 @@ import com.xwbing.entity.SysUser;
 import com.xwbing.entity.SysUserRole;
 import com.xwbing.entity.dto.userDto;
 import com.xwbing.entity.model.EmailModel;
-import com.xwbing.util.CommonEnum.YesOrNo;
-import com.xwbing.util.Digests;
-import com.xwbing.util.EmailUtil;
-import com.xwbing.util.EncodeUtils;
-import com.xwbing.util.LoginSysUserUtil;
-import com.xwbing.util.PassWordUtil;
-import com.xwbing.util.RestMessage;
+import com.xwbing.util.CommonEnum.YesOrNoEnum;
 
 /**
  * 说明:
@@ -64,7 +59,7 @@ public class SysUserService {
 		user.setSalt(res[1]);
 		user.setPassword(res[2]);
 		// 设置否管理员
-		user.setIsAdmin(YesOrNo.NO.getCode());
+		user.setIsAdmin(CommonEnum.YesOrNoEnum.NO.getCode());
 		user.setCreator(LoginSysUserUtil.getUserId());
 		int row = sysUserDao.save(user);
 		if (row == 0) {
@@ -109,7 +104,7 @@ public class SysUserService {
 		if (loginUserId.equalsIgnoreCase(id)) {
 			throw new BusinessException("不能删除当前登录用户");
 		}
-		if (YesOrNo.YES.getCode().equalsIgnoreCase(old.getIsAdmin())) {
+		if (CommonEnum.YesOrNoEnum.YES.getCode().equalsIgnoreCase(old.getIsAdmin())) {
 			throw new BusinessException("不能对管理员进行删除操作");
 		}
 		Map<String, Object> params=new HashMap<String, Object>();
@@ -256,7 +251,7 @@ public class SysUserService {
 			throw new BusinessException("不能修改当前登录用户");
 		}
 
-		if (YesOrNo.YES.getCode().equalsIgnoreCase(old.getIsAdmin())) {
+		if (YesOrNoEnum.YES.getCode().equalsIgnoreCase(old.getIsAdmin())) {
 			throw new BusinessException("不能对管理员修改操作");
 		}
 		// 根据实际情况补充
@@ -327,7 +322,7 @@ public class SysUserService {
         if (CollectionUtils.isNotEmpty(list)) {
             for (SysUser info : list) {
                 userDto temp = new userDto();
-                temp.setIsAdmin(YesOrNo.YES.getCode().equals(info.getIsAdmin())?"是":"否");
+                temp.setIsAdmin(CommonEnum.YesOrNoEnum.YES.getCode().equals(info.getIsAdmin())?"是":"否");
                 temp.setMail(info.getMail());
                 temp.setSex(1==info.getSex()?"男":"女");
                 temp.setUserName(info.getUserName());

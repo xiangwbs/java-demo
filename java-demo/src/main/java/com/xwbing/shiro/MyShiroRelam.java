@@ -79,12 +79,12 @@ public class MyShiroRelam extends AuthorizingRealm {
 
             List<SysRole> listRole = null;
             // 如果是管理员
-            if (CommonEnum.YesOrNo.YES.getCode().equalsIgnoreCase(isAdmin))
-                listRole = sysRoleService.queryAll(CommonEnum.YesOrNo.YES
+            if (CommonEnum.YesOrNoEnum.YES.getCode().equalsIgnoreCase(isAdmin))
+                listRole = sysRoleService.queryAll(CommonEnum.YesOrNoEnum.YES
                         .getCode());
             else
                 listRole = sysRoleService.queryByUserId(userId,
-                        CommonEnum.YesOrNo.YES.getCode());
+                        CommonEnum.YesOrNoEnum.YES.getCode());
             // 用户的角色集合
             Set<String> roles = new HashSet<String>();
             if (listRole != null) {
@@ -99,15 +99,15 @@ public class MyShiroRelam extends AuthorizingRealm {
             // 获取用户对应的权限
             Set<String> permissions = new HashSet<String>();
             List<SysAuthority> listAuthoritys = new ArrayList<SysAuthority>();
-            if (CommonEnum.YesOrNo.YES.getCode().equalsIgnoreCase(isAdmin)) {// 超级管理员
+            if (CommonEnum.YesOrNoEnum.YES.getCode().equalsIgnoreCase(isAdmin)) {// 超级管理员
                 listAuthoritys = sysAuthorityService
-                        .queryAll(CommonEnum.YesOrNo.YES.getCode());
+                        .queryAll(CommonEnum.YesOrNoEnum.YES.getCode());
             } else {
                 if (listRole != null) {// 角色不为空
                     for (SysRole sysRole : listRole) {
                         List<SysAuthority> temp = sysAuthorityService
                                 .queryByRoleId(sysRole.getId(),
-                                        CommonEnum.YesOrNo.YES.getCode());
+                                        CommonEnum.YesOrNoEnum.YES.getCode());
                         if (temp != null)
                             listAuthoritys.addAll(temp);
                     }
@@ -166,7 +166,7 @@ public class MyShiroRelam extends AuthorizingRealm {
         String sysPassWord = sysUser.getPassword();
         if (validatePassWord.equals(sysPassWord)) {// 如果密码正确
             // 增加密码失效判断时间
-//            if (YesOrNo.YES.getCode().equalsIgnoreCase(
+//            if (YesOrNoEnum.YES.getCode().equalsIgnoreCase(
 //                    sysUser.getIsResetPassword())) {// 如果是重置密码，
 //                Date invalidTime = sysUser.getPasswordInvalidTime();// 获取密码失效时间
 //                if (invalidTime.getTime() < (new Date()).getTime()) {
@@ -175,7 +175,7 @@ public class MyShiroRelam extends AuthorizingRealm {
 //            }
             // 判断是否锁定
             // String isLock = sysUser.getIsLock();
-            // if (CommonEnum.YesOrNo.YES.getCode().equalsIgnoreCase(isLock))
+            // if (CommonEnum.YesOrNoEnum.YES.getCode().equalsIgnoreCase(isLock))
             // {// 如果为0表示锁定
             // throw new LockedAccountException("账号被锁定");// 没找到帐号
             // } else {

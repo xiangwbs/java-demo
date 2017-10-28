@@ -34,7 +34,7 @@ public class SecondGroupService extends BaseService {
         RequestExample example = new RequestExample(Integer.MAX_VALUE, 1);
         RequestExample.Criteria cri = example.create();
         RequestExample.Param param = example.createParam();
-        param.addTerm("is_deleted", CommonEnum.YesOrNo.NO.getCode());//匹配查询
+        param.addTerm("is_deleted", CommonEnum.YesOrNoEnum.NO.getCode());//匹配查询
         if (StringUtils.isNotEmpty(sysUser.getName())) {
             param.addTerm("name", sysUser.getName());
             cri.getMust().add(param);
@@ -58,14 +58,14 @@ public class SecondGroupService extends BaseService {
     public Pagination queryPage(Pagination pagination, SysUser sysUser) {
         //第一种方法 多表关联
         StringBuffer sql = new StringBuffer("select * from " + SysUser.table + " where 1=1");
-        sql.append(" and is_deleted='" + CommonEnum.YesOrNo.NO.getCode() + "'");
+        sql.append(" and is_deleted='" + CommonEnum.YesOrNoEnum.NO.getCode() + "'");
         if (StringUtils.isNotEmpty(sysUser.getName())) {
             sql.append(" and name like '%" + sysUser.getName() + "%'");
         }
         pagination = queryBuilder.execute(sql.toString(), pagination.getPage_size(), pagination.getCurrent_page());
         //第二种方法 单个表
         Map<String, Object> term = new HashMap<>();
-        term.put("is_deleted", CommonEnum.YesOrNo.NO.getCode());
+        term.put("is_deleted", CommonEnum.YesOrNoEnum.NO.getCode());
         if (StringUtils.isNotEmpty(sysUser.getName())) {
             term.put("name", sysUser.getName());
         }

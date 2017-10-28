@@ -40,7 +40,7 @@ public class SysConfigService {
         // 检查当前系统配置
         SysConfig sysConfig = findByCode(data.getCode());
         if (null != sysConfig
-                && CommonEnum.YesOrNo.NO.getCode().equals(
+                && CommonEnum.YesOrNoEnum.NO.getCode().equals(
                         sysConfig.getIsDeleted())) {
             throw new BusinessException(data.getCode() + "已存在");
         }
@@ -139,7 +139,7 @@ public class SysConfigService {
     public SysConfig findByCode(String code) {
         Map<String, Object> term = new HashMap<String, Object>();
         term.put("code", code);
-        term.put("is_deleted", CommonEnum.YesOrNo.NO.getCode());
+        term.put("is_deleted", CommonEnum.YesOrNoEnum.NO.getCode());
         return sysConfigDao.findOne(term);
     }
 

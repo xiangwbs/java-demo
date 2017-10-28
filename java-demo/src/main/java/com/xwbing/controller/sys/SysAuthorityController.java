@@ -171,7 +171,7 @@ public class SysAuthorityController {
                 SysAuthority queryOne = sysAuthorityService
                         .findById(sysAuthority.getParentId());
                 if (null != queryOne) {
-                    if (CommonEnum.YesOrNo.NO.getCode().equals(
+                    if (CommonEnum.YesOrNoEnum.NO.getCode().equals(
                             queryOne.getIsEnable())) {
                         return JSONObjResult.toJSONObj("父节点已被禁用，请先启用父节点");
                     }

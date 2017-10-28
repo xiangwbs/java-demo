@@ -6,13 +6,9 @@ import com.xwbing.Exception.InvalidPassWordException;
 import com.xwbing.entity.*;
 import com.xwbing.service.sys.*;
 import com.xwbing.shiro.UsernamePasswordCaptchaToken;
+import com.xwbing.util.*;
 import com.xwbing.util.CommonEnum.LoginInOut;
 import com.xwbing.util.CommonEnum.MenuOrButton;
-import com.xwbing.util.CommonEnum.YesOrNo;
-import com.xwbing.util.IpUtil;
-import com.xwbing.util.JSONObjResult;
-import com.xwbing.util.LoginSysUserUtil;
-import com.xwbing.util.RestMessage;
 import com.xwbing.util.captcah.CaptchaException;
 import com.xwbing.validate.FormMap;
 import com.xwbing.validate.ValidateResult;
@@ -174,7 +170,7 @@ public class SysUserController {
             if (old == null) {
                 return JSONObjResult.toJSONObj("没有查询到对象");
             }
-            if (YesOrNo.YES.getCode().equalsIgnoreCase(old.getIsAdmin())) {
+            if (CommonEnum.YesOrNoEnum.YES.getCode().equalsIgnoreCase(old.getIsAdmin())) {
                 return JSONObjResult.toJSONObj("不能对管理员进行删除操作");
             }
             String ids[] = roleIds.split(",");
@@ -246,11 +242,11 @@ public class SysUserController {
             List<SysAuthority> other = new ArrayList<SysAuthority>();
             List<SysAuthority> menu = new ArrayList<SysAuthority>();
             List<SysAuthority> list = null;
-            if (YesOrNo.YES.getCode().equalsIgnoreCase(sysUser.getIsAdmin()))
+            if (CommonEnum.YesOrNoEnum.YES.getCode().equalsIgnoreCase(sysUser.getIsAdmin()))
                 list = sysAuthorityService.queryAll(null);
             else
                 list = sysUserService.queryAuthority(sysUser.getId(),
-                        YesOrNo.YES.getCode());
+                        CommonEnum.YesOrNoEnum.YES.getCode());
             if (list != null) {
                 for (SysAuthority sysAuthority : list) {
                     if (sysAuthority.getType() == MenuOrButton.MENU.getCode())
