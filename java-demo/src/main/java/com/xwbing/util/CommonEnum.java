@@ -36,6 +36,64 @@ public class CommonEnum {
         }
     }
 
+    public enum LoginInOut {
+        IN("登录", 0), OUT("登出", 1);
+        // 成员变量
+        private String name;
+        private int code;
+
+        LoginInOut(String name, int code) {
+            this.name = name;
+            this.code = code;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getCode() {
+            return code;
+        }
+    }
+
+    public enum MenuOrButton {
+        MENU("菜单", 0), BUTTON("按钮", 1);
+        // 成员变量
+        private String name;
+        private int code;
+
+        MenuOrButton(String name, int code) {
+            this.name = name;
+            this.code = code;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getCode() {
+            return code;
+        }
+    }
+
+    public enum ValidateResultEnum {
+        SUCCESS("校验通过", 1), FAILED("校验失败", 0);
+        private String msg;
+        private int errorCode;
+
+        ValidateResultEnum(String msg, int errorCode) {
+            this.msg = msg;
+            this.errorCode = errorCode;
+        }
+
+        public String getMsg() {
+            return this.msg;
+        }
+
+        public int getErrorCode() {
+            return this.errorCode;
+        }
+    }
 
     public static void main(String[] args) {
         String code = "Y";

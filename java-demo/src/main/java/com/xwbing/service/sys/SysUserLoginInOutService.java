@@ -1,15 +1,14 @@
 package com.xwbing.service.sys;
 
-import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.xwbing.entity.SysUser;
 import com.xwbing.entity.SysUserLoginInOut;
 import com.xwbing.util.CommonEnum;
 import com.xwbing.util.RestMessage;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * 说明:
@@ -36,8 +35,6 @@ public class SysUserLoginInOutService {
      * 作 者：xwb <br/>
      * 创建时间：2017年3月2日 上午11:22:28 <br/>
      * 
-     * @param pageNo
-     * @param pageSize
      * @param userLoginInOut
      * @return
      */
@@ -52,8 +49,8 @@ public class SysUserLoginInOutService {
         }
         int inOutType = userLoginInOut.getInoutType();
         // 判断登录登出
-        if (inOutType == CommonEnum.LoginInOut.IN.getValue()
-                || inOutType == CommonEnum.LoginInOut.OUT.getValue()) {
+        if (inOutType == CommonEnum.LoginInOut.IN.getCode()
+                || inOutType == CommonEnum.LoginInOut.OUT.getCode()) {
             sql.append(" and s.inout_type = " + inOutType);
         }
         // 用户ip

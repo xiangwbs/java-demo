@@ -83,7 +83,7 @@ public class SysUserController {
                         ip, now);// 修改最后登录信息
                 if (result.isSuccess()) {
                     SysUserLoginInOut inOut = new SysUserLoginInOut();
-                    inOut.setInoutType(LoginInOut.IN.getValue());
+                    inOut.setInoutType(LoginInOut.IN.getCode());
                     inOut.setIp(ip);
                     inOut.setRecordDate(now);
                     inOut.setUserId(userId);
@@ -309,8 +309,6 @@ public class SysUserController {
      * 修改时间： <br/>
      * 修改说明： <br/>
      * 
-     * @param pagerUtil
-     * @param user
      * @return
      */
     @RequestMapping("queryUserList")
@@ -489,7 +487,7 @@ public class SysUserController {
                 String ip = IpUtil.getIpAddr(request);
                 Date now = new Date();
                 SysUserLoginInOut inOut = new SysUserLoginInOut();
-                inOut.setInoutType(LoginInOut.OUT.getValue());
+                inOut.setInoutType(LoginInOut.OUT.getCode());
                 inOut.setIp(ip);
                 inOut.setRecordDate(now);
                 inOut.setUserId(sysUser.getId());

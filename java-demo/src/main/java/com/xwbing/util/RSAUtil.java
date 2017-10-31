@@ -39,7 +39,7 @@ public class RSAUtil {
                     .getResource("rsa_public_key.pem").getPath();
             InputStream in = new FileInputStream(filePath);
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
-            String readLine = null;
+            String readLine;
             StringBuilder sb = new StringBuilder();
             while ((readLine = br.readLine()) != null) {
                 if (readLine.charAt(0) == '-') {
@@ -95,7 +95,7 @@ public class RSAUtil {
                     .getResource("rsa_private_key.pem").getPath();
             InputStream in = new FileInputStream(filePath);
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
-            String readLine = null;
+            String readLine;
             StringBuilder sb = new StringBuilder();
             while ((readLine = br.readLine()) != null) {
                 if (readLine.charAt(0) == '-') {
@@ -115,9 +115,7 @@ public class RSAUtil {
     }
 
     /**
-     * 功能描述： 从字符串中加载私钥 <br/>
-     * 作 者：xwb <br/>
-     * 创建时间：2017年3月2日 下午2:44:15 <br/>
+     * 功能描述： 从字符串中加载私钥
      *
      * @param privateKeyStr
      * @return
@@ -161,7 +159,7 @@ public class RSAUtil {
             throw new Exception("加密公钥为空, 请设置");
         }
         byte[] plainTextData = data.getBytes();
-        Cipher cipher = null;
+        Cipher cipher;
         try {
             cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");// 得到Cipher对象来实现对源数据的RSA加密
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
@@ -207,7 +205,7 @@ public class RSAUtil {
         }
         BASE64Decoder base64Decoder = new BASE64Decoder();
         byte[] cipherData = base64Decoder.decodeBuffer(data);
-        Cipher cipher = null;
+        Cipher cipher;
         try {
             cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
             cipher.init(Cipher.DECRYPT_MODE, privateKey);
@@ -228,9 +226,7 @@ public class RSAUtil {
     }
 
     /**
-     * 功能描述： 默认解密方式 <br/>
-     * 作 者：xwb <br/>
-     * 创建时间：2017年3月2日 下午2:48:56 <br/>
+     * 功能描述： 默认解密方式
      *
      * @param data
      * @return
@@ -256,7 +252,5 @@ public class RSAUtil {
         String plainText3 = decrypt(loadPrivateKey(), str);
         System.out.println("解密结果:" + plainText3);
         return plainText3;
-
     }
-
 }
