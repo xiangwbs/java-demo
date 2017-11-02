@@ -24,7 +24,8 @@ public class PassWordUtil {
     private static final int HASH_INTERATIONS = 1024;
 
     public static void main(String[] args) {
-        getUserSecret("123456", "123456");
+        String[] userSecret = getUserSecret("123456", "123456");
+        System.out.println("");
     }
 
     /**

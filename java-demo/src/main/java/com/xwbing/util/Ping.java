@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,14 +18,11 @@ public class Ping {
      *
      * @param ipAddress
      * @return
-     * @throws UnknownHostException
      * @throws IOException
      */
-    public static boolean ping(String ipAddress) throws UnknownHostException,
-            IOException {
+    public static boolean ping(String ipAddress) throws IOException {
         int timeOut = 3000; // 超时应该在3钞以上
-        boolean status = InetAddress.getByName(ipAddress).isReachable(timeOut);// 当返回值是true时，说明host是可用的，false则不可。
-        return status;
+        return InetAddress.getByName(ipAddress).isReachable(timeOut);// 当返回值是true时，说明host是可用的，false则不可。
     }
 
     /**
@@ -36,7 +32,7 @@ public class Ping {
      * @throws Exception
      */
     public static void ping02(String ipAddress) throws Exception {
-        String line = null;
+        String line;
         try {
             Process pro = Runtime.getRuntime().exec("ping " + ipAddress);
             BufferedReader buf = new BufferedReader(new InputStreamReader(
@@ -59,8 +55,7 @@ public class Ping {
     public static boolean ping(String ipAddress, int pingTimes, int timeOut) {
         BufferedReader in = null;
         Runtime r = Runtime.getRuntime(); // 将要执行的ping命令,此命令是windows格式的命令
-        String pingCommand = "ping " + ipAddress + " -n " + pingTimes + " -w "
-                + timeOut;
+        String pingCommand = "ping " + ipAddress + " -n " + pingTimes + " -w " + timeOut;
         try { // 执行命令并获取输出
             System.out.println(pingCommand);
             Process p = r.exec(pingCommand);
@@ -70,7 +65,7 @@ public class Ping {
             in = new BufferedReader(new InputStreamReader(p.getInputStream())); // 逐行检查输出,计算类似出现=23ms
             // TTL=62字样的次数
             int connectedCount = 0;
-            String line = null;
+            String line;
             while ((line = in.readLine()) != null) {
                 connectedCount += getCheckResult(line);
             } // 如果出现类似=23ms TTL=62这样的字样,出现的次数=测试次数则返回真
