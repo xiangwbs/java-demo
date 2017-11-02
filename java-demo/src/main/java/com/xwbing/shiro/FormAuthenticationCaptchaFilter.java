@@ -14,39 +14,24 @@ import javax.servlet.ServletResponse;
  */
 public class FormAuthenticationCaptchaFilter extends FormAuthenticationFilter {
 
-	public static final String DEFAULT_CAPTCHA_PARAM = "captcha";
+    private static final String DEFAULT_CAPTCHA_PARAM = "captcha";
+    private static final String captchaParam = DEFAULT_CAPTCHA_PARAM;
 
-	private String captchaParam = DEFAULT_CAPTCHA_PARAM;
+    private String getCaptchaParam() {
+        return captchaParam;
+    }
 
-	public String getCaptchaParam() {
+    private String getCaptcha(ServletRequest request) {
+        return WebUtils.getCleanParam(request, getCaptchaParam());
+    }
 
-		return captchaParam;
-
-	}
-
-	protected String getCaptcha(ServletRequest request) {
-
-		return WebUtils.getCleanParam(request, getCaptchaParam());
-
-	}
     @Override
-	protected AuthenticationToken createToken(
-
-	ServletRequest request, ServletResponse response) {
-
-		String username = getUsername(request);
-
-		String password = getPassword(request);
-
-		String captcha = getCaptcha(request);
-
-		boolean rememberMe = isRememberMe(request);
-
-		String host = getHost(request);
-
-		return new UsernamePasswordCaptchaToken(username,
-				password.toCharArray(), rememberMe, host, captcha);
-
-	}
-
+    protected AuthenticationToken createToken(ServletRequest request, ServletResponse response) {
+        String username = getUsername(request);
+        String password = getPassword(request);
+        String captcha = getCaptcha(request);
+        boolean rememberMe = isRememberMe(request);
+        String host = getHost(request);
+        return new UsernamePasswordCaptchaToken(username, password.toCharArray(), rememberMe, host, captcha);
+    }
 }

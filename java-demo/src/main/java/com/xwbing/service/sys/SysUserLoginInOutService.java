@@ -30,11 +30,8 @@ public class SysUserLoginInOutService {
     }
 
     /**
-     * 
-     * 功能描述： 分页查询用户登录登出信息 <br/>
-     * 作 者：xwb <br/>
-     * 创建时间：2017年3月2日 上午11:22:28 <br/>
-     * 
+     * 分页查询用户登录登出信息
+     *
      * @param userLoginInOut
      * @return
      */

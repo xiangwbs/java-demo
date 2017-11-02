@@ -21,10 +21,7 @@ import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -37,32 +34,28 @@ import java.util.List;
  * 创建日期: 2017年1月18日 下午5:57:18
  * 作者: xiangwb
  */
-@Controller
+@RestController
 @RequestMapping("/user/")
 public class SysUserController {
-    private Logger log = LoggerFactory.getLogger(SysUserController.class);
+    private final Logger logger = LoggerFactory.getLogger(SysUserController.class);
     @Autowired
-    SysUserService sysUserService;
+    private SysUserService sysUserService;
     @Autowired
-    SysRoleService sysRoleService;
+    private SysRoleService sysRoleService;
     @Autowired
-    SysUserRoleService sysUserRoleService;
+    private SysUserRoleService sysUserRoleService;
     @Autowired
-    SysUserLoginInOutService sysUserLoginInOutService;
+    private SysUserLoginInOutService sysUserLoginInOutService;
     @Autowired
-    SysAuthorityService sysAuthorityService;
+    private SysAuthorityService sysAuthorityService;
 
-    @RequestMapping("loginCheck")
-    @ResponseBody
-    public JSONObject loginCheck(SysUser sysUser, boolean rememberMe,
-            @RequestParam String captcha, HttpServletRequest request) {
+    @PostMapping("loginCheck")
+    public JSONObject loginCheck(SysUser sysUser, boolean rememberMe, @RequestParam String captcha, HttpServletRequest request) {
         String logMsg = "loginCheck";
-        log.info(logMsg + "start");
+        logger.info(logMsg + "start");
         try {
             // 先判断是不是为空
-            if (StringUtils.isEmpty(sysUser.getUserName())
-                    || StringUtils.isEmpty(sysUser.getPassword())) {
-
+            if (StringUtils.isEmpty(sysUser.getUserName()) || StringUtils.isEmpty(sysUser.getPassword())) {
                 return JSONObjResult.toJSONObj("用户名或密码不能为空!");
             }
             Subject subject = SecurityUtils.getSubject();
@@ -79,8 +72,7 @@ public class SysUserController {
                 // 修改用户的最后登录时间和登录ip
                 String userId = sysUser.getId();
                 Date now = new Date();
-                RestMessage result = sysUserService.updateLoginInfo(userId,
-                        ip, now);// 修改最后登录信息
+                RestMessage result = sysUserService.updateLoginInfo(userId, ip, now);// 修改最后登录信息
                 if (result.isSuccess()) {
                     SysUserLoginInOut inOut = new SysUserLoginInOut();
                     inOut.setInoutType(LoginInOutEnum.IN.getCode());
@@ -121,51 +113,45 @@ public class SysUserController {
 
     /**
      * 当前登录用户修改密码
-     * 
+     *
      * @param oldPassWord
      * @param newPassWord
      * @return
      */
-    @RequestMapping("updatePassWord")
-    @ResponseBody
-    public JSONObject updatePassWord(@RequestParam String oldPassWord,
-            @RequestParam String newPassWord) {
+    @PostMapping("updatePassWord")
+    public JSONObject updatePassWord(@RequestParam String oldPassWord, @RequestParam String newPassWord) {
         String logMsg = "当前登录用户修改密码";
-        log.info(logMsg);
+        logger.info(logMsg);
         try {
             String loginUserId = LoginSysUserUtil.getUserId();
             if (StringUtils.isEmpty(loginUserId))
                 return JSONObjResult.toJSONObj("未能获取到登录信息，请重新登录");
-            RestMessage result = sysUserService.updatePassWord(newPassWord,
-                    oldPassWord, loginUserId);
+            RestMessage result = sysUserService.updatePassWord(newPassWord, oldPassWord, loginUserId);
             return JSONObjResult.toJSONObj(result);
         } catch (BusinessException e) {
-            log.error(logMsg + "===" + e.getMessage());
+            logger.error(logMsg + "===" + e.getMessage());
             return JSONObjResult.toJSONObj(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            log.error(logMsg + "===异常" + e);
+            logger.error(logMsg + "===异常" + e);
             return JSONObjResult.toJSONObj("系统异常，请联系管理员 " + e.getMessage());
         }
     }
 
     /**
      * 保存用户角色
-     * 
+     *
      * @return
      */
-    @RequestMapping("saveRole")
-    @ResponseBody
-    public JSONObject saveRole(@RequestParam String roleIds,
-            @RequestParam String userId) {
+    @PostMapping("saveRole")
+    public JSONObject saveRole(@RequestParam String roleIds, @RequestParam String userId) {
         String logMsg = "保存用户角色";
-        log.info(logMsg + "ids={}", roleIds);
+        logger.info(logMsg + "ids={}", roleIds);
         try {
             if (StringUtils.isEmpty(roleIds))
                 return JSONObjResult.toJSONObj("角色主键不能为空");
             if (StringUtils.isEmpty(userId))
                 return JSONObjResult.toJSONObj("用户主键不能为空");
-
             SysUser old = sysUserService.findById(userId);
             if (old == null) {
                 return JSONObjResult.toJSONObj("没有查询到对象");
@@ -174,7 +160,7 @@ public class SysUserController {
                 return JSONObjResult.toJSONObj("不能对管理员进行删除操作");
             }
             String ids[] = roleIds.split(",");
-            List<SysUserRole> list = new ArrayList<SysUserRole>();
+            List<SysUserRole> list = new ArrayList<>();
             for (String id : ids) {
                 SysUserRole re = new SysUserRole();
                 re.setRoleId(id);
@@ -184,69 +170,63 @@ public class SysUserController {
             RestMessage result = sysUserRoleService.saveBatch(list, userId);
             return JSONObjResult.toJSONObj(result);
         } catch (BusinessException e) {
-            log.error(logMsg + "===" + e.getMessage());
+            logger.error(logMsg + "===" + e.getMessage());
             return JSONObjResult.toJSONObj(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            log.error(logMsg + "===异常" + e);
+            logger.error(logMsg + "===异常" + e);
             return JSONObjResult.toJSONObj("系统异常，请联系管理员 " + e.getMessage());
         }
     }
 
     /**
      * 根据用户主键查找所拥有的权限
-     * 
+     *
      * @param userId
      * @param enable
      * @return
      */
-    @RequestMapping("queryAuthority")
-    @ResponseBody
-    public JSONObject queryAuthority(@RequestParam String userId,
-            @RequestParam String enable) {
+    @PostMapping("queryAuthority")
+    public JSONObject queryAuthority(@RequestParam String userId, @RequestParam String enable) {
         String logMsg = "根据用户主键查找所拥有的权限";
-        log.info(logMsg);
+        logger.info(logMsg);
         if (StringUtils.isEmpty(userId))
             return JSONObjResult.toJSONObj("用户主键不能为空");
         try {
-            List<SysAuthority> list = sysUserService.queryAuthority(userId,
-                    enable);
+            List<SysAuthority> list = sysUserService.queryAuthority(userId, enable);
             return JSONObjResult.toJSONObj(list, true, "");
         } catch (BusinessException e) {
-            log.error(logMsg + "===" + e.getMessage());
+            logger.error(logMsg + "===" + e.getMessage());
             return JSONObjResult.toJSONObj(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            log.error(logMsg + "===异常" + e);
+            logger.error(logMsg + "===异常" + e);
             return JSONObjResult.toJSONObj("系统异常，请联系管理员 " + e.getMessage());
         }
-
     }
 
     /**
      * 获取当前登录用户信息
-     * 
+     *
      * @return
      */
-    @RequestMapping("getLoginUserInfo")
-    @ResponseBody
+    @GetMapping("getLoginUserInfo")
     public JSONObject getLoginUserInfo() {
         String logMsg = "获取当前登录用户信息";
-        log.info(logMsg);
+        logger.info(logMsg);
         try {
             SysUser sysUser = LoginSysUserUtil.getSysUser();
             if (sysUser == null)
                 return JSONObjResult.toJSONObj("未获取到当前登录用户信息");
             SysUser result = new SysUser();
             result.setUserName(sysUser.getUserName());
-            List<SysAuthority> other = new ArrayList<SysAuthority>();
-            List<SysAuthority> menu = new ArrayList<SysAuthority>();
-            List<SysAuthority> list = null;
+            List<SysAuthority> other = new ArrayList<>();
+            List<SysAuthority> menu = new ArrayList<>();
+            List<SysAuthority> list;
             if (CommonEnum.YesOrNoEnum.YES.getCode().equalsIgnoreCase(sysUser.getIsAdmin()))
                 list = sysAuthorityService.queryAll(null);
             else
-                list = sysUserService.queryAuthority(sysUser.getId(),
-                        CommonEnum.YesOrNoEnum.YES.getCode());
+                list = sysUserService.queryAuthority(sysUser.getId(), CommonEnum.YesOrNoEnum.YES.getCode());
             if (list != null) {
                 for (SysAuthority sysAuthority : list) {
                     if (sysAuthority.getType() == MenuOrButtonEnum.MENU.getCode())
@@ -255,110 +235,88 @@ public class SysUserController {
                         other.add(sysAuthority);
                 }
             }
-
             result.setMenuArray(menu);
             result.setOtherArray(other);
-
             return JSONObjResult.toJSONObj(result, true, "");
         } catch (BusinessException e) {
-            log.error(logMsg + "===" + e.getMessage());
+            logger.error(logMsg + "===" + e.getMessage());
             return JSONObjResult.toJSONObj(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            log.error(logMsg + "===异常" + e);
+            logger.error(logMsg + "===异常" + e);
             return JSONObjResult.toJSONObj("系统异常，请联系管理员 " + e.getMessage());
         }
-
     }
 
     /**
      * 根据用户主键查找所拥有的角色
-     * 
+     *
      * @param userId
      * @param enable
      * @return
      */
-    @RequestMapping("queryRole")
-    @ResponseBody
+    @PostMapping("queryRole")
     public JSONObject queryRole(@RequestParam String userId, String enable) {
         String logMsg = "根据用户主键查找所拥有的角色";
-        log.info(logMsg);
+        logger.info(logMsg);
         try {
             if (StringUtils.isEmpty(userId))
                 return JSONObjResult.toJSONObj("用户主键不能为空");
             List<SysRole> list = sysRoleService.queryByUserId(userId, enable);
             return JSONObjResult.toJSONObj(list, true, "");
         } catch (BusinessException e) {
-            log.error(logMsg + "===" + e.getMessage());
+            logger.error(logMsg + "===" + e.getMessage());
             return JSONObjResult.toJSONObj(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            log.error(logMsg + "===异常" + e);
+            logger.error(logMsg + "===异常" + e);
             return JSONObjResult.toJSONObj("系统异常，请联系管理员 " + e.getMessage());
         }
-
     }
 
-    /**
-     * 
-     * 功能描述：简述功能 <br/>
-     * 作 者： wdz <br/>
-     * 创建时间：2016年11月3日 下午5:36:22 <br/>
-     * 实现逻辑：详述实现逻辑 <br/>
-     * 修 改 人： <br/>
-     * 修改时间： <br/>
-     * 修改说明： <br/>
-     * 
-     * @return
-     */
-    @RequestMapping("queryUserList")
-    @ResponseBody
+    @GetMapping("queryUserList")
     public JSONObject queryUserList() {
         String logMsg = "查询用户列表";
-        log.info(logMsg);
+        logger.info(logMsg);
         try {
             List<SysUser> list = sysUserService.findList();
             return JSONObjResult.toJSONObj(list, true, "");
         } catch (BusinessException e) {
-            log.error(logMsg + "===" + e.getMessage());
+            logger.error(logMsg + "===" + e.getMessage());
             return JSONObjResult.toJSONObj(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            log.error(logMsg + "===异常" + e);
+            logger.error(logMsg + "===异常" + e);
             return JSONObjResult.toJSONObj("系统异常，请联系管理员 " + e.getMessage());
         }
-
     }
 
     /**
      * 删除用户
-     * 
+     *
      * @param id
      * @return
      */
-    @RequestMapping("removeById")
-    @ResponseBody
+    @GetMapping("removeById")
     public JSONObject delelteUser(@RequestParam String id) {
         String logMsg = "删除用户信息";
-        log.info(logMsg);
-        RestMessage result = null;
+        logger.info(logMsg);
+        RestMessage result;
         try {
             if (StringUtils.isEmpty(id)) {
                 return JSONObjResult.toJSONObj("主键不能为空");
             }
-
             String logingUserId = LoginSysUserUtil.getUserId();
             if (StringUtils.isEmpty(logingUserId)) {
                 return JSONObjResult.toJSONObj("未获取到登录用户信息");
             }
-
             result = sysUserService.deleteUsr(id, logingUserId);
         } catch (BusinessException e) {
-            log.error(logMsg + "===" + e.getMessage());
+            logger.error(logMsg + "===" + e.getMessage());
             return JSONObjResult.toJSONObj(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            log.error(logMsg + "===异常" + e);
+            logger.error(logMsg + "===异常" + e);
             return JSONObjResult.toJSONObj("系统异常，请联系管理员 " + e.getMessage());
         }
         return JSONObjResult.toJSONObj(result);
@@ -366,19 +324,17 @@ public class SysUserController {
 
     /**
      * 保存
-     * 
+     *
      * @param sysUser
      * @return
      */
-    @RequestMapping("save")
-    @ResponseBody
+    @PostMapping("save")
     public JSONObject save(@Valid SysUser sysUser) {
         String logMsg = "保存信息";
-        log.info(logMsg);
+        logger.info(logMsg);
         try {
             RestMessage result;
-            ValidateResult validate = ValidateUtil.validate(sysUser,
-                    FormMap.getSysUserAddMap());
+            ValidateResult validate = ValidateUtil.validate(sysUser, FormMap.getSysUserAddMap());
             if (!validate.isSuccess()) {
                 return JSONObjResult.toJSONObj(validate.getErrorMsg());
             }
@@ -389,31 +345,28 @@ public class SysUserController {
             result = sysUserService.save(sysUser);
             return JSONObjResult.toJSONObj(result);
         } catch (BusinessException e) {
-            log.error(logMsg + "===" + e.getMessage());
+            logger.error(logMsg + "===" + e.getMessage());
             return JSONObjResult.toJSONObj(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            log.error(logMsg + "===异常" + e);
+            logger.error(logMsg + "===异常" + e);
             return JSONObjResult.toJSONObj("系统异常，请联系管理员 " + e.getMessage());
         }
     }
 
     /**
      * 修改
-     * 
-     * @param
+     *
+     * @param sysUser
      * @return
      */
-    @RequestMapping("update")
-    @ResponseBody
+    @PostMapping("update")
     public JSONObject update(@Valid SysUser sysUser) {
         String logMsg = "修改信息";
-        log.info(logMsg);
+        logger.info(logMsg);
         try {
             RestMessage result;
-
-            ValidateResult validate = ValidateUtil.validate(sysUser,
-                    FormMap.getSysUserUpdateMap());
+            ValidateResult validate = ValidateUtil.validate(sysUser, FormMap.getSysUserUpdateMap());
             if (!validate.isSuccess()) {
                 return JSONObjResult.toJSONObj(validate.getErrorMsg());
             }
@@ -421,34 +374,30 @@ public class SysUserController {
             if (StringUtils.isEmpty(loginUserId)) {
                 return JSONObjResult.toJSONObj("未获取到登录用户信息");
             }
-
             if (sysUser.getId().equalsIgnoreCase(loginUserId))
                 return JSONObjResult.toJSONObj("不能对当前登录人进行修改");
-
             result = sysUserService.update(sysUser, loginUserId);
             return JSONObjResult.toJSONObj(result);
         } catch (BusinessException e) {
-            log.error(logMsg + "===" + e.getMessage());
+            logger.error(logMsg + "===" + e.getMessage());
             return JSONObjResult.toJSONObj(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            log.error(logMsg + "===异常" + e);
+            logger.error(logMsg + "===异常" + e);
             return JSONObjResult.toJSONObj("系统异常，请联系管理员 " + e.getMessage());
         }
-
     }
 
     /**
      * 查询用户信息
-     * 
+     *
      * @param id
      * @return
      */
-    @RequestMapping("queryById")
-    @ResponseBody
+    @GetMapping("queryById")
     public JSONObject queryById(@RequestParam String id) {
         String logMsg = "查询信息";
-        log.info(logMsg);
+        logger.info(logMsg);
         try {
             if (StringUtils.isEmpty(id)) {
                 return JSONObjResult.toJSONObj("主键不能为空");
@@ -460,26 +409,24 @@ public class SysUserController {
             }
             return JSONObjResult.toJSONObj(user, true, "");
         } catch (BusinessException e) {
-            log.error(logMsg + "===" + e.getMessage());
+            logger.error(logMsg + "===" + e.getMessage());
             return JSONObjResult.toJSONObj(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            log.error(logMsg + "===异常" + e);
+            logger.error(logMsg + "===异常" + e);
             return JSONObjResult.toJSONObj("系统异常，请联系管理员 " + e.getMessage());
         }
-
     }
 
     /**
      * 登出 , method = RequestMethod.GET
-     * 
+     *
      * @return
      */
-    @RequestMapping("logout")
-    @ResponseBody
+    @GetMapping("logout")
     public JSONObject logout(HttpServletRequest request) {
         String logMsg = "登出 ";
-        log.info(logMsg);
+        logger.info(logMsg);
         try {
             Subject subject = SecurityUtils.getSubject();
             if (subject != null && subject.getPrincipals() != null) {
@@ -498,16 +445,14 @@ public class SysUserController {
                     return JSONObjResult.toJSONObj("保存用户登录日志失败");
                 }
             } else
-                return JSONObjResult.toJSONObj(null, true,
-                        "没有获取到用户登录信息,自动跳转到登录页");
+                return JSONObjResult.toJSONObj(null, true, "没有获取到用户登录信息,自动跳转到登录页");
         } catch (BusinessException e) {
-            log.error(logMsg + "===" + e.getMessage());
+            logger.error(logMsg + "===" + e.getMessage());
             return JSONObjResult.toJSONObj(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            log.error(logMsg + "===异常" + e);
+            logger.error(logMsg + "===异常" + e);
             return JSONObjResult.toJSONObj("系统异常，请联系管理员 " + e.getMessage());
         }
-
     }
 }

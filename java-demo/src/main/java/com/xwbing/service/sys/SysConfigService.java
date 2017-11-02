@@ -1,12 +1,5 @@
 package com.xwbing.service.sys;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.alibaba.fastjson.JSONObject;
 import com.xwbing.Exception.BusinessException;
 import com.xwbing.dao.SysConfigDao;
@@ -14,6 +7,12 @@ import com.xwbing.entity.SysConfig;
 import com.xwbing.util.CommonEnum;
 import com.xwbing.util.LoginSysUserUtil;
 import com.xwbing.util.RestMessage;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 说明: 系统配置服务
@@ -27,9 +26,8 @@ public class SysConfigService {
 
     /**
      * 新增系统配置
-     * 
-     * @param keyword
-     * @param value
+     *
+     * @param data
      * @return
      */
     public RestMessage addConfig(SysConfig data) {
@@ -39,9 +37,7 @@ public class SysConfigService {
         }
         // 检查当前系统配置
         SysConfig sysConfig = findByCode(data.getCode());
-        if (null != sysConfig
-                && CommonEnum.YesOrNoEnum.NO.getCode().equals(
-                        sysConfig.getIsDeleted())) {
+        if (null != sysConfig && CommonEnum.YesOrNoEnum.NO.getCode().equals(sysConfig.getIsDeleted())) {
             throw new BusinessException(data.getCode() + "已存在");
         }
         data.setIsDeleted("N");
@@ -58,9 +54,8 @@ public class SysConfigService {
 
     /**
      * 删除系统配置
-     * 
-     * @param keyword
-     * @param value
+     *
+     * @param code
      * @return
      */
     public RestMessage removeConfigByCode(String code) {
@@ -81,12 +76,11 @@ public class SysConfigService {
             result.setMsg("删除配置失败");
         }
         return result;
-
     }
 
     /**
      * 更新
-     * 
+     *
      * @param code
      * @param value
      * @return
@@ -111,7 +105,7 @@ public class SysConfigService {
 
     /**
      * 更新
-     * 
+     *
      * @param systemConfig
      * @return
      */
@@ -137,20 +131,18 @@ public class SysConfigService {
      * @return
      */
     public SysConfig findByCode(String code) {
-        Map<String, Object> term = new HashMap<String, Object>();
+        Map<String, Object> term = new HashMap<>();
         term.put("code", code);
         term.put("is_deleted", CommonEnum.YesOrNoEnum.NO.getCode());
         return sysConfigDao.findOne(term);
     }
 
     /**
-     * 
-     * 功能描述： 根据Code查询查询相应配置模型 <br/>
-     * 作 者：xwb <br/>
-     * 创建时间：2017年3月23日 下午4:25:23 <br/>
-     * 
+     * 根据Code查询查询相应配置模型
+     *
      * @param code
      * @param clazz
+     * @param <T>
      * @return
      */
     public <T> T getSysConfigByKeyword(String code, Class<T> clazz) {
@@ -163,5 +155,4 @@ public class SysConfigService {
         }
         return null;
     }
-
 }

@@ -18,7 +18,6 @@ public class SessionFilter implements Filter {
 
 	public void init(FilterConfig filterConfig) throws ServletException {
 		// TODO Auto-generated method stub
-
 	}
 
 	public void doFilter(ServletRequest request, ServletResponse response,
@@ -48,14 +47,10 @@ public class SessionFilter implements Filter {
 				return;
 			}
 		}
-
 		chain.doFilter(request, response);
-
 	}
 
 	public void destroy() {
 		// TODO Auto-generated method stub
-
 	}
-
 }

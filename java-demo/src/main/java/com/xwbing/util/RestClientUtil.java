@@ -14,7 +14,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,40 +48,35 @@ public class RestClientUtil {
             .custom().setSocketTimeout(600000).setConnectTimeout(600000)
             .build();
     // Request retry handler
-    private static HttpRequestRetryHandler retryHandler = new HttpRequestRetryHandler() {
-        @Override
-        public boolean retryRequest(IOException exception, int executionCount,
-                                    HttpContext context) {
-            logger.info("retryRequest-->");
-            if (executionCount > 5) {
-                return false;
-            }
-            if (exception instanceof InterruptedIOException) {
-                // Timeout
-                return false;
-            }
-            if (exception instanceof UnknownHostException) {
-                // Unknown host
-                return false;
-            }
-            if (exception instanceof ConnectTimeoutException) {
-                // Connection refused
-                return false;
-            }
-            if (exception instanceof SSLException) {
-                // SSL handshake exception
-                return false;
-            }
-            HttpClientContext clientContext = HttpClientContext.adapt(context);
-            HttpRequest request = clientContext.getRequest();
-            boolean idempotent = !(request instanceof HttpEntityEnclosingRequest);
-            if (idempotent) {
-                // Retry if the request is considered idempotent
-                return true;
-            }
-
+    private static HttpRequestRetryHandler retryHandler = (exception, executionCount, context) -> {
+        logger.info("retryRequest-->");
+        if (executionCount > 5) {
             return false;
         }
+        if (exception instanceof InterruptedIOException) {
+            // Timeout
+            return false;
+        }
+        if (exception instanceof UnknownHostException) {
+            // Unknown host
+            return false;
+        }
+        if (exception instanceof ConnectTimeoutException) {
+            // Connection refused
+            return false;
+        }
+        if (exception instanceof SSLException) {
+            // SSL handshake exception
+            return false;
+        }
+        HttpClientContext clientContext = HttpClientContext.adapt(context);
+        HttpRequest request = clientContext.getRequest();
+        boolean idempotent = !(request instanceof HttpEntityEnclosingRequest);
+        if (idempotent) {
+            // Retry if the request is considered idempotent
+            return true;
+        }
+        return false;
     };
 
     static {
@@ -137,8 +131,7 @@ public class RestClientUtil {
             logger.error(e.getMessage());
         } finally {
             poolingHttpClientConnectionManager.closeExpiredConnections();
-            poolingHttpClientConnectionManager.closeIdleConnections(120,
-                    TimeUnit.MILLISECONDS);
+            poolingHttpClientConnectionManager.closeIdleConnections(120, TimeUnit.MILLISECONDS);
         }
         return jsonResult;
     }
@@ -179,8 +172,7 @@ public class RestClientUtil {
             logger.error(e.getMessage());
         } finally {
             poolingHttpClientConnectionManager.closeExpiredConnections();
-            poolingHttpClientConnectionManager.closeIdleConnections(120,
-                    TimeUnit.MILLISECONDS);
+            poolingHttpClientConnectionManager.closeIdleConnections(120, TimeUnit.MILLISECONDS);
         }
         return jsonResult;
     }
@@ -205,7 +197,7 @@ public class RestClientUtil {
         HttpPost post = new HttpPost(url);
         try {
             // 创建参数队列
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            List<NameValuePair> params = new ArrayList<>();
             for (Entry<String, Object> keys : param.entrySet()) {
                 params.add(new BasicNameValuePair(keys.getKey(), Objects
                         .toString(keys.getValue())));
@@ -227,8 +219,7 @@ public class RestClientUtil {
             logger.error(e.getMessage());
         } finally {
             poolingHttpClientConnectionManager.closeExpiredConnections();
-            poolingHttpClientConnectionManager.closeIdleConnections(120,
-                    TimeUnit.MILLISECONDS);
+            poolingHttpClientConnectionManager.closeIdleConnections(120, TimeUnit.MILLISECONDS);
         }
         return jsonResult;
     }
@@ -263,8 +254,7 @@ public class RestClientUtil {
             logger.error(e.getMessage());
         } finally {
             poolingHttpClientConnectionManager.closeExpiredConnections();
-            poolingHttpClientConnectionManager.closeIdleConnections(120,
-                    TimeUnit.MILLISECONDS);
+            poolingHttpClientConnectionManager.closeIdleConnections(120, TimeUnit.MILLISECONDS);
         }
         return jsonResult;
 
@@ -300,8 +290,7 @@ public class RestClientUtil {
             logger.error(e.getMessage());
         } finally {
             poolingHttpClientConnectionManager.closeExpiredConnections();
-            poolingHttpClientConnectionManager.closeIdleConnections(120,
-                    TimeUnit.MILLISECONDS);
+            poolingHttpClientConnectionManager.closeIdleConnections(120, TimeUnit.MILLISECONDS);
         }
         return jsonResult;
     }

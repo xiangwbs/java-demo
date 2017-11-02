@@ -15,9 +15,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,20 +24,20 @@ import java.util.List;
  * 创建日期: 2017年1月18日 下午5:56:37
  * 作者: xiangwb
  */
-
+@RestController
+@RequestMapping("/sysAuthority/")
 public class SysAuthorityController {
     private Logger log = LoggerFactory.getLogger(SysAuthorityController.class);
     @Autowired
-    SysAuthorityService sysAuthorityService;
+    private SysAuthorityService sysAuthorityService;
 
     /**
-     * 删除 已经测试
-     * 
+     * 删除
+     *
      * @param id
      * @return
      */
-    @RequestMapping("removeById")
-    @ResponseBody
+    @GetMapping("removeById")
     public JSONObject removeById(@RequestParam String id) {
         String logMsg = "删除信息 id={}";
         log.info(logMsg, id);
@@ -60,13 +58,12 @@ public class SysAuthorityController {
     }
 
     /**
-     * 查询权限详情 已经测试
-     * 
+     * 查询权限详情
+     *
      * @param id
      * @return
      */
-    @RequestMapping("queryById")
-    @ResponseBody
+    @GetMapping("queryById")
     public JSONObject queryById(@RequestParam String id) {
         String logMsg = "查询信息 id={}";
         log.info(logMsg, id);
@@ -83,13 +80,12 @@ public class SysAuthorityController {
     }
 
     /**
-     * 保存 已经测试
-     * 
-     * @param guideWords
+     * 保存
+     *
+     * @param sysAuthority
      * @return
      */
-    @RequestMapping("save")
-    @ResponseBody
+    @PostMapping("save")
     public JSONObject save(SysAuthority sysAuthority) {
         String logMsg = "保存信息";
         log.info(logMsg);
@@ -107,14 +103,13 @@ public class SysAuthorityController {
     }
 
     /**
-     * 
-     * 校验编号唯一性 已测试
-     * 
-     * @param update
+     * 校验编号唯一性
+     *
+     * @param code
+     * @param id
      * @return
      */
-    @RequestMapping("checkCode")
-    @ResponseBody
+    @PostMapping("checkCode")
     public JSONObject checkCode(@RequestParam String code, String id) {
         String logMsg = "校验编号唯一性";
         log.info(logMsg);
@@ -128,17 +123,15 @@ public class SysAuthorityController {
             }
             return JSONObjResult.toJSONObj(null, result, error);
         }
-
     }
 
     /**
      * 更新
-     * 
-     * @param guideWords
+     *
+     * @param sysAuthority
      * @return
      */
-    @RequestMapping("update")
-    @ResponseBody
+    @PostMapping("update")
     public JSONObject update(SysAuthority sysAuthority) {
         String logMsg = "修改信息";
         log.info(logMsg);
@@ -149,30 +142,24 @@ public class SysAuthorityController {
         if (sysAuthorityService.findById(sysAuthority.getId()) == null) {
             return JSONObjResult.toJSONObj("权限不存在");
         }
-
         ValidateResult validate = ValidateUtil.validate(sysAuthority,
                 FormMap.getSysAuthorityMap());
         if (!validate.isSuccess()) {
             return JSONObjResult.toJSONObj(validate.getErrorMsg());
         }
-
         String isEnable = sysAuthority.getIsEnable();
         // 如果禁用，查询是否有子节点，如果有，子节点也要被禁用
         if (CommonConstant.ISNOTENABLE.equals(isEnable)) {
             // 子节点的权限都禁用
-            if (!sysAuthorityService.disableChildrenByParentId(sysAuthority
-                    .getId())) {
+            if (!sysAuthorityService.disableChildrenByParentId(sysAuthority.getId())) {
                 return JSONObjResult.toJSONObj("禁用子节点权限失败");
             }
-
         } else {
             // 如果是启用看父节点是否被禁用,一级的不需要判断
             if (!CommonConstant.ROOT.equals(sysAuthority.getParentId())) {
-                SysAuthority queryOne = sysAuthorityService
-                        .findById(sysAuthority.getParentId());
+                SysAuthority queryOne = sysAuthorityService.findById(sysAuthority.getParentId());
                 if (null != queryOne) {
-                    if (CommonEnum.YesOrNoEnum.NO.getCode().equals(
-                            queryOne.getIsEnable())) {
+                    if (CommonEnum.YesOrNoEnum.NO.getCode().equals(queryOne.getIsEnable())) {
                         return JSONObjResult.toJSONObj("父节点已被禁用，请先启用父节点");
                     }
                 } else {
@@ -186,12 +173,11 @@ public class SysAuthorityController {
 
     /**
      * 根据父节点查询子节点（非递归）
-     * 
+     *
      * @param parentId
      * @return
      */
-    @RequestMapping("queryByParentId")
-    @ResponseBody
+    @GetMapping("queryByParentId")
     public JSONObject queryByParentId(String parentId) {
         String logMsg = "根据父节点查询";
         log.info(logMsg);
@@ -199,23 +185,20 @@ public class SysAuthorityController {
             parentId = CommonConstant.ROOT;
         }
         // 如果不存在则返回
-        if (!CommonConstant.ROOT.equals(parentId)
-                && sysAuthorityService.deleteById(parentId) == null) {
+        if (!CommonConstant.ROOT.equals(parentId) && sysAuthorityService.deleteById(parentId) == null) {
             return JSONObjResult.toJSONObj("父节点不存在");
         }
-        List<SysAuthority> queryByParentId = sysAuthorityService
-                .queryByParentId(parentId, null);
+        List<SysAuthority> queryByParentId = sysAuthorityService.queryByParentId(parentId, null);
         return JSONObjResult.toJSONObj(queryByParentId, true, "");
     }
 
     /**
      * 根据是否启用查询所有权限
-     * 
+     *
      * @param enable
      * @return
      */
-    @RequestMapping("queryAllAuthByEnable")
-    @ResponseBody
+    @GetMapping("queryAllAuthByEnable")
     public JSONObject queryAllAuthorityByEnable(@RequestParam String enable) {
         String logMsg = "查询所有可用角色";
         log.info(logMsg);
@@ -225,13 +208,11 @@ public class SysAuthorityController {
 
     /**
      * 递归查询所有角色
-     * 
-     * @param parentId
+     *
      * @param enable
      * @return
      */
-    @RequestMapping("queryTree")
-    @ResponseBody
+    @GetMapping("queryTree")
     public JSONObject queryTree(String enable) {
         String logMsg = "查询所有可用角色";
         log.info(logMsg);
@@ -248,8 +229,6 @@ public class SysAuthorityController {
             // redisService.set(RedisName.authorityThree,
             // JSONArray.toJSONString(authoritys));
         }
-
         return JSONObjResult.toJSONObj(authoritys, true, "");
     }
-
 }

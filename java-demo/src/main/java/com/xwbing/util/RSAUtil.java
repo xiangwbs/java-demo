@@ -30,7 +30,7 @@ public class RSAUtil {
     /**
      * 从文件中加载公钥 测试的时候使用
      *
-     * @return 是否成功
+     * @return
      * @throws Exception
      */
     public static RSAPublicKey loadPublicKey() throws Exception {
@@ -198,8 +198,7 @@ public class RSAUtil {
      * @return 明文
      * @throws Exception 解密过程中的异常信息
      */
-    public static String decrypt(RSAPrivateKey privateKey, String data)
-            throws Exception {
+    public static String decrypt(RSAPrivateKey privateKey, String data) throws Exception {
         if (privateKey == null) {
             throw new Exception("解密私钥为空, 请设置");
         }
@@ -238,19 +237,19 @@ public class RSAUtil {
 
     public static void main(String[] args) throws Exception {
         String en = testJiami();// 密文
-        @SuppressWarnings("unused")
         String de = testJiemi(en);// 明文
+        System.out.println(de);
     }
 
-    public static String testJiami() throws Exception {
-        String plainText3 = encrypt(loadPublicKey(), "123456");
-        System.out.println("加密结果:" + plainText3);
-        return plainText3;
+    private static String testJiami() throws Exception {
+        String plainText = encrypt(loadPublicKey(), "123456");
+        System.out.println("加密结果:" + plainText);
+        return plainText;
     }
 
-    public static String testJiemi(String str) throws Exception {
-        String plainText3 = decrypt(loadPrivateKey(), str);
-        System.out.println("解密结果:" + plainText3);
-        return plainText3;
+    private static String testJiemi(String str) throws Exception {
+        String plainText = decrypt(loadPrivateKey(), str);
+        System.out.println("解密结果:" + plainText);
+        return plainText;
     }
 }

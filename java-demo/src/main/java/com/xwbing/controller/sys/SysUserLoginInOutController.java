@@ -7,9 +7,9 @@ import com.xwbing.util.JSONObjResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -18,21 +18,18 @@ import java.util.List;
  * 创建日期: 2017年1月18日 下午5:57:31
  * 作者: xiangwb
  */
-@Controller
+@RestController
 @RequestMapping("/userLoginInOut/")
 public class SysUserLoginInOutController {
-    private Logger log = LoggerFactory
-            .getLogger(SysUserLoginInOutController.class);
+    private final Logger logger = LoggerFactory.getLogger(SysUserLoginInOutController.class);
     @Autowired
-    SysUserLoginInOutService sysUserLoginInOutService;
+    private SysUserLoginInOutService sysUserLoginInOutService;
 
-    @RequestMapping("queryListByPage")
-    @ResponseBody
+    @PostMapping("queryListByPage")
     public JSONObject queryListByPage(SysUserLoginInOut userLoginInOut) {
         String logMsg = "分页查询";
-        log.info(logMsg);
-        List<SysUserLoginInOut> list = sysUserLoginInOutService
-                .queryPage(userLoginInOut);
+        logger.info(logMsg);
+        List<SysUserLoginInOut> list = sysUserLoginInOutService.queryPage(userLoginInOut);
         return JSONObjResult.toJSONObj(list, true, "");
     }
 }

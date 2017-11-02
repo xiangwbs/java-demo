@@ -23,17 +23,13 @@ import java.util.List;
 @Component
 public class UrlPermissionsFilter extends PermissionsAuthorizationFilter {
 	private String unauthorizedUrl;
-
 	public String getUnauthorizedUrl() {
 		return unauthorizedUrl;
 	}
-
 	public void setUnauthorizedUrl(String unauthorizedUrl) {
 		this.unauthorizedUrl = unauthorizedUrl;
 	}
-
 	private SysAuthorityService sysAuthorityService;
-
 	public void setSysAuthorityService(SysAuthorityService sysAuthorityService) {
 		this.sysAuthorityService = sysAuthorityService;
 	}
@@ -113,7 +109,6 @@ public class UrlPermissionsFilter extends PermissionsAuthorizationFilter {
 
 	protected boolean onAccessDenied(ServletRequest request,
 			ServletResponse response) throws IOException {
-
 		Subject subject = getSubject(request, response);
 		// If the subject isn't identified, redirect to login URL
 		if (subject.getPrincipal() == null) {
@@ -135,5 +130,4 @@ public class UrlPermissionsFilter extends PermissionsAuthorizationFilter {
 		}
 		return false;
 	}
-
 }

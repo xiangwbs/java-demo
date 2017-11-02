@@ -20,10 +20,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,26 +34,26 @@ import java.util.List;
 @RestController
 @RequestMapping("/role/")
 public class SysRoleController {
-    private Logger log = LoggerFactory.getLogger(SysRoleController.class);
+    private final Logger logger = LoggerFactory.getLogger(SysRoleController.class);
     @Autowired
-    SysRoleService sysRoleService;
+    private SysRoleService sysRoleService;
     @Autowired
-    SysAuthorityService sysAuthorityService;
+    private SysAuthorityService sysAuthorityService;
     @Autowired
-    SysRoleAuthorityService sysRoleAuthorityService;
+    private SysRoleAuthorityService sysRoleAuthorityService;
 
     /**
-     * 删除 已测试
-     * 
+     * 删除
+     *
      * @param id
      * @return
      */
     @ApiOperation(value = "删除", notes = "根据主键删除角色信息")
     @ApiImplicitParam(name = "id", value = "角色主键，长度1-50", paramType = "query", required = true, dataType = "string")
-    @PostMapping("removeById")
+    @GetMapping("removeById")
     public JSONObject removeById(@RequestParam String id) {
         String logMsg = "删除信息 id={}";
-        log.info(logMsg, id);
+        logger.info(logMsg, id);
         if (StringUtils.isEmpty(id)) {
             return JSONObjResult.toJSONObj("主键不能为空");
         }
@@ -67,21 +64,20 @@ public class SysRoleController {
         }
         RestMessage result = sysRoleService.deleteById(id);
         return JSONObjResult.toJSONObj(result);
-
     }
 
     /**
-     * 查询角色 已测试
-     * 
+     * 查询角色
+     *
      * @param id
      * @return
      */
     @ApiOperation(value = "查询", notes = "根据主键查询角色信息")
     @ApiImplicitParam(name = "id", value = "角色主键，长度1-50", paramType = "query", required = true, dataType = "string")
-    @PostMapping("queryById")
+    @GetMapping("queryById")
     public JSONObject queryById(@RequestParam String id) {
         String logMsg = "查询信息 id={}";
-        log.info(logMsg, id);
+        logger.info(logMsg, id);
         if (StringUtils.isEmpty(id)) {
             return JSONObjResult.toJSONObj("主键不能为空");
         }
@@ -95,24 +91,23 @@ public class SysRoleController {
     }
 
     /**
-     * 保存 已测试
-     * 
+     * 保存
+     *
      * @param sysRole
      * @return
      */
     @ApiOperation(value = "保存", notes = "保存角色信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "name", value = "名称,长度1-50", required=true,paramType = "query",dataType = "string"),
+            @ApiImplicitParam(name = "name", value = "名称,长度1-50", required = true, paramType = "query", dataType = "string"),
             @ApiImplicitParam(name = "code", value = "编码,长度1-50", required = true, paramType = "query", dataType = "string"),
-            @ApiImplicitParam(name = "isEnable", value = "是否启用,Y|N", required=true,paramType = "query",dataType = "string"),
-            @ApiImplicitParam(name = "remark", value = "描述,长度1-50",  paramType = "query", dataType = "string")
+            @ApiImplicitParam(name = "isEnable", value = "是否启用,Y|N", required = true, paramType = "query", dataType = "string"),
+            @ApiImplicitParam(name = "remark", value = "描述,长度1-50", paramType = "query", dataType = "string")
     })
     @PostMapping("save")
     public JSONObject save(SysRole sysRole) {
         String logMsg = "保存信息";
-        log.info(logMsg);
-        ValidateResult validate = ValidateUtil.validate(sysRole,
-                FormMap.getSysRoleMap());
+        logger.info(logMsg);
+        ValidateResult validate = ValidateUtil.validate(sysRole, FormMap.getSysRoleMap());
         if (!validate.isSuccess()) {
             return JSONObjResult.toJSONObj(validate.getErrorMsg());
         }
@@ -122,14 +117,14 @@ public class SysRoleController {
 
     /**
      * 更新
-     * 
+     *
      * @param sysRole
      * @return
      */
     @PostMapping("update")
     public JSONObject update(SysRole sysRole) {
         String logMsg = "修改信息";
-        log.info(logMsg);
+        logger.info(logMsg);
         if (StringUtils.isEmpty(sysRole.getId())) {
             return JSONObjResult.toJSONObj("主键不能为空");
         }
@@ -138,9 +133,7 @@ public class SysRoleController {
         if (role == null) {
             return JSONObjResult.toJSONObj("角色不存在");
         }
-
-        ValidateResult validate = ValidateUtil.validate(sysRole,
-                FormMap.getSysRoleMap());
+        ValidateResult validate = ValidateUtil.validate(sysRole, FormMap.getSysRoleMap());
         if (!validate.isSuccess()) {
             return JSONObjResult.toJSONObj(validate.getErrorMsg());
         }
@@ -149,16 +142,16 @@ public class SysRoleController {
     }
 
     /**
-     * 
-     * 校验编号唯一性 已测试
-     * 
-     * @param
+     * 校验编号唯一性
+     *
+     * @param code
+     * @param id
      * @return
      */
     @PostMapping("checkCode")
     public JSONObject checkCode(@RequestParam String code, String id) {
         String logMsg = "校验编号唯一性";
-        log.info(logMsg);
+        logger.info(logMsg);
         if (StringUtils.isEmpty(code))
             return JSONObjResult.toJSONObj("编号不能为空");
         boolean result = sysRoleService.uniqueCode(code, id);
@@ -171,15 +164,14 @@ public class SysRoleController {
 
     /**
      * 根据角色主键查找权限
-     * 
+     *
      * @param roleId
      * @return
      */
     @PostMapping("queryAuthorityByRoleId")
-    public JSONObject queryAuthorityByRoleId(@RequestParam String roleId,
-            String enable) {
+    public JSONObject queryAuthorityByRoleId(@RequestParam String roleId, String enable) {
         String logMsg = "根据角色主键查找权限";
-        log.info(logMsg);
+        logger.info(logMsg);
         if (StringUtils.isEmpty(roleId)) {
             return JSONObjResult.toJSONObj("角色主键不能为空");
         }
@@ -188,25 +180,22 @@ public class SysRoleController {
         if (role == null) {
             return JSONObjResult.toJSONObj("角色不存在");
         }
-        List<SysAuthority> rAuthoritys = null;
-        rAuthoritys = sysAuthorityService.queryByRoleId(roleId, enable);
-
+        List<SysAuthority> rAuthoritys = sysAuthorityService.queryByRoleId(roleId, enable);
         return JSONObjResult.toJSONObj(rAuthoritys, true, "");
 
     }
 
     /**
      * 保存角色 权限主键
-     * 
+     *
      * @param authoritys
      * @param roleId
      * @return
      */
     @PostMapping("saveAuthority")
-    public JSONObject saveAuthority(@RequestParam String authoritys,
-            @RequestParam String roleId) {
+    public JSONObject saveAuthority(@RequestParam String authoritys, @RequestParam String roleId) {
         String logMsg = "权限主键集合 ids={}";
-        log.info(logMsg, authoritys);
+        logger.info(logMsg, authoritys);
         if (StringUtils.isEmpty(authoritys))
             return JSONObjResult.toJSONObj("权限主键集合不能为空");
         if (StringUtils.isEmpty(roleId))
@@ -217,7 +206,7 @@ public class SysRoleController {
             return JSONObjResult.toJSONObj("角色不存在");
         }
         String ids[] = authoritys.split(",");
-        List<SysRoleAuthority> list = new ArrayList<SysRoleAuthority>();
+        List<SysRoleAuthority> list = new ArrayList<>();
         for (String id : ids) {
             SysRoleAuthority re = new SysRoleAuthority();
             re.setRoleId(roleId);
@@ -231,9 +220,8 @@ public class SysRoleController {
     @PostMapping("queryAllRoleByEnable")
     public JSONObject queryAllRoleByEnable(SysRole role) {
         String logMsg = "查询所有可用角色";
-        log.info(logMsg);
+        logger.info(logMsg);
         List<SysRole> roles = sysRoleService.findShowListByPage(role);
         return JSONObjResult.toJSONObj(roles, true, "");
     }
-
 }

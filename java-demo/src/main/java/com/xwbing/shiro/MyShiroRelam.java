@@ -33,11 +33,8 @@ import java.util.Set;
  */
 @Component
 public class MyShiroRelam extends AuthorizingRealm {
-
     private SysAuthorityService sysAuthorityService;
-
     private SysUserService sysUserService;
-
     private SysRoleService sysRoleService;
 
     public void setSysAuthorityService(SysAuthorityService sysAuthorityService) {
@@ -54,39 +51,30 @@ public class MyShiroRelam extends AuthorizingRealm {
 
     /**
      * 获取身份信息,从数据库获取该用户的权限和角色信息
-     * 
      * 授权查询回调函数, 进行鉴权但缓存中无用户的授权信息时调用,负责在应用程序中决定用户的访问控制的方法
      * 此处只有数据库配置了菜单访问的时候才验证，否则不验证
      */
-
     @Override
-    protected AuthorizationInfo doGetAuthorizationInfo(
-            PrincipalCollection principalCollection) {
-
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         // 获取验证的对象
         if (principalCollection == null) {
             throw new AuthorizationException("Principal对象不能为空");
         }
-
-        SysUser sysUser = (SysUser) principalCollection.fromRealm(getName())
-                .iterator().next();
+        SysUser sysUser = (SysUser) principalCollection.fromRealm(getName()).iterator().next();
         // 到数据库查是否有此对象
         if (sysUser != null) {
             // 权限信息对象info,用来存放查出的用户的所有的角色（role）及权限（permission）
             SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
             String userId = sysUser.getId();
             String isAdmin = sysUser.getIsAdmin();
-
             List<SysRole> listRole = null;
             // 如果是管理员
             if (CommonEnum.YesOrNoEnum.YES.getCode().equalsIgnoreCase(isAdmin))
-                listRole = sysRoleService.queryAll(CommonEnum.YesOrNoEnum.YES
-                        .getCode());
+                listRole = sysRoleService.queryAll(CommonEnum.YesOrNoEnum.YES.getCode());
             else
-                listRole = sysRoleService.queryByUserId(userId,
-                        CommonEnum.YesOrNoEnum.YES.getCode());
+                listRole = sysRoleService.queryByUserId(userId, CommonEnum.YesOrNoEnum.YES.getCode());
             // 用户的角色集合
-            Set<String> roles = new HashSet<String>();
+            Set<String> roles = new HashSet<>();
             if (listRole != null) {
                 for (SysRole sysRole : listRole) {
                     roles.add(sysRole.getCode());// 获取编号
@@ -95,23 +83,18 @@ public class MyShiroRelam extends AuthorizingRealm {
             info.setRoles(roles);
             System.out.println("拥有的角色==" + roles);
             // // 用户的角色对应的所有权限，如果只使用角色定义访问权限，下面的四行可以不要
-
             // 获取用户对应的权限
-            Set<String> permissions = new HashSet<String>();
-            List<SysAuthority> listAuthoritys = new ArrayList<SysAuthority>();
+            Set<String> permissions = new HashSet<>();
+            List<SysAuthority> listAuthoritys = new ArrayList<>();
             if (CommonEnum.YesOrNoEnum.YES.getCode().equalsIgnoreCase(isAdmin)) {// 超级管理员
-                listAuthoritys = sysAuthorityService
-                        .queryAll(CommonEnum.YesOrNoEnum.YES.getCode());
+                listAuthoritys = sysAuthorityService.queryAll(CommonEnum.YesOrNoEnum.YES.getCode());
             } else {
                 if (listRole != null) {// 角色不为空
                     for (SysRole sysRole : listRole) {
-                        List<SysAuthority> temp = sysAuthorityService
-                                .queryByRoleId(sysRole.getId(),
-                                        CommonEnum.YesOrNoEnum.YES.getCode());
+                        List<SysAuthority> temp = sysAuthorityService.queryByRoleId(sysRole.getId(), CommonEnum.YesOrNoEnum.YES.getCode());
                         if (temp != null)
                             listAuthoritys.addAll(temp);
                     }
-
                 }
             }
             if (listAuthoritys != null)
@@ -120,11 +103,9 @@ public class MyShiroRelam extends AuthorizingRealm {
                 }
             System.out.println("拥有的权限==" + permissions);
             info.setStringPermissions(permissions);
-
             return info;
         }
         return null;
-
     }
 
     /**
@@ -136,30 +117,25 @@ public class MyShiroRelam extends AuthorizingRealm {
             throws AuthenticationException {
         // UsernamePasswordToken对象用来存放提交的登录信息
         UsernamePasswordCaptchaToken token = (UsernamePasswordCaptchaToken) authenticationToken;
-
         // 增加判断验证码逻辑
         String captcha = token.getCaptcha();
-        String exitCode = (String) SecurityUtils.getSubject().getSession()
-                .getAttribute(CaptchaServlet.KEY_CAPTCHA);
+        String exitCode = (String) SecurityUtils.getSubject().getSession().getAttribute(CaptchaServlet.KEY_CAPTCHA);
         if (null == captcha || !captcha.equalsIgnoreCase(exitCode)) {
             throw new CaptchaException("验证码错误");
         }
         // 查出是否有此用户
         SysUser sysUser = null;
         sysUser = sysUserService.queryUserName(token.getUsername());
-
         if (sysUser == null) {
             throw new UnknownAccountException("账号或者密码不正确");// 没找到帐号
         }
-
         // 获取密码盐值 系统存的
         String pswdSalt = sysUser.getSalt();
         // 用户填写的登录密码
         String passWord = String.valueOf(token.getPassword());
         // 根据密码盐值， 解码
         byte[] salt = EncodeUtils.hexDecode(pswdSalt);
-        byte[] hashPassword = Digests.sha1(passWord.getBytes(), salt,
-                SysUser.HASH_INTERATIONS);
+        byte[] hashPassword = Digests.sha1(passWord.getBytes(), salt, SysUser.HASH_INTERATIONS);
         // 密码 数据库中密码
         String validatePassWord = EncodeUtils.hexEncode(hashPassword);
         // 获取存在系统中的密码
@@ -184,10 +160,7 @@ public class MyShiroRelam extends AuthorizingRealm {
             token.setPassword(st);
             return new SimpleAuthenticationInfo(sysUser, sysPassWord,
                     ByteSource.Util.bytes(sysUser.getSalt()), getName());
-
         } else
             throw new UnknownAccountException("账号或者密码不正确");// 没找到帐号
-
     }
-
 }
