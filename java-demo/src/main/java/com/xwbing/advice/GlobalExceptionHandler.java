@@ -41,8 +41,7 @@ public class GlobalExceptionHandler {
     // 返回给页面200状态码
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
-    public JSONObject handlerGuideException(HttpServletRequest request,
-            Exception ex) {
+    public JSONObject handlerGuideException(HttpServletRequest request, Exception ex) {
         log.error(ex.getMessage());
         RestMessage result = new RestMessage();
         result.setSuccess(false);
@@ -66,7 +65,7 @@ public class GlobalExceptionHandler {
         log.error(ex.getMessage());
         RestMessage result = new RestMessage();
         List<ObjectError> list = ex.getAllErrors();
-        StringBuffer stringBuffer = new StringBuffer();
+        StringBuilder stringBuffer = new StringBuilder();
         for (ObjectError objectError : list) {
             if (stringBuffer.length() > 0)
                 stringBuffer.append(" && ");
@@ -88,8 +87,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = IllegalArgumentException.class)
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
-    public JSONObject handlerServerException(HttpServletRequest request,
-            Exception ex) {
+    public JSONObject handlerServerException(HttpServletRequest request, Exception ex) {
         log.error(ex.getMessage());
         RestMessage result = new RestMessage();
         result.setSuccess(false);
@@ -112,6 +110,6 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public JSONObject handlerException(HttpServletRequest request, Exception ex) {
         log.error(ex.getMessage());
-        return JSONObjResult.toJSONObj("系统异常，请联系管理员 " + ex.getMessage());
+        return JSONObjResult.toJSONObj("系统异常，请联系管理员");
     }
 }
