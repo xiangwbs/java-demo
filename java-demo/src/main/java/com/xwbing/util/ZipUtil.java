@@ -1,6 +1,8 @@
 package com.xwbing.util;
 
 import com.xwbing.Exception.BusinessException;
+import org.springframework.core.io.ClassPathResource;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.List;
@@ -13,19 +15,26 @@ import java.util.zip.ZipOutputStream;
  * 作者: xiangwb
  */
 public class ZipUtil {
-    public static void zipFile(HttpServletResponse response,List<File> files){
+    /**
+     * @param response 响应
+     * @param files    所有文件
+     * @param fileName 文件名
+     */
+    public static void zipFile(HttpServletResponse response, List<File> files, String fileName) {
         try {
-            String tomcatHome = System.getProperty("catalina.home");//服务器tomcat路径，得在该路径下建个zip文件夹
-            File zipFile = new File(tomcatHome+File.separator+"zip"+File.separator+"QRcodes"+".zip");
-            if(!zipFile.exists()){
-                throw new BusinessException("zip文件路径不存在");
+            //classpath下有file文件夹
+            ClassPathResource pic = new ClassPathResource("file");
+            String absolutePath = pic.getFile().getAbsolutePath();
+            File zipFile = new File(absolutePath + File.separator + fileName + ".zip");
+            if (!zipFile.exists()) {
+                zipFile.createNewFile();
             }
             FileOutputStream fos = new FileOutputStream(zipFile);
             ZipOutputStream zos = new ZipOutputStream(new BufferedOutputStream(fos));
-            FileInputStream fis ;
-            BufferedInputStream bis ;
-            byte[] data = new byte[1024*10];
-            if(files!=null && files.size()>0){
+            FileInputStream fis;
+            BufferedInputStream bis;
+            byte[] data = new byte[1024 * 10];
+            if (files != null && files.size() > 0) {
                 for (File file : files) {
                     String name = file.getName();
                     //创建ZIP实体，并添加进压缩包
@@ -44,22 +53,23 @@ public class ZipUtil {
             }
             zos.close();
             // 输出到客户端
-            OutputStream out=response.getOutputStream();
+            OutputStream out = response.getOutputStream();
             response.reset();
             response.setCharacterEncoding("UTF-8");
-            response.setHeader("Content-Disposition", "attachment;filename=" +"QRcodes.zip");//在消息头里命名输出的zip文件夹名称
+            response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ".zip");//在消息头里命名输出的zip文件夹名称
             response.setContentType("application/octet-stream; charset=utf-8");
             out.write(toByte(zipFile));
 //            out.flush();
             out.close();
             zipFile.delete();
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new BusinessException("文件压缩错误");
         }
     }
 
     /**
      * 文件转换byte字节数组
+     *
      * @param file
      * @return
      */
@@ -78,7 +88,7 @@ public class ZipUtil {
                 fis.close();
                 bos.close();
             } catch (IOException e) {
-                throw  new BusinessException("文件转化错误");
+                throw new BusinessException("文件转化错误");
             }
             return bytes;
         }

@@ -36,13 +36,13 @@ public class CommonEnum {
         }
     }
 
-    public enum LoginInOut {
+    public enum LoginInOutEnum {
         IN("登录", 0), OUT("登出", 1);
         // 成员变量
         private String name;
         private int code;
 
-        LoginInOut(String name, int code) {
+        LoginInOutEnum(String name, int code) {
             this.name = name;
             this.code = code;
         }
@@ -56,13 +56,13 @@ public class CommonEnum {
         }
     }
 
-    public enum MenuOrButton {
+    public enum MenuOrButtonEnum {
         MENU("菜单", 0), BUTTON("按钮", 1);
         // 成员变量
         private String name;
         private int code;
 
-        MenuOrButton(String name, int code) {
+        MenuOrButtonEnum(String name, int code) {
             this.name = name;
             this.code = code;
         }

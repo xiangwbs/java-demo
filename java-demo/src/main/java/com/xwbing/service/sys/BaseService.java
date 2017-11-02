@@ -7,7 +7,7 @@ import com.drore.cloud.sdk.common.resp.RestMessage;
 import com.drore.cloud.sdk.domain.Pagination;
 import com.drore.cloud.sdk.domain.util.RequestExample;
 import com.xwbing.Exception.BusinessException;
-import com.xwbing.util.PagerUtil;
+import com.xwbing.util.PageUtil;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -71,8 +71,8 @@ public class BaseService {
      * @param classOfT
      * @return
      */
-    public <T> PagerUtil queryPage(String tableName, Map<String, Object> term, PagerUtil pagerUtil, Class<T> classOfT, String... displayFields) {
-        Pagination<Map<String, Object>> page = queryBuilder.findListByExample(tableName, term, pagerUtil.getCurrentPage(), pagerUtil.getPageSize(), displayFields);
+    public <T> PageUtil queryPage(String tableName, Map<String, Object> term, PageUtil pagerUtil, Class<T> classOfT, String... displayFields) {
+        Pagination<Map<String, Object>> page = queryBuilder.findListByExample(tableName, term, pagerUtil.getPageNo(), pagerUtil.getPageSize(), displayFields);
         if (page == null)
             return pagerUtil;
         List<Map<String, Object>> list = page.getData();
@@ -121,8 +121,8 @@ public class BaseService {
      * @param <T>
      * @return
      */
-    public <T> PagerUtil querySql(String sql, PagerUtil pagerUtil, Class<T> classOfT) {
-        Pagination<Map<String, Object>> page = queryBuilder.execute(sql, pagerUtil.getPageSize(), pagerUtil.getCurrentPage());
+    public <T> PageUtil querySql(String sql, PageUtil pagerUtil, Class<T> classOfT) {
+        Pagination<Map<String, Object>> page = queryBuilder.execute(sql, pagerUtil.getPageSize(), pagerUtil.getPageNo());
         if (page == null) {
             return pagerUtil;
         }

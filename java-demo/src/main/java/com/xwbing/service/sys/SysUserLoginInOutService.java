@@ -49,8 +49,8 @@ public class SysUserLoginInOutService {
         }
         int inOutType = userLoginInOut.getInoutType();
         // 判断登录登出
-        if (inOutType == CommonEnum.LoginInOut.IN.getCode()
-                || inOutType == CommonEnum.LoginInOut.OUT.getCode()) {
+        if (inOutType == CommonEnum.LoginInOutEnum.IN.getCode()
+                || inOutType == CommonEnum.LoginInOutEnum.OUT.getCode()) {
             sql.append(" and s.inout_type = " + inOutType);
         }
         // 用户ip

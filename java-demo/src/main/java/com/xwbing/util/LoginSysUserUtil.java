@@ -20,7 +20,7 @@ public class LoginSysUserUtil {
 	public static SysUser getSysUser() {
 		Subject subject = SecurityUtils.getSubject();
 		Object object = subject.getPrincipal();
-		SysUser sysUser = null;
+		SysUser sysUser;
 		if (object != null) {
 			sysUser = (SysUser) object;
 		} else{

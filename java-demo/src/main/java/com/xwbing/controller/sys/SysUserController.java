@@ -7,8 +7,8 @@ import com.xwbing.entity.*;
 import com.xwbing.service.sys.*;
 import com.xwbing.shiro.UsernamePasswordCaptchaToken;
 import com.xwbing.util.*;
-import com.xwbing.util.CommonEnum.LoginInOut;
-import com.xwbing.util.CommonEnum.MenuOrButton;
+import com.xwbing.util.CommonEnum.LoginInOutEnum;
+import com.xwbing.util.CommonEnum.MenuOrButtonEnum;
 import com.xwbing.util.captcah.CaptchaException;
 import com.xwbing.validate.FormMap;
 import com.xwbing.validate.ValidateResult;
@@ -83,7 +83,7 @@ public class SysUserController {
                         ip, now);// 修改最后登录信息
                 if (result.isSuccess()) {
                     SysUserLoginInOut inOut = new SysUserLoginInOut();
-                    inOut.setInoutType(LoginInOut.IN.getCode());
+                    inOut.setInoutType(LoginInOutEnum.IN.getCode());
                     inOut.setIp(ip);
                     inOut.setRecordDate(now);
                     inOut.setUserId(userId);
@@ -249,7 +249,7 @@ public class SysUserController {
                         CommonEnum.YesOrNoEnum.YES.getCode());
             if (list != null) {
                 for (SysAuthority sysAuthority : list) {
-                    if (sysAuthority.getType() == MenuOrButton.MENU.getCode())
+                    if (sysAuthority.getType() == MenuOrButtonEnum.MENU.getCode())
                         menu.add(sysAuthority);
                     else
                         other.add(sysAuthority);
@@ -487,7 +487,7 @@ public class SysUserController {
                 String ip = IpUtil.getIpAddr(request);
                 Date now = new Date();
                 SysUserLoginInOut inOut = new SysUserLoginInOut();
-                inOut.setInoutType(LoginInOut.OUT.getCode());
+                inOut.setInoutType(LoginInOutEnum.OUT.getCode());
                 inOut.setIp(ip);
                 inOut.setRecordDate(now);
                 inOut.setUserId(sysUser.getId());

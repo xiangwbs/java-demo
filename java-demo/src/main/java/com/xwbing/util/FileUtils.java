@@ -13,8 +13,6 @@ import java.util.List;
  * 作者: xiangwb
  */
 public class FileUtils {
-//    private static Logger logger = LoggerFactory.getLogger(FileUtils.class);
-
     /**
      * 文件转换byte字节数组
      *
@@ -56,7 +54,6 @@ public class FileUtils {
         String fileName = file.getName();
         return StringUtils.lowerCase(StringUtils.substring(fileName,
                 StringUtils.lastIndexOf(fileName, ".") + 1));
-
     }
 
     public static String getFileSuffix(String filePath) {
@@ -73,8 +70,8 @@ public class FileUtils {
     public static List<String> readLines(String fileName) {
         InputStream in = null;
         BufferedReader br = null;
-        List<String> list = new ArrayList<String>();
-        String line = null;
+        List<String> list = new ArrayList<>();
+        String line;
         try {
             in = FileUtils.class.getResourceAsStream(fileName);
             br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
@@ -99,8 +96,8 @@ public class FileUtils {
     public static String readLinesToString(String fileName) {
         InputStream in = null;
         BufferedReader br = null;
-        StringBuffer str = new StringBuffer();
-        String line = null;
+        StringBuilder str = new StringBuilder();
+        String line;
         try {
             in = FileUtils.class.getResourceAsStream(fileName);
             br = new BufferedReader(new InputStreamReader(in, "UTF-8"));

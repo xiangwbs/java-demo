@@ -61,7 +61,7 @@ public class Digests {
      */
     public static byte[] generateSalt(int numBytes) {
         if (numBytes <= 0) {
-            throw new RuntimeException("numBytes argument must be a positive integer (1 or larger)");
+            throw new RuntimeException("参数必须大于0");
         }
         byte[] bytes = new byte[numBytes];
         random.nextBytes(bytes);

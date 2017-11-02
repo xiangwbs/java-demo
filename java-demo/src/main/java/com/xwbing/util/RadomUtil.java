@@ -9,22 +9,21 @@ import java.util.Random;
  */
 public class RadomUtil {
 
-    public static String str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    private static final String STR = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
     public static String buildRandom(int length) {
         if (length < 1)
             throw new RuntimeException("参数异常!!!");
         Random random = new Random();
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < length; i++) {
-            int number = random.nextInt(str.length());
-            sb.append(str.charAt(number));
+            int number = random.nextInt(STR.length());
+            sb.append(STR.charAt(number));
         }
         return sb.toString();
     }
 
     public static void main(String[] args) {
-        while (true)
-            System.out.println(buildRandom(8));
+        System.out.println(buildRandom(8));
     }
 }

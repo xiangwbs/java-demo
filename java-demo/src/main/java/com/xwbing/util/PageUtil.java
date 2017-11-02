@@ -2,16 +2,20 @@ package com.xwbing.util;
 
 import java.util.List;
 
+/**
+ * 创建时间: 2016/10/24 9:41
+ * 作者: xiangwb
+ * 说明: 分页util
+ */
 public class PageUtil {
     private Integer pageNo = 1;
     private Integer pageSize = 20;
-    private List<?> root;
-    private boolean isSuccess = true;
-
+    private List<?> data;
+    private boolean success = true;
     /**
      * 总页数
      */
-    private Integer total;
+    private Integer totalPage;
 
     /**
      * 总数
@@ -52,28 +56,28 @@ public class PageUtil {
         this.pageSize = pageSize;
     }
 
-    public Integer getTotal() {
-        return total;
+    public Integer getTotalPage() {
+        return totalPage;
     }
 
-    public void setTotal(Integer total) {
-        this.total = total;
+    public void setTotalPage(Integer totalPage) {
+        this.totalPage = totalPage;
     }
 
-    public List<?> getRoot() {
-        return root;
+    public List<?> getData() {
+        return data;
     }
 
-    public void setRoot(List<?> root) {
-        this.root = root;
+    public void setData(List<?> data) {
+        this.data = data;
     }
 
     public boolean isSuccess() {
-        return isSuccess;
+        return success;
     }
 
     public void setSuccess(boolean isSuccess) {
-        this.isSuccess = isSuccess;
+        this.success = isSuccess;
     }
 
     public String getMessage() {
