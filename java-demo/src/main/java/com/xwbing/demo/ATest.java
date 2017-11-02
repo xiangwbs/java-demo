@@ -1,6 +1,7 @@
 package com.xwbing.demo;
 
-import java.util.Random;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 说明: 测试
@@ -10,9 +11,10 @@ import java.util.Random;
 
 public class ATest {
     public static void main(String[] args) {
-        Random ram=new Random();
-        int i = ram.nextInt(6);
-        int i1 = ram.nextInt(6);
-        System.out.println("");
+        Map<String, Object> stringObjectHashMap = new HashMap<>();
+        String  s=null;
+        Object o = stringObjectHashMap.get(s);
+        System.out.println();
+
     }
 }

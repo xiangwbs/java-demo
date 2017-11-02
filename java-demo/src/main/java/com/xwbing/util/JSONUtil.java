@@ -6,6 +6,7 @@ import org.apache.commons.beanutils.PropertyUtilsBean;
 import java.beans.PropertyDescriptor;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,8 +25,8 @@ public class JSONUtil {
     public static Object beanToMap(Object obj) {
         if (obj == null)
             return null;
-        if (obj instanceof ArrayList) {
-            ArrayList<?> list = (ArrayList<?>) obj;
+        if (obj instanceof List) {
+            List<?> list = (List<?>) obj;
             ArrayList<JSONObject> result = new ArrayList<>();
             for (Object o : list) {
                 JSONObject javaObject = (JSONObject) beanToMap(o);
