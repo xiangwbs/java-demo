@@ -136,7 +136,8 @@ public class DateUtil2 {
     /////////////////////////////获取数据////////////获取数据/////////////////////////////////////////////////////////////
 
     /**
-     *获取周几
+     * 获取周几
+     *
      * @param day 0代表当天 负数代表前几天 正数代表后几天
      * @return
      */
@@ -202,7 +203,6 @@ public class DateUtil2 {
         return newDate.toString();
     }
 
-
     /**
      * 获取当月的第一天
      *
@@ -211,7 +211,7 @@ public class DateUtil2 {
     public static String firstDayOfMonth() {
         LocalDate localDate = LocalDate.now();
         LocalDate date = localDate.with(TemporalAdjusters.firstDayOfMonth());
-        return date.format(getDateFormat(YYYY_MM_DD));
+        return date.toString();
     }
 
     /**
@@ -222,7 +222,7 @@ public class DateUtil2 {
     public static String firstDayOfLastMonth() {
         LocalDate localDate = LocalDate.now();
         LocalDate date = localDate.minusMonths(1).with(TemporalAdjusters.firstDayOfMonth());
-        return date.format(getDateFormat(YYYY_MM_DD));
+        return date.toString();
     }
 
     /**
@@ -233,7 +233,7 @@ public class DateUtil2 {
     public static String firstDayOfNextMonth() {
         LocalDate localDate = LocalDate.now();
         LocalDate date = localDate.plusMonths(1).with(TemporalAdjusters.firstDayOfMonth());
-        return date.format(getDateFormat(YYYY_MM_DD));
+        return date.toString();
     }
 
     /**
@@ -244,7 +244,7 @@ public class DateUtil2 {
      */
     public static String getMonthFirstDay(int month) {
         LocalDate localDate = LocalDate.now().withMonth(month).with(TemporalAdjusters.firstDayOfMonth());
-        return localDate.format(getDateFormat(YYYY_MM_DD));
+        return localDate.toString();
     }
 
     /**
@@ -255,7 +255,7 @@ public class DateUtil2 {
     public static String firstDayOfYear() {
         LocalDate localDate = LocalDate.now();
         LocalDate date = localDate.with(TemporalAdjusters.firstDayOfYear());
-        return date.format(getDateFormat(YYYY_MM_DD));
+        return date.toString();
     }
 
     /**
@@ -267,7 +267,7 @@ public class DateUtil2 {
     public static String getYearFirstDay(int year) {
         LocalDate localDate = LocalDate.now();
         LocalDate date = localDate.withYear(year).with(TemporalAdjusters.firstDayOfYear());
-        return date.format(getDateFormat(YYYY_MM_DD));
+        return date.toString();
     }
 
     /**
