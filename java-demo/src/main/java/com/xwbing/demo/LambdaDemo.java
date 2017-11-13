@@ -50,7 +50,7 @@ public class LambdaDemo {
         //聚合
         System.out.println("reduce:" + lists.stream().reduce((o1, o2) -> o1 + o2).get());//聚合
         System.out.println("reduce:" + lists.stream().reduce(0, (o1, o2) -> o1 + o2));//聚合(给定默认值)
-        System.out.println("ids:" + list.stream().reduce((sum, item) -> sum + "," + item).get());//list(a,b,c)-->,a,b,c-->a,b,c
+        System.out.println("ids:" + list.stream().reduce((sum, item) -> sum + "," + item).get());//常用//list(a,b,c)-->,a,b,c-->a,b,c
         System.out.println("ids:" + list.stream().reduce("", (sum, item) -> sum + "," + item).substring(1));
         String s = list.stream().reduce("", (sum, item) -> sum + "'" + item + "',");//list(a,b,c)-->'a','b','c',-->'a','b','c'
         System.out.println("id in:" + s.substring(0, s.lastIndexOf(",")));
@@ -83,7 +83,7 @@ public class LambdaDemo {
         poolTaskExecutor.setMaxPoolSize(1000);
         poolTaskExecutor.setQueueCapacity(200);
 
-        CompletableFuture<List<SysUser>> future = CompletableFuture.supplyAsync(() -> getList(),poolTaskExecutor);
+        CompletableFuture<List<SysUser>> future = CompletableFuture.supplyAsync(() -> getList(), poolTaskExecutor);
         try {
             List<SysUser> sysUsers = future.get();
         } catch (InterruptedException | ExecutionException e) {
@@ -110,8 +110,9 @@ public class LambdaDemo {
             }).collect(Collectors.toList());
         }
     }
-    public static  List<SysUser> getList(){
-        return  null;
+
+    public static List<SysUser> getList() {
+        return null;
     }
 
 }
