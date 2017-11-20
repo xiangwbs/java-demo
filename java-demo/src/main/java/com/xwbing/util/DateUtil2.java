@@ -16,8 +16,8 @@ import java.util.*;
  * 说明: 日期处理类
  */
 public class DateUtil2 {
-    public static DecimalFormat df = new DecimalFormat("######0.00");
     public static final long SECOND = 1000;
+    public static DecimalFormat df = new DecimalFormat("#");
     public static final long MINUTE = SECOND * 60;
     public static final long HOUR = MINUTE * 60;
     public static final long DAY = HOUR * 24;
@@ -40,7 +40,7 @@ public class DateUtil2 {
      * @param pattern
      * @return
      */
-    private static DateTimeFormatter getDateFormat(String pattern) {
+    public static DateTimeFormatter getDateFormat(String pattern) {
         return DateTimeFormatter.ofPattern(pattern);
     }
 
@@ -351,8 +351,8 @@ public class DateUtil2 {
      * @return
      */
     public static String hoursBetween2(String startDateTime, String endDateTime) {
-        LocalDateTime sDateTime = LocalDateTime.parse(startDateTime);
-        LocalDateTime eDateTime = LocalDateTime.parse(endDateTime);
+        LocalDateTime sDateTime = LocalDateTime.parse(startDateTime, getDateFormat(YYYY_MM_DD_HH_MM));
+        LocalDateTime eDateTime = LocalDateTime.parse(endDateTime, getDateFormat(YYYY_MM_DD_HH_MM));
         Duration duration = Duration.between(sDateTime, eDateTime);
         long m = duration.toMinutes();
         return df.format(m / 60.0);
