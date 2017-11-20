@@ -198,7 +198,7 @@ public class DateUtil2 {
      * @return
      */
     public static String dateAddMinusDays(String date, int day) {
-        LocalDate localDate = LocalDate.parse(date, getDateFormat(YYYY_MM_DD));
+        LocalDate localDate = LocalDate.parse(date);
         LocalDate newDate = day >= 0 ? localDate.plusDays(day) : localDate.minusDays(Math.abs(day));
         return newDate.toString();
     }
