@@ -44,9 +44,7 @@ public class RestClientUtil {
     /***
      * 默认连接配置参数
      */
-    private static final RequestConfig defaultRequestConfig = RequestConfig
-            .custom().setSocketTimeout(600000).setConnectTimeout(600000)
-            .build();
+    private static final RequestConfig defaultRequestConfig = RequestConfig.custom().setSocketTimeout(600000).setConnectTimeout(600000).build();
     // Request retry handler
     private static HttpRequestRetryHandler retryHandler = (exception, executionCount, context) -> {
         logger.info("retryRequest-->");
@@ -81,8 +79,8 @@ public class RestClientUtil {
 
     static {
         poolingHttpClientConnectionManager = new PoolingHttpClientConnectionManager();
-        // 将最大连接数增加到200
-        poolingHttpClientConnectionManager.setMaxTotal(200);
+        // 将最大连接数增加到100
+        poolingHttpClientConnectionManager.setMaxTotal(100);
         // 将每个路由基础的连接数增加到20
         poolingHttpClientConnectionManager.setDefaultMaxPerRoute(20);
     }
