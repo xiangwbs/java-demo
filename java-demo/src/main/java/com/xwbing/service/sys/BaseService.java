@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public class BaseService {
     @Resource
-    private CloudQueryRunner runner;
+    public CloudQueryRunner runner;
 
     /**
      * 直接转换成对象
@@ -45,7 +45,7 @@ public class BaseService {
      * @return
      */
     public <T> T queryFirstOne(String tableName, Map<String, Object> term, Class<T> classOfT) {
-        Map<String, Object> data = runner.queryFirstByRName(tableName, term);
+        Map data = runner.queryFirstByRName(tableName, term);
         if (data.isEmpty())
             return null;
         JSONObject jsonObject = new JSONObject(data);
@@ -62,25 +62,50 @@ public class BaseService {
      * @return
      */
     public <T> Pagination queryPage(String tableName, Map<String, Object> term, Pagination pagination, Class<T> classOfT, String... displayFields) {
-        Pagination<Map> page = runner.queryListByExample(tableName, term, pagination.getCurrent_page(), pagination.getPage_size(), displayFields);
-        if (page == null)
-            return pagination;
-        List<Map> list = page.getData();
-        if (list != null && !list.isEmpty()) {
+        pagination = runner.queryListByExample(tableName, term, pagination.getCurrent_page(), pagination.getPage_size(), displayFields);
+        List<Map<String, Object>> list = pagination.getData();
+        if (list != null && list.size() > 0) {
             List<T> result = new ArrayList<>();
             list.forEach(map -> result.add(JSONObject.toJavaObject(new JSONObject(map), classOfT)));
             pagination.setData(result);
         }
-        pagination.setCount(page.getCount());
-        pagination.setTotal_page(page.getTotal_page());
-        pagination.setSuccess(page.getSuccess());
         return pagination;
     }
 
+    /**
+     * SQL分页查询
+     *
+     * @param sql
+     * @param pagination
+     * @param classOfT
+     * @param <T>
+     * @return
+     */
+    public <T> Pagination querySql(String sql, Pagination pagination, Class<T> classOfT) {
+        pagination = runner.sql(sql, pagination.getCurrent_page(), pagination.getPage_size());
+        List<Map<String, Object>> list = pagination.getData();
+        if (list != null && list.size() > 0) {
+            List<T> result = new ArrayList<>();
+            list.forEach(map -> result.add(JSONObject.toJavaObject(new JSONObject(map), classOfT)));
+            pagination.setData(result);
+        }
+        return pagination;
+    }
+
+    /**
+     * 列表条件查询
+     *
+     * @param tableName
+     * @param term
+     * @param classOfT
+     * @param displayFields
+     * @param <T>
+     * @return
+     */
     public <T> List<T> queryList(String tableName, Map<String, Object> term, Class<T> classOfT, String... displayFields) {
         Pagination<Map> page = runner.queryListByExample(tableName, term, 1, Integer.MAX_VALUE, displayFields);
         List<Map> list = page.getData();
-        if (list != null && !list.isEmpty()) {
+        if (list != null && list.size() > 0) {
             List<T> result = new ArrayList<>();
             list.forEach(map -> result.add(JSONObject.toJavaObject(new JSONObject(map), classOfT)));
             return result;
@@ -107,32 +132,6 @@ public class BaseService {
             return result;
         } else
             return Collections.emptyList();
-    }
-
-    /**
-     * SQL分页查询
-     *
-     * @param sql
-     * @param pagination
-     * @param classOfT
-     * @param <T>
-     * @return
-     */
-    public <T> Pagination querySql(String sql, Pagination pagination, Class<T> classOfT) {
-        Pagination<Map> page = runner.sql(sql, pagination.getPage_size(), pagination.getCurrent_page());
-        if (page == null) {
-            return pagination;
-        }
-        List<Map> list = page.getData();
-        if (list != null && !list.isEmpty()) {
-            List<T> result = new ArrayList<>();
-            list.forEach(map -> result.add(JSONObject.toJavaObject(new JSONObject(map), classOfT)));
-            pagination.setData(result);
-        }
-        pagination.setCount(page.getCount());
-        pagination.setTotal_page(page.getTotal_page());
-        pagination.setSuccess(page.getSuccess());
-        return pagination;
     }
 
     /**
