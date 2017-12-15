@@ -1,32 +1,24 @@
 package com.xwbing.service.sys;
 
 import com.alibaba.fastjson.JSONObject;
-import com.drore.cloud.sdk.builder.QueryBuilder;
-import com.drore.cloud.sdk.builder.RecordBuilder;
+import com.drore.cloud.sdk.client.CloudQueryRunner;
 import com.drore.cloud.sdk.common.resp.RestMessage;
 import com.drore.cloud.sdk.domain.Pagination;
 import com.drore.cloud.sdk.domain.util.RequestExample;
-import com.xwbing.Exception.BusinessException;
-import com.xwbing.util.PageUtil;
 
 import javax.annotation.Resource;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 /**
- * 项目名称: java-demo
- * 创建时间: 2017/6/19 17:11
  * 作者: xiangwb
  * 说明: 基础服务层
  */
 public class BaseService {
     @Resource
-    public QueryBuilder queryBuilder;
-    @Resource
-    public RecordBuilder recordBuilder;
+    private CloudQueryRunner runner;
 
     /**
      * 直接转换成对象
@@ -37,10 +29,9 @@ public class BaseService {
      * @return
      */
     public <T> T queryOne(String id, String tableName, Class<T> classOfT, String... displayFields) {
-        Map<String, Object> data = queryBuilder.findOneByRName(tableName, id, displayFields);
-        if (data.isEmpty() || data.size() == 0) {
+        Map<String, Object> data = runner.queryOne(tableName, id, displayFields);
+        if (data.isEmpty())
             return null;
-        }
         JSONObject jsonObject = new JSONObject(data);
         return JSONObject.toJavaObject(jsonObject, classOfT);
     }
@@ -54,10 +45,9 @@ public class BaseService {
      * @return
      */
     public <T> T queryFirstOne(String tableName, Map<String, Object> term, Class<T> classOfT) {
-        Map<String, Object> data = queryBuilder.findFirstByRName(tableName, term);
-        if (data.isEmpty() || data.size() == 0) {
+        Map<String, Object> data = runner.queryFirstByRName(tableName, term);
+        if (data.isEmpty())
             return null;
-        }
         JSONObject jsonObject = new JSONObject(data);
         return JSONObject.toJavaObject(jsonObject, classOfT);
     }
@@ -67,96 +57,82 @@ public class BaseService {
      *
      * @param tableName
      * @param term
-     * @param pagerUtil
+     * @param pagination
      * @param classOfT
      * @return
      */
-    public <T> PageUtil queryPage(String tableName, Map<String, Object> term, PageUtil pagerUtil, Class<T> classOfT, String... displayFields) {
-        Pagination<Map<String, Object>> page = queryBuilder.findListByExample(tableName, term, pagerUtil.getPageNo(), pagerUtil.getPageSize(), displayFields);
+    public <T> Pagination queryPage(String tableName, Map<String, Object> term, Pagination pagination, Class<T> classOfT, String... displayFields) {
+        Pagination<Map> page = runner.queryListByExample(tableName, term, pagination.getCurrent_page(), pagination.getPage_size(), displayFields);
         if (page == null)
-            return pagerUtil;
-        List<Map<String, Object>> list = page.getData();
+            return pagination;
+        List<Map> list = page.getData();
         if (list != null && !list.isEmpty()) {
             List<T> result = new ArrayList<>();
             list.forEach(map -> result.add(JSONObject.toJavaObject(new JSONObject(map), classOfT)));
-            pagerUtil.setData(result);
+            pagination.setData(result);
         }
-        pagerUtil.setCount(page.getCount());
-        pagerUtil.setTotalPage(page.getTotal_page());
-        pagerUtil.setSuccess(page.getSuccess());
-        return pagerUtil;
+        pagination.setCount(page.getCount());
+        pagination.setTotal_page(page.getTotal_page());
+        pagination.setSuccess(page.getSuccess());
+        return pagination;
     }
 
-    /**
-     * 列表条件查询
-     *
-     * @param <T>
-     * @param tableName
-     * @param example
-     * @param classOfT
-     * @param displayFields
-     * @return
-     * @throws IOException
-     */
-    public <T> List<T> queryList(String tableName, RequestExample example, Class<T> classOfT, String... displayFields) {
-        if (null == example) {
-            example = new RequestExample(Integer.MAX_VALUE, 1);
-        }
-        Pagination<Map<String, Object>> page = queryBuilder.findListByRName(tableName, example, displayFields);
-        List<Map<String, Object>> list = page.getData();
+    public <T> List<T> queryList(String tableName, Map<String, Object> term, Class<T> classOfT, String... displayFields) {
+        Pagination<Map> page = runner.queryListByExample(tableName, term, 1, Integer.MAX_VALUE, displayFields);
+        List<Map> list = page.getData();
         if (list != null && !list.isEmpty()) {
             List<T> result = new ArrayList<>();
             list.forEach(map -> result.add(JSONObject.toJavaObject(new JSONObject(map), classOfT)));
             return result;
         } else
-            return null;
+            return Collections.emptyList();
+    }
+
+    /**
+     * 列表条件查询
+     *
+     * @param tableName
+     * @param example
+     * @param classOfT
+     * @param displayFields
+     * @param <T>
+     * @return
+     */
+    public <T> List<T> queryList(String tableName, RequestExample example, Class<T> classOfT, String... displayFields) {
+        Pagination<Map> page = runner.queryListByExample(tableName, example, displayFields);
+        List<Map> list = page.getData();
+        if (list != null && list.size() > 0) {
+            List<T> result = new ArrayList<>();
+            list.forEach(map -> result.add(JSONObject.toJavaObject(new JSONObject(map), classOfT)));
+            return result;
+        } else
+            return Collections.emptyList();
     }
 
     /**
      * SQL分页查询
      *
      * @param sql
-     * @param pagerUtil
+     * @param pagination
      * @param classOfT
      * @param <T>
      * @return
      */
-    public <T> PageUtil querySql(String sql, PageUtil pagerUtil, Class<T> classOfT) {
-        Pagination<Map<String, Object>> page = queryBuilder.execute(sql, pagerUtil.getPageSize(), pagerUtil.getPageNo());
+    public <T> Pagination querySql(String sql, Pagination pagination, Class<T> classOfT) {
+        Pagination<Map> page = runner.sql(sql, pagination.getPage_size(), pagination.getCurrent_page());
         if (page == null) {
-            return pagerUtil;
+            return pagination;
         }
-        List<Map<String, Object>> list = page.getData();
+        List<Map> list = page.getData();
         if (list != null && !list.isEmpty()) {
             List<T> result = new ArrayList<>();
             list.forEach(map -> result.add(JSONObject.toJavaObject(new JSONObject(map), classOfT)));
-            pagerUtil.setData(result);
+            pagination.setData(result);
         }
-        pagerUtil.setCount(page.getCount());
-        pagerUtil.setTotalPage(page.getTotal_page());
-        pagerUtil.setSuccess(page.getSuccess());
-        return pagerUtil;
-    }
-
-    /**
-     * 查询数量
-     *
-     * @param tableName
-     * @param example
-     * @param <T>
-     * @return
-     */
-    public int queryCount(String tableName, RequestExample example) {
-        if (null == example) {
-            example = new RequestExample(Integer.MAX_VALUE, 1);
-        }
-        if (example.getSort() == null || example.getSort().isEmpty()) {
-            HashMap<String, Object> sort = new HashMap<>();
-            sort.put("sort", "ASC");
-            example.setSort(sort);
-        }
-        Pagination<Map<String, Object>> page = queryBuilder.findListByRName(tableName, example);
-        return page.getCount();
+        pagination.setCount(page.getCount());
+        pagination.setTotal_page(page.getTotal_page());
+        pagination.setSuccess(page.getSuccess());
+        return pagination;
     }
 
     /**
@@ -167,14 +143,9 @@ public class BaseService {
      * @return
      */
     public RestMessage saveObject(Object data, String tableName) {
-        RestMessage restMessage = recordBuilder.createByRName(tableName, JSONObject.toJSON(data));
-        if (restMessage == null) {
-            restMessage = new RestMessage();
-            restMessage.setSuccess(false);
-        }
-        if (!restMessage.isSuccess()) {
-            throw new BusinessException("保存数据失败!");
-        }
+        RestMessage restMessage = runner.insert(tableName, JSONObject.toJSON(data));
+        if (!restMessage.isSuccess())
+            restMessage.setMessage("保存数据失败!");
         return restMessage;
     }
 
@@ -185,14 +156,10 @@ public class BaseService {
      * @param list
      * @return
      */
-    public RestMessage saveBatch(String tableName, List<?> list) {
-        RestMessage restMessage = recordBuilder.createBatchByRName(tableName, JSONObject.toJSON(list));
-        if (restMessage == null) {
-            restMessage = new RestMessage();
-            restMessage.setSuccess(false);
-        }
+    public RestMessage saveBatch(String tableName, List list) {
+        RestMessage restMessage = runner.insertBatch(tableName, JSONObject.toJSON(list));
         if (!restMessage.isSuccess())
-            throw new BusinessException("批量新增数据失败!");
+            restMessage.setMessage("批量新增数据失败!");
         return restMessage;
     }
 
@@ -204,13 +171,9 @@ public class BaseService {
      * @return
      */
     public RestMessage deleteById(String id, String tableName) {
-        RestMessage restMessage = recordBuilder.deleteByRName(tableName, id);
-        if (restMessage == null) {
-            restMessage = new RestMessage();
-            restMessage.setSuccess(false);
-        }
+        RestMessage restMessage = runner.delete(tableName, id);
         if (!restMessage.isSuccess())
-            throw new BusinessException("删除数据失败!");
+            restMessage.setMessage("删除数据失败!");
         return restMessage;
     }
 
@@ -221,14 +184,10 @@ public class BaseService {
      * @param params
      * @return
      */
-    public RestMessage deleteByCriterion(String tableName, Map<String, Object> params) {
-        RestMessage restMessage = recordBuilder.deleteByCriterion(tableName, params);
-        if (restMessage == null) {
-            restMessage = new RestMessage();
-            restMessage.setSuccess(false);
-        }
+    public RestMessage deleteByParam(String tableName, Map<String, Object> params) {
+        RestMessage restMessage = runner.deleteByCriterion(tableName, new JSONObject(params));
         if (!restMessage.isSuccess())
-            throw new BusinessException("删除数据失败!");
+            restMessage.setMessage("删除数据失败!");
         return restMessage;
     }
 
@@ -238,16 +197,11 @@ public class BaseService {
      * @param pkIds
      * @param tableName
      * @return
-     * @throws IOException
      */
     public RestMessage deleteByIds(String[] pkIds, String tableName) {
-        RestMessage restMessage = recordBuilder.deleteByRName(tableName, pkIds);
-        if (restMessage == null) {
-            restMessage = new RestMessage();
-            restMessage.setSuccess(false);
-        }
+        RestMessage restMessage = runner.delete(tableName, pkIds);
         if (!restMessage.isSuccess())
-            throw new BusinessException("批量删除数据失败!");
+            restMessage.setMessage("批量删除数据失败!");
         return restMessage;
     }
 
@@ -260,13 +214,9 @@ public class BaseService {
      * @return
      */
     public RestMessage updateObject(String id, Object data, String tableName) {
-        RestMessage restMessage = recordBuilder.updateByRName(tableName, id, JSONObject.toJSON(data));
-        if (restMessage == null) {
-            restMessage = new RestMessage();
-            restMessage.setSuccess(false);
-        }
+        RestMessage restMessage = runner.update(tableName, id, JSONObject.toJSON(data));
         if (!restMessage.isSuccess()) {
-            throw new BusinessException("修改数据失败!");
+            restMessage.setMessage("修改数据失败!");
         }
         return restMessage;
     }
@@ -279,13 +229,9 @@ public class BaseService {
      * @return
      */
     public RestMessage updateBatch(String tableName, List list) {
-        RestMessage restMessage = recordBuilder.updateBatchByRName(tableName, JSONObject.toJSON(list));
-        if (restMessage == null) {
-            restMessage = new RestMessage();
-            restMessage.setSuccess(false);
-        }
+        RestMessage restMessage = runner.updateBatch(tableName, JSONObject.toJSON(list));
         if (!restMessage.isSuccess()) {
-            throw new BusinessException("批量更新数据失败!");
+            restMessage.setMessage("批量更新数据失败!");
         }
         return restMessage;
     }

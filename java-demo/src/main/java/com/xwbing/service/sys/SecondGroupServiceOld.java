@@ -22,7 +22,7 @@ import java.util.Map;
  * 作者: xiangwb
  */
 @Service
-public class SecondGroupService extends BaseService {
+public class SecondGroupServiceOld extends OldBaseService {
     @Autowired
     private CloudQueryRunner run;
     @Autowired
