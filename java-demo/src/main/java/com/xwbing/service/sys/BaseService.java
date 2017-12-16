@@ -28,7 +28,7 @@ public class BaseService {
      * @param classOfT
      * @return
      */
-    public <T> T queryOne(String id, String tableName, Class<T> classOfT, String... displayFields) {
+    public <T> T getOne(String id, String tableName, Class<T> classOfT, String... displayFields) {
         Map<String, Object> data = runner.queryOne(tableName, id, displayFields);
         if (data.isEmpty())
             return null;
@@ -44,52 +44,12 @@ public class BaseService {
      * @param classOfT
      * @return
      */
-    public <T> T queryFirstOne(String tableName, Map<String, Object> term, Class<T> classOfT) {
+    public <T> T getFirstOne(String tableName, Map<String, Object> term, Class<T> classOfT) {
         Map data = runner.queryFirstByRName(tableName, term);
         if (data.isEmpty())
             return null;
         JSONObject jsonObject = new JSONObject(data);
         return JSONObject.toJavaObject(jsonObject, classOfT);
-    }
-
-    /**
-     * 分页查询
-     *
-     * @param tableName
-     * @param term
-     * @param pagination
-     * @param classOfT
-     * @return
-     */
-    public <T> Pagination queryPage(String tableName, Map<String, Object> term, Pagination pagination, Class<T> classOfT, String... displayFields) {
-        pagination = runner.queryListByExample(tableName, term, pagination.getCurrent_page(), pagination.getPage_size(), displayFields);
-        List<Map<String, Object>> list = pagination.getData();
-        if (list != null && list.size() > 0) {
-            List<T> result = new ArrayList<>();
-            list.forEach(map -> result.add(JSONObject.toJavaObject(new JSONObject(map), classOfT)));
-            pagination.setData(result);
-        }
-        return pagination;
-    }
-
-    /**
-     * SQL分页查询
-     *
-     * @param sql
-     * @param pagination
-     * @param classOfT
-     * @param <T>
-     * @return
-     */
-    public <T> Pagination querySql(String sql, Pagination pagination, Class<T> classOfT) {
-        pagination = runner.sql(sql, pagination.getCurrent_page(), pagination.getPage_size());
-        List<Map<String, Object>> list = pagination.getData();
-        if (list != null && list.size() > 0) {
-            List<T> result = new ArrayList<>();
-            list.forEach(map -> result.add(JSONObject.toJavaObject(new JSONObject(map), classOfT)));
-            pagination.setData(result);
-        }
-        return pagination;
     }
 
     /**
@@ -102,7 +62,7 @@ public class BaseService {
      * @param <T>
      * @return
      */
-    public <T> List<T> queryList(String tableName, Map<String, Object> term, Class<T> classOfT, String... displayFields) {
+    public <T> List<T> list(String tableName, Map<String, Object> term, Class<T> classOfT, String... displayFields) {
         Pagination<Map> page = runner.queryListByExample(tableName, term, 1, Integer.MAX_VALUE, displayFields);
         List<Map> list = page.getData();
         if (list != null && list.size() > 0) {
@@ -123,7 +83,7 @@ public class BaseService {
      * @param <T>
      * @return
      */
-    public <T> List<T> queryList(String tableName, RequestExample example, Class<T> classOfT, String... displayFields) {
+    public <T> List<T> list(String tableName, RequestExample example, Class<T> classOfT, String... displayFields) {
         Pagination<Map> page = runner.queryListByExample(tableName, example, displayFields);
         List<Map> list = page.getData();
         if (list != null && list.size() > 0) {
@@ -135,13 +95,53 @@ public class BaseService {
     }
 
     /**
+     * 分页查询
+     *
+     * @param tableName
+     * @param term
+     * @param pagination
+     * @param classOfT
+     * @return
+     */
+    public <T> Pagination page(String tableName, Map<String, Object> term, Pagination pagination, Class<T> classOfT, String... displayFields) {
+        pagination = runner.queryListByExample(tableName, term, pagination.getCurrent_page(), pagination.getPage_size(), displayFields);
+        List<Map<String, Object>> list = pagination.getData();
+        if (list != null && list.size() > 0) {
+            List<T> result = new ArrayList<>();
+            list.forEach(map -> result.add(JSONObject.toJavaObject(new JSONObject(map), classOfT)));
+            pagination.setData(result);
+        }
+        return pagination;
+    }
+
+    /**
+     * SQL分页查询
+     *
+     * @param sql
+     * @param pagination
+     * @param classOfT
+     * @param <T>
+     * @return
+     */
+    public <T> Pagination pageSql(String sql, Pagination pagination, Class<T> classOfT) {
+        pagination = runner.sql(sql, pagination.getCurrent_page(), pagination.getPage_size());
+        List<Map<String, Object>> list = pagination.getData();
+        if (list != null && list.size() > 0) {
+            List<T> result = new ArrayList<>();
+            list.forEach(map -> result.add(JSONObject.toJavaObject(new JSONObject(map), classOfT)));
+            pagination.setData(result);
+        }
+        return pagination;
+    }
+
+    /**
      * 保存操作
      *
      * @param data
      * @param tableName
      * @return
      */
-    public RestMessage saveObject(Object data, String tableName) {
+    public RestMessage save(Object data, String tableName) {
         RestMessage restMessage = runner.insert(tableName, JSONObject.toJSON(data));
         if (!restMessage.isSuccess())
             restMessage.setMessage("保存数据失败!");
@@ -169,7 +169,7 @@ public class BaseService {
      * @param tableName
      * @return
      */
-    public RestMessage deleteById(String id, String tableName) {
+    public RestMessage remove(String id, String tableName) {
         RestMessage restMessage = runner.delete(tableName, id);
         if (!restMessage.isSuccess())
             restMessage.setMessage("删除数据失败!");
@@ -183,7 +183,7 @@ public class BaseService {
      * @param params
      * @return
      */
-    public RestMessage deleteByParam(String tableName, Map<String, Object> params) {
+    public RestMessage removeByParam(String tableName, Map<String, Object> params) {
         RestMessage restMessage = runner.deleteByCriterion(tableName, new JSONObject(params));
         if (!restMessage.isSuccess())
             restMessage.setMessage("删除数据失败!");
@@ -197,7 +197,7 @@ public class BaseService {
      * @param tableName
      * @return
      */
-    public RestMessage deleteByIds(String[] pkIds, String tableName) {
+    public RestMessage removeBatch(String[] pkIds, String tableName) {
         RestMessage restMessage = runner.delete(tableName, pkIds);
         if (!restMessage.isSuccess())
             restMessage.setMessage("批量删除数据失败!");
@@ -212,7 +212,7 @@ public class BaseService {
      * @param tableName
      * @return
      */
-    public RestMessage updateObject(String id, Object data, String tableName) {
+    public RestMessage update(String id, Object data, String tableName) {
         RestMessage restMessage = runner.update(tableName, id, JSONObject.toJSON(data));
         if (!restMessage.isSuccess()) {
             restMessage.setMessage("修改数据失败!");

@@ -22,7 +22,7 @@ import java.util.Map;
  * 作者: xiangwb
  */
 @Service
-public class SecondGroupServiceOld extends OldBaseService {
+public class SecondGroupServiceOld extends BaseService {
     @Autowired
     private CloudQueryRunner run;
     @Autowired
@@ -84,7 +84,7 @@ public class SecondGroupServiceOld extends OldBaseService {
         RequestExample.Param param = example.createParam();
         param.addTerm("name", name);
         cri.getMust().add(param);
-        List<SysUser> list = super.queryList(SysUser.table, example, SysUser.class);
+        List<SysUser> list = super.list(SysUser.table, example, SysUser.class);
         return list == null || list.isEmpty();
     }
 }
