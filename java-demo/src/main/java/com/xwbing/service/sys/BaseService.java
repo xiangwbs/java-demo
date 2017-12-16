@@ -221,7 +221,7 @@ public class BaseService {
     }
 
     /**
-     * 批量更新
+     * 批量更新 id->pkid
      *
      * @param tableName
      * @param list
