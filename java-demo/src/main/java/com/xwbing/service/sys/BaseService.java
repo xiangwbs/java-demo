@@ -144,7 +144,7 @@ public class BaseService {
     public RestMessage save(String tableName, Object data) {
         RestMessage restMessage = runner.insert(tableName, JSONObject.toJSON(data));
         if (!restMessage.isSuccess())
-            restMessage.setMessage("保存数据失败!");
+            restMessage.setMessage("新增数据失败!");
         return restMessage;
     }
 
@@ -230,7 +230,7 @@ public class BaseService {
     public RestMessage updateBatch(String tableName, List list) {
         RestMessage restMessage = runner.updateBatch(tableName, JSONObject.toJSON(list));
         if (!restMessage.isSuccess()) {
-            restMessage.setMessage("批量更新数据失败!");
+            restMessage.setMessage("批量修改数据失败!");
         }
         return restMessage;
     }
