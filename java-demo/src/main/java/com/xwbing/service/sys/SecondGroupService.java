@@ -1,8 +1,6 @@
 package com.xwbing.service.sys;
 
 import com.drore.cloud.sdk.builder.QueryBuilder;
-import com.drore.cloud.sdk.builder.RecordBuilder;
-import com.drore.cloud.sdk.client.CloudQueryRunner;
 import com.drore.cloud.sdk.domain.Pagination;
 import com.drore.cloud.sdk.domain.util.RequestExample;
 import com.xwbing.entity.SysUser;
@@ -22,13 +20,9 @@ import java.util.Map;
  * 作者: xiangwb
  */
 @Service
-public class SecondGroupServiceOld extends BaseService {
-    @Autowired
-    private CloudQueryRunner run;
+public class SecondGroupService extends BaseService {
     @Autowired
     private QueryBuilder queryBuilder;
-    @Autowired
-    private RecordBuilder recordBuilder;
 
     public Pagination queryList(SysUser sysUser) {//单个表
         RequestExample example = new RequestExample(Integer.MAX_VALUE, 1);
@@ -84,7 +78,7 @@ public class SecondGroupServiceOld extends BaseService {
         RequestExample.Param param = example.createParam();
         param.addTerm("name", name);
         cri.getMust().add(param);
-        List<SysUser> list = super.list(SysUser.table, example, SysUser.class);
+        List<SysUser> list = list(SysUser.table, SysUser.class, example);
         return list == null || list.isEmpty();
     }
 }

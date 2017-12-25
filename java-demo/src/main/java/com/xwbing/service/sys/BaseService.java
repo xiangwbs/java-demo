@@ -28,7 +28,7 @@ public class BaseService {
      * @param classOfT
      * @return
      */
-    public <T> T getOne(String id, String tableName, Class<T> classOfT, String... displayFields) {
+    public <T> T getOne(String tableName, Class<T> classOfT, String id, String... displayFields) {
         Map<String, Object> data = runner.queryOne(tableName, id, displayFields);
         if (data.isEmpty())
             return null;
@@ -62,7 +62,7 @@ public class BaseService {
      * @param <T>
      * @return
      */
-    public <T> List<T> list(String tableName, Map<String, Object> term, Class<T> classOfT, String... displayFields) {
+    public <T> List<T> list(String tableName, Class<T> classOfT, Map<String, Object> term, String... displayFields) {
         Pagination<Map> page = runner.queryListByExample(tableName, term, 1, Integer.MAX_VALUE, displayFields);
         List<Map> list = page.getData();
         if (list != null && list.size() > 0) {
@@ -83,7 +83,7 @@ public class BaseService {
      * @param <T>
      * @return
      */
-    public <T> List<T> list(String tableName, RequestExample example, Class<T> classOfT, String... displayFields) {
+    public <T> List<T> list(String tableName, Class<T> classOfT, RequestExample example, String... displayFields) {
         Pagination<Map> page = runner.queryListByExample(tableName, example, displayFields);
         List<Map> list = page.getData();
         if (list != null && list.size() > 0) {
@@ -103,7 +103,7 @@ public class BaseService {
      * @param classOfT
      * @return
      */
-    public <T> Pagination page(String tableName, Map<String, Object> term, Pagination pagination, Class<T> classOfT, String... displayFields) {
+    public <T> Pagination page(String tableName, Class<T> classOfT, Map<String, Object> term, Pagination pagination, String... displayFields) {
         pagination = runner.queryListByExample(tableName, term, pagination.getCurrent_page(), pagination.getPage_size(), displayFields);
         List<Map<String, Object>> list = pagination.getData();
         if (list != null && list.size() > 0) {
@@ -123,7 +123,7 @@ public class BaseService {
      * @param <T>
      * @return
      */
-    public <T> Pagination pageSql(String sql, Pagination pagination, Class<T> classOfT) {
+    public <T> Pagination pageSql(Class<T> classOfT, String sql, Pagination pagination) {
         pagination = runner.sql(sql, pagination.getCurrent_page(), pagination.getPage_size());
         List<Map<String, Object>> list = pagination.getData();
         if (list != null && list.size() > 0) {
@@ -141,7 +141,7 @@ public class BaseService {
      * @param tableName
      * @return
      */
-    public RestMessage save(Object data, String tableName) {
+    public RestMessage save(String tableName, Object data) {
         RestMessage restMessage = runner.insert(tableName, JSONObject.toJSON(data));
         if (!restMessage.isSuccess())
             restMessage.setMessage("保存数据失败!");
@@ -169,7 +169,7 @@ public class BaseService {
      * @param tableName
      * @return
      */
-    public RestMessage remove(String id, String tableName) {
+    public RestMessage remove(String tableName, String id) {
         RestMessage restMessage = runner.delete(tableName, id);
         if (!restMessage.isSuccess())
             restMessage.setMessage("删除数据失败!");
@@ -197,7 +197,7 @@ public class BaseService {
      * @param tableName
      * @return
      */
-    public RestMessage removeBatch(String[] pkIds, String tableName) {
+    public RestMessage removeBatch(String tableName, String[] pkIds) {
         RestMessage restMessage = runner.delete(tableName, pkIds);
         if (!restMessage.isSuccess())
             restMessage.setMessage("批量删除数据失败!");
@@ -212,7 +212,7 @@ public class BaseService {
      * @param tableName
      * @return
      */
-    public RestMessage update(String id, Object data, String tableName) {
+    public RestMessage update(String tableName, String id, Object data) {
         RestMessage restMessage = runner.update(tableName, id, JSONObject.toJSON(data));
         if (!restMessage.isSuccess()) {
             restMessage.setMessage("修改数据失败!");
